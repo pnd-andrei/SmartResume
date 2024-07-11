@@ -2,7 +2,7 @@
 name = "resumeCentralPro"
 version = "0.1.0"
 description = ""
-authors = ["aosxap@gmail.com"]
+authors = ["aosxap@gmail.com", "panduru.andrei04@gmail.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
