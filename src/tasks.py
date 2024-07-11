@@ -1,14 +1,16 @@
-'''
+"""
 File for managing repetitive tasks
 
 run(from terminal) with "invoke <command>" 
-'''
+"""
 
-from invoke import task
+from invoke.tasks import task
+
 
 @task
 def run(c):
     c.run("python manage.py runserver")
+
 
 @task
 def migrate(c):
