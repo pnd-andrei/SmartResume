@@ -20,3 +20,7 @@ def flush(c):
     c.run("rm -rf ./media/*")
     c.run("python manage.py flush --noinput")
     migrate(c)
+
+@task
+def syncdb(c):
+    c.run("python manage.py syncdb")
