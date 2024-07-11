@@ -1,6 +1,6 @@
 # ResumeCentralPro (proiect)
 
-- api (aplicatie) - pentru api ul central 
+- api (aplicatie) - pentru API-ul central 
 - config (configuratia intiala a proiectului) - filele initiale ale proiectului, face legatura cu posibilele aplicatii
 
 ## api: 
