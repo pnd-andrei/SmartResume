@@ -6,8 +6,7 @@ from rest_framework import status
 from ..models import Resume
 from ..serializers import ResumeSerializer
 from ..forms import ResumeForm
-from datetime import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 class ResumeApiView(APIView):
     # add permission to check if user is authenticated
@@ -23,7 +22,7 @@ class ResumeApiView(APIView):
         if resumes:
             serializer = ResumeSerializer(resumes, many=True)
             form = ResumeForm()
-            return render(request, 'add_resume.html', {'form': form, 'logs': serializer.data})
+            return render(request, 'add_resume.html', {'form': form, "logs": serializer.data})
 
         return Response(status=status.HTTP_404_NOT_FOUND)
 
