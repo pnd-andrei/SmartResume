@@ -14,3 +14,9 @@ def run(c):
 def migrate(c):
     c.run("python manage.py makemigrations")
     c.run("python manage.py migrate")
+
+@task
+def flush(c):
+    c.run("rm -rf ./media/*")
+    c.run("python manage.py flush --noinput")
+    migrate(c)
