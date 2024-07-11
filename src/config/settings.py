@@ -53,12 +53,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
-SETTINGS_PATH = os.path.dirname("resumeApi")
+SETTINGS_PATH = os.path.dirname("api")
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join("resumeApi", "templates")] ,
+        "DIRS": [os.path.join("api", "templates")] ,
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
