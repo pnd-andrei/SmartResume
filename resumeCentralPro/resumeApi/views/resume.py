@@ -33,9 +33,10 @@ class ResumeApiView(APIView):
         Create the Todo with given todo data
         '''
         data = {
-            'resume': request.data.get('resume'), 
+            'description': request.data.get('description'), 
             'processed': False,
-            'timestamp':  f"{datetime.now()}"
+            'timestamp':  f"{datetime.now()}",
+            'cv_url': request.data.get('cv_url')
         }
 
         serializer = ResumeSerializer(data=data)
