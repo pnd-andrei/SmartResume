@@ -1,14 +1,22 @@
 [tool.poetry]
-name = "resumeCentralPro"
+name = "ResumeCentral-vPRO"
 version = "0.1.0"
 description = ""
 authors = ["aosxap@gmail.com", "panduru.andrei04@gmail.com"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 djangorestframework = "^3.15.2"
+django = "^5.0.7"
+invoke = "^2.2.0"
 
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+ruff = "^0.5.1"
+pyright = "^1.1.371"
+black = "^24.4.2"
 
 [build-system]
 requires = ["poetry-core"]

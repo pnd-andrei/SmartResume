@@ -1,5 +1,5 @@
 """
-URL configuration for resumeCentralPro project.
+URL configuration for ResumeCentral-vPRO project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -16,10 +16,11 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-from resumeApi import urls as resume_urls
+from django.urls import include, path
+
+from api import urls as resume_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('resumes/', include(resume_urls)),
+    path("admin/", admin.site.urls),
+    path("resumes/", include(resume_urls)),
 ]
