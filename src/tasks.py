@@ -24,3 +24,8 @@ def flush(c):
 @task
 def syncdb(c):
     c.run("python manage.py syncdb")
+
+@task 
+def rmcache(c):
+    c.run("rm -rf ./*/__pycache__")
+    c.run("rm -rf ./*/*/__pycache__")
