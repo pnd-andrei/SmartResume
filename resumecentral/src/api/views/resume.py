@@ -19,11 +19,12 @@ class ResumeApiView(APIView):
         """
         List all the resume items for given requested user
         """
-        resumes = Resume.objects
+        resumes = Resume.objects 
 
         if resumes:
             serializer = ResumeSerializer(resumes, many=True)
             form = ResumeForm()
+            print(serializer.data)
             return render(
                 request, "add_resume.html", {"form": form, "logs": serializer.data}
             )
