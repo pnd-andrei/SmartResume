@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..forms import ResumeForm
+from ..forms.resume import ResumeForm
 from ..models import Resume
 from ..serializers import ResumeSerializer
 
