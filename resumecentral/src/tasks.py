@@ -28,7 +28,7 @@ def flush(c):
 
 @task
 def syncdb(c):
-    c.run("python manage.py syncdb")
+    c.run("python manage.py migrate --run-syncdb")
 
 
 @task
