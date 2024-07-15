@@ -24,9 +24,15 @@ class ResumeApiView(APIView):
         if resumes:
             serializer = ResumeSerializer(resumes, many=True)
             form = ResumeForm()
-            print(serializer.data)
+            logs = []
+            for obj in serializer.data:
+                logobj = (
+                     obj, obj.get('id')
+                )
+                logs.append(logobj)
+                
             return render(
-                request, "add_resume.html", {"form": form, "logs": serializer.data}
+                request, "add_resume.html", {"form": form, "logs": logs}
             )
 
         return Response(status=status.HTTP_404_NOT_FOUND)
