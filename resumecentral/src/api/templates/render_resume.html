@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Render Resume</title>
+    <!-- Link to Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Render Resume</h1>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <p class="title is-size-4">Resume Details:</p>
+            <ul>
+                {% for key, val in resume_data %}
+                    <li><strong>{{ key }}:</strong> {{ val }}</li>
+                {% endfor %}
+            </ul>
+            {% load static %}
+            <embed src="{% static resource %}" width="500" height="375" 
+            type="application/pdf">
+        </div>
+    </section>
+
+</body>
+</html>

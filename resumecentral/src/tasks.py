@@ -4,8 +4,9 @@ File for managing repetitive tasks
 run(from terminal) with "invoke <command>" 
 """
 
-from invoke import task
 import platform
+
+from invoke import task
 
 
 @task
