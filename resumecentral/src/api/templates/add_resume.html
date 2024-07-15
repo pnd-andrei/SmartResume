@@ -16,8 +16,8 @@
         <div class="container">
             <p class="title is-size-4">Loaded Resumes:</p>
             <ul>
-                {% for log in logs %}
-                    <li>{{ log }}</li>
+                {% for content, id in logs %}
+                    <a href="id={{id}}">{{ content }}</a> <br>
                 {% endfor %}
             </ul>
         </div>

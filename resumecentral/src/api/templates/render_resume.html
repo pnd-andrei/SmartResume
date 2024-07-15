@@ -8,21 +8,15 @@
 <body>
     <section class="section">
         <div class="container">
-            <h1 class="title">Render Resume</h1>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <p class="title is-size-4">Resume Details:</p>
+            <p class="title is-size-2">Resume Details:</p>
             <ul>
                 {% for key, val in resume_data %}
-                    <li><strong>{{ key }}:</strong> {{ val }}</li>
+                    <li class="subtitle is-size-6"><strong>{{ key }}:</strong> {{ val }}</li>
                 {% endfor %}
             </ul>
             {% load static %}
-            <embed src="{% static resource %}" width="500" height="375" 
-            type="application/pdf">
+            <br>
+            <embed width="800" height="600" src="{% static resource %}" type="application/pdf">
         </div>
     </section>
 
