@@ -7,29 +7,33 @@ run(from terminal) with "invoke <command>"
 from invoke import task
 import platform
 
-
 @task
 def run(c):
     c.run("python manage.py runserver")
 
+@task
+def runfirst(c):
+    syncdb(c)
+    run(c)
 
 @task
 def migrate(c):
     c.run("python manage.py makemigrations")
     c.run("python manage.py migrate")
 
-
 @task
 def flush(c):
-    c.run("rm -rf ./media/*")
+    if platform.system() == 'Windows':  
+        c.run("del /Q .\\media\\*")
+    else:  # Unix-like system
+        c.run("rm -rf ./media/*")
+    
     c.run("python manage.py flush --noinput")
     migrate(c)
-
 
 @task
 def syncdb(c):
     c.run("python manage.py migrate --run-syncdb")
-
 
 @task
 def delete_pycache(c):
