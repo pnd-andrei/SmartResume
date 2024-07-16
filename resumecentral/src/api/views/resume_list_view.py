@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from ..forms.resume import ResumeForm
 from ..models import Resume
 from ..serializers import ResumeSerializer
-
+from django.http import JsonResponse
 
 class ResumeApiView(APIView):
     # 1. List all
@@ -19,18 +19,22 @@ class ResumeApiView(APIView):
         resumes = Resume.objects 
 
         if resumes:
-            serializer = ResumeSerializer(resumes, many=True)
-            form = ResumeForm() #dynamic form
+            if request.GET.get("json") != None:
+                data = list(resumes.values())
+                return JsonResponse({'data': data})            
+            else:
+                serializer = ResumeSerializer(resumes, many=True)
+                form = ResumeForm() #dynamic form
 
-            entires = []
-            
-            for resume in serializer.data:
-                entry = (resume, resume.get('id'))
-                entires.append(entry)
+                entires = []
                 
-            return render(
-                request, "resume_list.html", {"form": form, "entries": entires}
-            )
+                for resume in serializer.data:
+                    entry = (resume, resume.get('id'))
+                    entires.append(entry)
+                    
+                return render(
+                    request, "resume_list.html", {"form": form, "entries": entires}
+                )
 
         return Response(status=status.HTTP_404_NOT_FOUND)
 
