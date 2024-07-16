@@ -4,8 +4,9 @@ File for managing repetitive tasks
 run(from terminal) with "invoke <command>" 
 """
 
-from invoke import task
 import platform
+
+from invoke.tasks import task
 
 
 @task
@@ -34,15 +35,19 @@ def syncdb(c):
 @task
 def delete_pycache(c):
     system = platform.system()
-    
-    if system == 'Windows':
+
+    if system == "Windows":
         delete_pycache_windows(c)
     else:
         delete_pycache_unix(c)
 
+
 def delete_pycache_windows(c):
     c.run("del /s /q __pycache__\\*")  # Delete __pycache__ directories recursively
-    c.run("for /d %x in (*) do del /s /q %x\\__pycache__\\*")  # Delete __pycache__ directories in subdirectories recursively
+    c.run(
+        "for /d %x in (*) do del /s /q %x\\__pycache__\\*"
+    )  # Delete __pycache__ directories in subdirectories recursively
+
 
 def delete_pycache_unix(c):
     c.run("rm -rf ./*/__pycache__")
