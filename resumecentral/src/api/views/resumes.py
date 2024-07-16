@@ -11,9 +11,6 @@ from ..serializers import ResumeSerializer
 
 
 class ResumeApiView(APIView):
-    # add permission to check if user is authenticated
-    # permission_classes = [permissions.IsAuthenticated]
-
     # 1. List all
     def get(self, request, *args, **kwargs):
         """
@@ -25,6 +22,7 @@ class ResumeApiView(APIView):
             serializer = ResumeSerializer(resumes, many=True)
             form = ResumeForm()
             logs = []
+            
             for obj in serializer.data:
                 logobj = (
                      obj, obj.get('id')
@@ -32,7 +30,7 @@ class ResumeApiView(APIView):
                 logs.append(logobj)
                 
             return render(
-                request, "add_resume.html", {"form": form, "logs": logs}
+                request, "post_resume.html", {"form": form, "logs": logs}
             )
 
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -42,12 +40,21 @@ class ResumeApiView(APIView):
         form = ResumeForm(request.POST, request.FILES)
 
         if form.is_valid():
-            instance = form.save()  # Save form data and get the instance
+            instance = form.save(commit=False)  # Save form data and get the instance
+            file_upload = form.cleaned_data.get("file_upload")
+
+            if not file_upload.name.endswith('.pdf'):
+                return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
+    
+            if file_upload.content_type != 'application/pdf':
+                return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
+            
+            instance.save()
+
             print(f"Resume saved: {instance}")  # Debug output
             return Response(
                 {"message": "Resume created successfully"},
                 status=status.HTTP_201_CREATED,
             )
 
-        print(form.errors)  # Debug output for form errors
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
