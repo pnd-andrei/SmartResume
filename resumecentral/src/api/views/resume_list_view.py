@@ -14,21 +14,22 @@ class ResumeApiView(APIView):
     # 1. List all
     def get(self, request, *args, **kwargs):
         """
-        List all the resume items for given requested user
+        List all the resume items
         """
         resumes = Resume.objects 
 
         if resumes:
             serializer = ResumeSerializer(resumes, many=True)
-            form = ResumeForm()
-            logs = []
+            form = ResumeForm() #dynamic form
+
+            entires = []
             
-            for obj in serializer.data:
-                logobj = (obj, obj.get('id'))
-                logs.append(logobj)
+            for resume in serializer.data:
+                entry = (resume, resume.get('id'))
+                entires.append(entry)
                 
             return render(
-                request, "resume_list.html", {"form": form, "logs": logs}
+                request, "resume_list.html", {"form": form, "entries": entires}
             )
 
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -38,9 +39,11 @@ class ResumeApiView(APIView):
         form = ResumeForm(request.POST, request.FILES)
 
         if form.is_valid():
-            instance = form.save(commit=False)  # Save form data and get the instance
+            instance = form.save(commit=False)  # get instance but do not commit to db yet
+
             file_upload = form.cleaned_data.get("file_upload")
 
+            # pdf checks
             if not file_upload.name.endswith('.pdf'):
                 return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
             if file_upload.content_type != 'application/pdf':
@@ -48,7 +51,6 @@ class ResumeApiView(APIView):
             
             instance.save()
 
-            print(f"Resume saved: {instance}")  # Debug output
             return Response(
                 {"message": "Resume created successfully"},
                 status=status.HTTP_201_CREATED,

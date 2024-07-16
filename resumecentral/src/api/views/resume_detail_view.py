@@ -18,7 +18,7 @@ class IndividualResumeApiView(APIView):
         """
         List the resume for given id
         """
-        resume = get_object_or_404(Resume, id=id) #returns 404 if not found\
+        resume = get_object_or_404(Resume, id=id) #returns 404 if not found
 
         serializer = ResumeSerializer(resume)
         resume_data_list = [(key, value) for key, value in serializer.data.items()]
