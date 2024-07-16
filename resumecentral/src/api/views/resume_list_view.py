@@ -16,27 +16,20 @@ class ResumeApiView(APIView):
         """
         List all the resume items
         """
-        resumes = Resume.objects 
+        resumes = Resume.objects.all() 
 
-        if resumes:
-            if request.GET.get("json") != None:
-                data = list(resumes.values())
-                return JsonResponse({'data': data})            
-            else:
-                serializer = ResumeSerializer(resumes, many=True)
-                form = ResumeForm() #dynamic form
+        if not resumes.exists():
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-                entires = []
-                
-                for resume in serializer.data:
-                    entry = (resume, resume.get('id'))
-                    entires.append(entry)
-                    
-                return render(
-                    request, "resume_list.html", {"form": form, "entries": entires}
-                )
+        if request.GET.get("json") is not None:
+            data = list(resumes.values())
+            return JsonResponse({'data': data})
 
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = ResumeSerializer(resumes, many=True)
+        form = ResumeForm()  # dynamic form
+        entries = [(resume, resume.get('id')) for resume in serializer.data]
+
+        return render(request, "resume_list.html", {"form": form, "entries": entries})
 
     # 2. Create
     def post(self, request, *args, **kwargs):
