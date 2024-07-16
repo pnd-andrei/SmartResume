@@ -6,7 +6,7 @@ run(from terminal) with "invoke <command>"
 
 import platform
 
-from invoke import task
+from invoke.tasks import task
 
 
 @task
