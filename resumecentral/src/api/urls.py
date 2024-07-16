@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views.resumes import ResumeApiView
-from .views.render_resume import IndividualResumeApiView
+from .views.resume_list_view import ResumeApiView
+from .views.resume_detail_view import IndividualResumeApiView
 
 from django.conf.urls.static import static
 from django.conf import settings

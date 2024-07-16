@@ -24,13 +24,11 @@ class ResumeApiView(APIView):
             logs = []
             
             for obj in serializer.data:
-                logobj = (
-                     obj, obj.get('id')
-                )
+                logobj = (obj, obj.get('id'))
                 logs.append(logobj)
                 
             return render(
-                request, "post_resume.html", {"form": form, "logs": logs}
+                request, "resume_list.html", {"form": form, "logs": logs}
             )
 
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -45,7 +43,6 @@ class ResumeApiView(APIView):
 
             if not file_upload.name.endswith('.pdf'):
                 return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
-    
             if file_upload.content_type != 'application/pdf':
                 return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
             

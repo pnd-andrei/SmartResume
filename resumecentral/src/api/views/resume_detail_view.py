@@ -26,6 +26,6 @@ class IndividualResumeApiView(APIView):
         resource = serializer.data.get("file_upload")
 
         return render(
-            request, "render_resume.html", { "resume_data": resume_data_list, "resource": resource }
+            request, "resume_detail.html", { "resume_data": resume_data_list, "resource": resource }
         )
         
