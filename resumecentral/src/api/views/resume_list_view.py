@@ -19,7 +19,8 @@ class ResumeApiView(APIView):
         resumes = Resume.objects.all() 
 
         if not resumes.exists():
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            #return Response(status=status.HTTP_404_NOT_FOUND)
+            pass
 
         if request.GET.get("json") is not None:
             data = list(resumes.values())
