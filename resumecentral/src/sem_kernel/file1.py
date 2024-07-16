@@ -22,6 +22,7 @@ from semantic_kernel.prompt_template import InputVariable, PromptTemplateConfig
 from sentence_transformers import SentenceTransformer
 from transformers import AutoModel, AutoTokenizer
 from transformers.utils import ModelOutput
+from ..controller.resume_controller import LocalResumeController
 
 # from .service_settings import ServiceSettings
 # from .services import Service
@@ -199,3 +200,8 @@ async def get_relevant_cvs():
     for cv in cvs:
         print(cv)
 """
+
+url = "http://127.0.0.1:8000"
+controller = LocalResumeController(url)
+resumes = controller.get_pdfs()
+pdf = (resumes[0])
