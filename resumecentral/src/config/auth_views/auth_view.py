@@ -11,7 +11,7 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('/resumes')
-        return redirect('/resumes/register')
+        return redirect('/register')
     else:
         form = RegisterForm()
     return render(request, 'auth_templates/register.html', {'form': form})
@@ -27,7 +27,7 @@ def user_login(request):
                 login(request, user)
                 return redirect('/resumes')
             
-        return redirect('/resumes/register')
+        return redirect('/register')
     else:
         form = AuthenticationForm()
     return render(request, 'auth_templates/login.html', {'form': form})

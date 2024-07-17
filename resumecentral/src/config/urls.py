@@ -24,10 +24,17 @@ from django.views.static import serve as static_serve
 from django.urls import re_path
 from django.conf import settings
 
+import config.auth_views.auth_view as auth_views
+
+
+#add in robots.txt dissalow media scanning
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("resumes/", include(resume_urls)),
+    path('register/', auth_views.register, name='register'),
+    path('login/', auth_views.user_login, name='login'),
+    path('logout/', auth_views.user_logout, name='logout'),
 ]
 
 def protected_media(request, path):
