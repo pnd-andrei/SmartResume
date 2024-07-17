@@ -9,8 +9,11 @@ from ..forms.resume import ResumeForm
 from ..models import Resume
 from ..serializers import ResumeSerializer
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 
-class IndividualResumeApiView(APIView):
+import os
+
+class DeleteResumeApiView(APIView):
     # add permission to check if user is authenticated
     # permission_classes = [permissions.IsAuthenticated]
 
@@ -19,14 +22,14 @@ class IndividualResumeApiView(APIView):
         List the resume for given id
         """
         resume = get_object_or_404(Resume, id=id) #returns 404 if not found
-
         serializer = ResumeSerializer(resume)
-        resume_data_list = [(key, value) for key, value in serializer.data.items()]
+        file_upload = (serializer.data.get("file_upload"))
 
-        resource = serializer.data.get("file_upload")
-        resume_id = serializer.data.get("id")
+        try:
+            resume.delete()
+            os.remove("media" + file_upload)
+        except Exception as ex:
+            print(ex)
 
-        return render(
-            request, "resume_detail.html", { "resume_data": resume_data_list, "resource": resource, "id": resume_id}
-        )
+        return redirect('/resumes')
         

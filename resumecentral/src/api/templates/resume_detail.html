@@ -17,6 +17,9 @@
             {% load static %}
             <br>
             <embed width="800" height="600" src="{% static resource %}" type="application/pdf">
+            <div class="control">
+                <a onclick="return confirm('Are you sure?')" href="/resumes/delete/id={{id}}" class="button is-primary" type="submit">Delete</a>
+            </div>
         </div>
     </section>
 
