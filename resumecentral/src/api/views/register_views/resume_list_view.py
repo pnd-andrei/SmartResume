@@ -5,9 +5,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..forms.resume import ResumeForm
-from ..models import Resume
-from ..serializers import ResumeSerializer
+from api.forms.resume import ResumeForm
+from api.models import Resume
+from api.serializers import ResumeSerializer
 from django.http import JsonResponse
 
 class ResumeApiView(APIView):
@@ -30,7 +30,7 @@ class ResumeApiView(APIView):
         form = ResumeForm()  # dynamic form
         entries = [(resume, resume.get('id')) for resume in serializer.data]
 
-        return render(request, "resume_list.html", {"form": form, "entries": entries})
+        return render(request, "resume_templates/resume_list.html", {"form": form, "entries": entries})
 
     # 2. Create
     def post(self, request, *args, **kwargs):
