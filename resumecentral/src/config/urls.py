@@ -19,7 +19,32 @@ from api import urls as resume_urls
 from django.contrib import admin
 from django.urls import include, path
 
+from django.http import HttpResponseForbidden
+from django.views.static import serve as static_serve
+from django.urls import re_path
+from django.conf import settings
+
+import config.auth_views.auth_view as auth_views
+
+
+#add in robots.txt dissalow media scanning
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("resumes/", include(resume_urls)),
+    path('register/', auth_views.register, name='register'),
+    path('login/', auth_views.user_login, name='login'),
+    path('logout/', auth_views.user_logout, name='logout'),
 ]
+
+def protected_media(request, path):
+    print("request")
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden("You are not allowed to access this file")
+    return static_serve(request, path, document_root=settings.MEDIA_ROOT)
+
+#protected path
+if settings.DEBUG:
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', protected_media, name='protected_media')   
+    ]

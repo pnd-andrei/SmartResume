@@ -43,7 +43,7 @@ def syncdb(c):
 
 
 @task
-def delete_pycache(c):
+def deletecache(c):
     system = platform.system()
 
     if system == "Windows":
