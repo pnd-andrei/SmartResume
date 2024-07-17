@@ -70,3 +70,4 @@ class ResumeApiView(APIView):
             )
 
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+    
