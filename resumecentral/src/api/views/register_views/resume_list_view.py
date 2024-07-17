@@ -10,7 +10,15 @@ from api.models import Resume
 from api.serializers import ResumeSerializer
 from django.http import JsonResponse
 
+import string
+import secrets
+from django.core.files.base import ContentFile
+from rest_framework.permissions import IsAuthenticated
+
+
 class ResumeApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
     # 1. List all
     def get(self, request, *args, **kwargs):
         """
@@ -46,7 +54,14 @@ class ResumeApiView(APIView):
                 return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
             if file_upload.content_type != 'application/pdf':
                 return Response("Uploaded file must be a pdf", status=status.HTTP_400_BAD_REQUEST)
-            
+
+            # Generate a random filename
+            characters = string.ascii_letters + string.digits
+            random_filename = ''.join(secrets.choice(characters) for _ in range(32)) + f"_{file_upload.name}.pdf"
+
+            # Save the file with the new name
+            instance.file_upload.save(random_filename, ContentFile(file_upload.read()))
+
             instance.save()
 
             return Response(
