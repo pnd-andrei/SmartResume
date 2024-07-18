@@ -1,19 +1,19 @@
 # Create your views here.
 
+import secrets
+import string
+
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
 from api.models.resume_model import Resume
 from api.serializers import ResumeSerializer
-from django.http import JsonResponse
-
-import string
-import secrets
-from django.core.files.base import ContentFile
-from rest_framework.permissions import IsAuthenticated
 
 
 class ResumeApiView(APIView):

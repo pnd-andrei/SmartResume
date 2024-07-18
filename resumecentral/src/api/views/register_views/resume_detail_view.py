@@ -1,16 +1,16 @@
 # Create your views here.
 
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
 from api.models.resume_model import Resume
 from api.serializers import ResumeSerializer
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-from rest_framework.permissions import IsAuthenticated
+
 
 class IndividualResumeApiView(APIView):
     # add permission to check if user is authenticated

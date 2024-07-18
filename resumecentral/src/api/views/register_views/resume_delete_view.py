@@ -1,17 +1,15 @@
 # Create your views here.
 
-from django.shortcuts import render
+import os
+
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.forms.resume import ResumeForm
-from api.forms.resume import Resume
+from api.forms.resume import Resume, ResumeForm
 from api.serializers import ResumeSerializer
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 
-import os
 
 class DeleteResumeApiView(APIView):
     # add permission to check if user is authenticated
