@@ -3,16 +3,16 @@ import os
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import Resume
-from api.serializers.resume_serializers import ResumeSerializer
+from api.serializers.resume_serializer import ResumeSerializer
 
 
 class DeleteResumeApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, id, *args, **kwargs):
         """

@@ -6,25 +6,39 @@ from api.forms.register_form import RegisterForm
 from rest_framework import status
 from rest_framework.response import Response
 
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+
+from api.modules.hash_module import compute_hash
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
-            email = form.cleaned_data.get('email')
+
+            user_object = {
+                "email": form.cleaned_data.get('email'),
+                "username": form.cleaned_data.get('email'),
+                "date_joined": form.cleaned_data.get('date_joined')
+            }
+
+            hash_url = compute_hash(user_object)
 
             try:
-                if email.split("@")[1] == "computacenter.com":
-                    user.save()
-                    login(request, user)
-                    return redirect('/resumes')
-                else:
-                    raise Exception("Problem")
-            except:
-                print("Uploaded file must be a PDF",)
+                if user_object.get("email").split("@")[1] != "computacenter.com":
+                    raise ValueError("Invalid email domain")
+                user= form.save()
+                login(request, user)
+                return redirect('/resumes')
+            except ValueError as ve:
+                form.add_error('email', str(ve))
+            except Exception as e:
+                # log the exception if needed
+                form.add_error(None, e)
 
-        return redirect('/register')
+        return render(request, 'auth_templates/register.html', {'form': form})
     else:
         form = RegisterForm()
     return render(request, 'auth_templates/register.html', {'form': form})
@@ -36,6 +50,7 @@ def user_login(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+
             if user is not None:
                 login(request, user)
                 return redirect('/resumes')

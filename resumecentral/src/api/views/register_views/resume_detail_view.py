@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404, render
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 
 from api.models.resume_model import Resume
-from api.serializers.resume_serializers import ResumeSerializer
+from api.serializers.resume_serializer import ResumeSerializer
 
 
 class IndividualResumeApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, id, *args, **kwargs):
         """
