@@ -8,14 +8,14 @@ from api.serializers.resume_serializers import ResumeSerializer
 
 class IndividualResumeApiView(APIView):
     permission_classes = [IsAuthenticated]
-    
+
     def get(self, request, id, *args, **kwargs):
         """
         Retrieve and display the resume for the given id.
         """
         resume = get_object_or_404(Resume, id=id)
         serializer = ResumeSerializer(resume)
-        
+
         resume_data = serializer.data
         resume_data_list = [(key, value) for key, value in resume_data.items()]
 
@@ -25,7 +25,7 @@ class IndividualResumeApiView(APIView):
         context = {
             "resume_data": resume_data_list,
             "resource": resource,
-            "id": resume_id
+            "id": resume_id,
         }
 
         return render(request, "resume_templates/resume_detail.html", context)

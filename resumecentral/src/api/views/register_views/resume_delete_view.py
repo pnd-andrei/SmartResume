@@ -1,12 +1,11 @@
 import os
 
-from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-
 
 from api.forms.resume import Resume
 from api.serializers.resume_serializers import ResumeSerializer
@@ -34,7 +33,7 @@ class DeleteResumeApiView(APIView):
             print(ex)
             return Response(
                 {"error": "An error occurred while deleting the resume."},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-        return redirect(reverse('resume_list'))
+        return redirect(reverse("resume_list"))
