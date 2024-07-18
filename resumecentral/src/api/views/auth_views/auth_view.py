@@ -17,7 +17,6 @@ def register(request):
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-
             user_object = {
                 "email": form.cleaned_data.get('email'),
                 "username": form.cleaned_data.get('email'),
@@ -29,19 +28,29 @@ def register(request):
             try:
                 if user_object.get("email").split("@")[1] != "computacenter.com":
                     raise ValueError("Invalid email domain")
-                user= form.save()
+                
+                # Create the user instance but don't save it to the database yet
+                user = form.save(commit=False)
+                
+                # Update the temporary_field attribute with the hash_url
+                user.temporary_field = hash_url
+                
+                # Now save the user instance
+                user.save()
+                
                 login(request, user)
-                return redirect('/resumes')
+                return redirect('/user/')
             except ValueError as ve:
                 form.add_error('email', str(ve))
             except Exception as e:
                 # log the exception if needed
-                form.add_error(None, e)
+                form.add_error(None, str(e))
 
         return render(request, 'auth_templates/register.html', {'form': form})
     else:
         form = RegisterForm()
     return render(request, 'auth_templates/register.html', {'form': form})
+
 
 def user_login(request):
     if request.method == 'POST':
