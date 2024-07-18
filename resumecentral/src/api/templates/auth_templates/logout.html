@@ -1,11 +1,22 @@
-<!-- myapp/templates/logout.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Logout</title>
+    <!-- Include Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-    <h2>Logout</h2>
-    <p>You have been logged out. <a href="{% url 'login' %}">Login again</a></p>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-half logout-container">
+                        <h2 class="title">Logout</h2>
+                        <p class="logout-message">You have been logged out. <a href="{% url 'login' %}" class="logout-link">Login again</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
