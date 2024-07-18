@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from api.models.resume_model import Resume
-from api.serializers import ResumeSerializer
+from api.serializers.resume_serializers import ResumeSerializer
 
 
 class IndividualResumeApiView(APIView):
@@ -18,7 +18,7 @@ class IndividualResumeApiView(APIView):
         
         resume_data = serializer.data
         resume_data_list = [(key, value) for key, value in resume_data.items()]
-        
+
         resource = resume_data.get("file_upload")
         resume_id = resume_data.get("id")
 

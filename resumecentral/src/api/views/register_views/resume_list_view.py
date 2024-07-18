@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
 from api.models.resume_model import Resume
-from api.serializers import ResumeSerializer
+from api.serializers.resume_serializers import ResumeSerializer
 
 
 class ResumeApiView(APIView):
