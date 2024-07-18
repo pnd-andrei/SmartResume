@@ -1,6 +1,6 @@
 from django import forms
 
-from api.models import Resume
+from api.models.resume_model import Resume
 
 # creating a form
 class ResumeForm(forms.ModelForm):
