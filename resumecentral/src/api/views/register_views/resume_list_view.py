@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
-from api.models import Resume
+from api.models.resume_model import Resume
 from api.serializers import ResumeSerializer
 from django.http import JsonResponse
 

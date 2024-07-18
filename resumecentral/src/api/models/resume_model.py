@@ -6,8 +6,5 @@ class Resume(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, blank=True)
     file_upload = models.FileField()
 
-    class Meta:
-        app_label = 'api'
-
     def __str__(self):
         return self.description
