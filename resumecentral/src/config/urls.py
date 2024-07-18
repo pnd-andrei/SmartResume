@@ -24,7 +24,7 @@ from django.views.static import serve as static_serve
 from django.urls import re_path
 from django.conf import settings
 
-import config.auth_views.auth_view as auth_views
+import api.views.auth_views.auth_view as auth_views
 
 
 #add in robots.txt dissalow media scanning

@@ -3,13 +3,27 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from api.forms.register_form import RegisterForm
 
+from rest_framework import status
+from rest_framework.response import Response
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
+
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('/resumes')
+            user = form.save(commit=False)
+            email = form.cleaned_data.get('email')
+
+            try:
+                if email.split("@")[1] == "computacenter.com":
+                    user.save()
+                    login(request, user)
+                    return redirect('/resumes')
+                else:
+                    raise Exception("Problem")
+            except:
+                print("Uploaded file must be a PDF",)
+
         return redirect('/register')
     else:
         form = RegisterForm()
