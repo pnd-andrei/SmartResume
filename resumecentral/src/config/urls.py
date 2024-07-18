@@ -36,15 +36,3 @@ urlpatterns = [
     path('login/', auth_views.user_login, name='login'),
     path('logout/', auth_views.user_logout, name='logout'),
 ]
-
-def protected_media(request, path):
-    print("request")
-    if not request.user.is_authenticated:
-        return HttpResponseForbidden("You are not allowed to access this file")
-    return static_serve(request, path, document_root=settings.MEDIA_ROOT)
-
-#protected path
-if settings.DEBUG:
-    urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', protected_media, name='protected_media')   
-    ]
