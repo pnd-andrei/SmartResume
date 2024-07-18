@@ -1,15 +1,59 @@
-<!-- myapp/templates/login.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
+    <!-- Include Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third">
+                        <h2 class="title has-text-centered">Login</h2>
+                        <form method="post" class="box login-vertical-form">
+                            <div class="login-vertical-form">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                            </div>
+                            <div class="field">
+                                <button type="submit" class="button is-primary is-fullwidth">Login</button>
+                            </div>
+                            <h2 class="subtitle is-size-6">You don't have an account? <a href="/register/">Register</a> </h2>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
+<style>
+    .login-vertical-form{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .login-vertical-form p{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-vertical-form input{
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #dbdbdb; /* Default Bulma border color */
+        padding: 5px;
+        width: 90%;
+        display: flex;
+        box-shadow: none; 
+        align-self: center;
+    }
+
+    button{
+        width: 90% !important;
+        margin: auto;
+    }
+</style>
 </html>
