@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 from api.forms.resume import Resume
-from api.serializers import ResumeSerializer
+from api.serializers.resume_serializers import ResumeSerializer
 
 
 class DeleteResumeApiView(APIView):
