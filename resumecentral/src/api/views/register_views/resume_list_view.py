@@ -5,17 +5,17 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
 from api.models.resume_model import Resume
-from api.serializers.resume_serializers import ResumeSerializer
+from api.serializers.resume_serializer import ResumeSerializer
 
 
 class ResumeApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         """
