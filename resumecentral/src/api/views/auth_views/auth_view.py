@@ -49,6 +49,9 @@ def register(request):
 
 
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('/resumes')
+
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
