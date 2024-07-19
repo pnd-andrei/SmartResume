@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Resume</title>
+    <!-- Link to Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Resumes</h1>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container block">
+            <p class="title is-size-4 ">Upload Resume:</p>
+            <form action="/resumes/" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="field">
+                        <label class="label">{{ field.label_tag }}</label>
+                        <div class="control">
+                            {{ field }}
+                        </div>
+                        <p class="help is-danger">{{ field.errors }}</p>
+                    </div>
+                {% endfor %}
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <p class="title is-size-4">Loaded Resumes:</p>
+                <ul>
+                    {% for content, id in entries %}
+                        <a href="id={{id}}">{{ content }}</a> <br>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    </section>
+</body>
+</html>

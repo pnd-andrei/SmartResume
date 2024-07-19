@@ -7,12 +7,43 @@ run(from terminal) with "invoke <command>"
 import platform
 
 from invoke.tasks import task
+from invoke import task
 
+# Main Automatic Functions
 
 @task
 def run(c):
     c.run("python manage.py runserver")
 
+
+@task
+def runfirst(c):
+    flush(c)
+    syncdb(c)
+    run(c)
+
+@task
+def flush(c):
+    if platform.system() == "Windows":
+        c.run("del /Q .\\media\\*")
+    else:  # Unix-like system
+        c.run("rm -rf ./media/*")
+
+    c.run("python manage.py flush --noinput")
+    deletecache(c)
+    migrate(c)
+
+@task
+def deletecache(c):
+    system = platform.system()
+
+    if system == "Windows":
+        delete_pycache_windows(c)
+    else:
+        delete_pycache_unix(c)
+
+
+# Auxiliary functions
 
 @task
 def migrate(c):
@@ -21,25 +52,8 @@ def migrate(c):
 
 
 @task
-def flush(c):
-    c.run("rm -rf ./media/*")
-    c.run("python manage.py flush --noinput")
-    migrate(c)
-
-
-@task
 def syncdb(c):
     c.run("python manage.py migrate --run-syncdb")
-
-
-@task
-def delete_pycache(c):
-    system = platform.system()
-
-    if system == "Windows":
-        delete_pycache_windows(c)
-    else:
-        delete_pycache_unix(c)
 
 
 def delete_pycache_windows(c):
