@@ -1,5 +1,6 @@
 from resumecentral.src.controllers.chromadb_controller import ChromaDatabaseController
 
+
 if __name__ == "__main__":
     chromadb_controller = ChromaDatabaseController()
     chromadb_name = "default_chromadb"
@@ -9,7 +10,14 @@ if __name__ == "__main__":
     # Aici incepe requestul de la interfata
 
     # resumes = chromadb.get_resumes_from_sqlite3_database()
-    resumes = ["C:\\Users\\Computacenter\\Desktop\\CV.pdf"]
+    resumes = [
+        "C:\\Users\\Computacenter\\Desktop\\CV.pdf",
+        "C:\\Users\\Computacenter\\Desktop\\Tudor.pdf",
+        "C:\\Users\\Computacenter\\Desktop\\Felix.pdf",
+        "C:\\Users\\Computacenter\\Desktop\\Donatella.pdf",
+        "C:\\Users\\Computacenter\\Desktop\\Valentin.pdf"
+    ]
+
     pdf_documents = chromadb.load_resumes(resumes=resumes)
 
     for document in pdf_documents:
@@ -19,14 +27,20 @@ if __name__ == "__main__":
 
     print(f"\nLength of pdf_documents: {len(pdf_documents)}\n")
 
+    # for idx, document in enumerate(pdf_documents):
+        # print(f"Document {idx + 1}: {document.page_content}\n")
+
     # Clear the database before adding documents
-    chromadb.clear_stores() 
+    chromadb.clear_stores()
     # This will populate both the vectorstore and the docstore
     chromadb.parent_retriever.add_documents(documents=pdf_documents)
 
+    
     print(f"\nCollection name: {chromadb.collection.name}\n")
-    print(f"\n{chromadb.collection.get()}\n")
+    print(f"\n{chromadb.collection.get()['ids']}\n")
+    print(f"\n{chromadb.collection.get()['documents']}\n")
 
+    """
     # Print the similar documents from the vectorstore
     docs_from_vectorstore = chromadb.vectorstore.similarity_search(
         "Python intermediate level English"
@@ -44,3 +58,4 @@ if __name__ == "__main__":
             print(f"\nDocument content: {doc.page_content}")
         else:
             print("\nRetrieved document with empty content.")
+    """

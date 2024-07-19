@@ -10,4 +10,3 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = ApiUser
         fields = ["username", "email", "password1", "password2"]
-

@@ -32,25 +32,27 @@ class SearchResumesApiView(APIView):
 
             serializer = ResumeSerializer(resumes, many=True)
 
-            entries = [(
-                {
-                    "id": resume.get("id"), 
-                    "file_upload": resume.get("file_upload")
-                }, 
-            
-                resume.get("id")) for resume in serializer.data
-            ]   
-            
+            entries = [
+                (
+                    {"id": resume.get("id"), "file_upload": resume.get("file_upload")},
+                    resume.get("id"),
+                )
+                for resume in serializer.data
+            ]
+
             print(entries)
 
             return render(
                 request,
                 "search_templates/search_list.html",
-                {"entries": entries, "description": description, "sample_size": sample_size},
+                {
+                    "entries": entries,
+                    "description": description,
+                    "sample_size": sample_size,
+                },
             )
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class SearchDashboardApiView(APIView):
@@ -65,4 +67,3 @@ class SearchDashboardApiView(APIView):
             request,
             "search_templates/search_dashboard.html",
         )
-
