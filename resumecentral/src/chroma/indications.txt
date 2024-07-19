@@ -1,0 +1,40 @@
+Primul approach:
+        Am folosit semantic kernel ca sa oferim un template LLM-ului, iar el sa gaseasca in baza de date SQLite3 CV-urile relevante
+    query-ului pe care il cautam. Desi acest approach functiona, el elimina complet utilizarea unei baze de date vectoriale (ceea 
+    ce noua ni s-a cerut de fapt sa folosim ca prim pas pentru a face un retrieval CV-urilor relevante). Totodata, acest approach 
+    poate costa bani in functie de modelul folosit, iar noi vrem sa cheltuim bani strict acolo unde este necesar, adica la 
+    rewriting (functionalitatea smart resume). Pentru pasul la care lucram este ok sa folosim o baza de date vectoriala (Chroma) 
+    pentru a face retrieval la CV-uri tinand cond de query-ul nostru.
+
+Al doilea approach:
+        Am implementat functionalitatea folosind Chroma, dar anumite task-uri necesitau prea mult timp si efort pentru a fi puse 
+    in practica, lucru inutil deoarece ele erau deja implementate in SDK-uri precum Langchain. 
+    
+Al treilea approach:
+        Task-ul pentru chunking/trunchere reprezinta o functie pe care am scris-o si care functiona, dar nu se poate ridica la nivelul 
+    clasei RecursiveCharacterTextSplitter din Langchain care face acelasi lucru, dar cu o implementare mult mai ampla si care face o 
+    trunchere bazata pe semantica, tine cont de sfarsitul de propozitie/fraza, context si asa mai departe. O trunchere traditionala 
+    nu ar oferi rezultate la fel de bune in practica atunci cand vrem sa facem retrieval CV-urilor in format PDF.
+        O alta clasa din Langchain care ne-a simplificat codul si a eficientizat implementarea este SentenceTransformerEmbeddings. 
+    Am eliminat complet implementarea embedding-ului din Chroma si am folosit clasa asta in cateva linii de cod.
+        PyMuPDF este o librarie ce poate fi folosita separat, dar a fost extinsa in langchain_community si permite incarcarea si 
+    citirea documentelor mult mai usor. Totodata, ofera si image proccessing care ne poate ajuta la CV-uri care contin poze.
+        Cu acest approach, ideea este ca modelul sa fie folosit pentru 2 lucruri (lucru care poate costa):
+            1. Ranking search results: Dupa ce Chroma ne-a livrat CV-uri relevante, putem pune modelul sa clasifice aceste CV-uri 
+                in functie de anumiti parametri sau sa le ordoneze de la cele mai bune pana la cele mai slabe. Spre exemplu, daca 
+                query-ul nostru a fost "Python 3 ani experienta", Chroma ne va livra mai intai un CV in care scrie "Python 4 ani 
+                experienta" si doar mai apoi un CV in care scrie "Python 10 ani experienta". Asta deoarece embedding-ul query-ului 
+                nostru este mai apropiat de embedding-ul lui "Python 4 ani experienta" decat de embedding-ul lui "Python 10 ani 
+                experienta". Dar noi vrem ca mai intai sa se afiseze CV-ul in care apare "Python 10 ani experienta", ordonare care 
+                poate fi obtinuta doar folosind un LLM. Functionalitatea asta nu poate fi oferita de baza de date vectoriala.
+            
+            2. Rewriting: Dupa ce pasul 1 a fost realizat, se face rewriting CV-urilor incepand de la primul si pana la ultimul.
+
+        O problema pe care approach-ul o poate avea este un CV in care scrie "Mojo 4 ani experienta". Este clar ca daca o persoana 
+            are experienta de 4 ani cu Mojo, acesta stie si Python si probabil are mai multi ani de experienta cu limbajul. In acest 
+            caz, la query-ul "Python 4 ani experienta" am vrea ca acest candidat sa fie returnat printre primii de catre baza de date 
+            vectoriala, dar acest lucru nu se intampla, iar un candidat de genul "Python 3 ani experienta" va fi returnat inaintea lui.
+            Problema nu poate fi rezolvata la nivelul bazei de date vectoriale, nu este o rezolvare buna sa fie hardcodate anumite 
+            cuvinte cheie. Rezolvarea se reduce la candidatii care isi fac CV-ul si la introducerea detaliata a skill-urilor pe care 
+            acestia le au. In acelasi timp, se poate rezolva folosind primul approach (un LLM poate identifica contextul favorabil).
+            
