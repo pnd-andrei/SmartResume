@@ -1,5 +1,6 @@
-import pickle
 import hashlib
+import pickle
+
 
 def object_to_bytes(obj):
     return pickle.dumps(obj)

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
 from api.models.resume_model import Resume
