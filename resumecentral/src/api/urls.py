@@ -7,6 +7,7 @@ from api.views.resume_views.resume_detail_view import IndividualResumeApiView
 from api.views.resume_views.resume_list_view import ResumeApiView
 from api.views.search_views.search_resumes_view import SearchResumesApiView, SearchDashboardApiView
 
+
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # these url patterns are mapped to "resumes/<url_pattern>"
