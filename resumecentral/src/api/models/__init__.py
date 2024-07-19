@@ -1,1 +1,1 @@
-from api.models.api_user import ApiUser  # noqa
+from api.models.api_user import ApiUser

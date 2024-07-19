@@ -1,18 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from api.forms.register_form import RegisterForm
-
-from rest_framework import status
-from rest_framework.response import Response
-
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-
-from api.modules.hash_module import compute_hash
+from django.shortcuts import redirect, render
 
 import api.modules.mailer_module as mail_client
+from api.forms.register_form import RegisterForm
+from api.modules.hash_module import compute_hash
+
 
 def register(request):
     if request.method == 'POST':

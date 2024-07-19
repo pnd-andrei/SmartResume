@@ -1,7 +1,9 @@
-import requests
-from abc import ABC, abstractmethod
 import os
+from abc import ABC, abstractmethod
 from pathlib import Path
+
+import requests
+
 
 class ResumeController(ABC):
     def __init__(self, url) -> None:

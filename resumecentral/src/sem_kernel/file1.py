@@ -13,15 +13,14 @@ from dotenv import load_dotenv
 from semantic_kernel import Kernel
 from semantic_kernel.connectors.ai.ollama import OllamaPromptExecutionSettings
 from semantic_kernel.connectors.ai.open_ai import (
-    OpenAIChatPromptExecutionSettings,
-    OpenAITextEmbedding,
-)
+    OpenAIChatPromptExecutionSettings, OpenAITextEmbedding)
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
 from semantic_kernel.prompt_template import InputVariable, PromptTemplateConfig
 from sentence_transformers import SentenceTransformer
 from transformers import AutoModel, AutoTokenizer
 from transformers.utils import ModelOutput
+
 from ..controller.resume_controller import LocalResumeController
 
 # from .service_settings import ServiceSettings
