@@ -18,11 +18,11 @@ def register(request):
                 "date_joined": form.cleaned_data.get('date_joined')
             }
 
-            hash_url = compute_hash(user_object)
-
-            mail_client.send_verification_mail(user_object.get("email"), hash_url)
-
             try:
+                #generate temporary url
+                hash_url = compute_hash(user_object)
+                mail_client.send_verification_mail(user_object.get("email"), hash_url)
+
                 if user_object.get("email").split("@")[1] != "computacenter.com":
                     raise ValueError("Invalid email domain")
                 
@@ -40,7 +40,6 @@ def register(request):
             except ValueError as ve:
                 form.add_error('email', str(ve))
             except Exception as e:
-                # log the exception if needed
                 form.add_error(None, str(e))
 
         return render(request, 'auth_templates/register.html', {'form': form})
