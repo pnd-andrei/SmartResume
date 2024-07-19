@@ -19,13 +19,8 @@ from api import urls as resume_urls
 from django.contrib import admin
 from django.urls import include, path
 
-from django.http import HttpResponseForbidden
-from django.views.static import serve as static_serve
-from django.urls import re_path
-from django.conf import settings
-
-import config.auth_views.auth_view as auth_views
-
+import api.views.auth_views.auth_view as auth_views
+import api.views.auth_views.user_views.user_detail_view as user_views
 
 #add in robots.txt dissalow media scanning
 
@@ -35,4 +30,6 @@ urlpatterns = [
     path('register/', auth_views.register, name='register'),
     path('login/', auth_views.user_login, name='login'),
     path('logout/', auth_views.user_logout, name='logout'),
+    path('validate/<str:temp>', user_views.TempValidationUserView.as_view()),
+    path('user/', user_views.IndividualUserApiView.as_view()),
 ]
