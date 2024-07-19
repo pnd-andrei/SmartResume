@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 
 from api.modules.hash_module import compute_hash
 
+import api.modules.mailer_module as mail_client
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -25,8 +27,7 @@ def register(request):
 
             hash_url = compute_hash(user_object)
 
-
-            print(hash_url)
+            mail_client.send_verification_mail(user_object.get("email"), hash_url)
 
             try:
                 if user_object.get("email").split("@")[1] != "computacenter.com":
