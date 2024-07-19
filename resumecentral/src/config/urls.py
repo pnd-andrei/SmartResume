@@ -19,13 +19,8 @@ from api import urls as resume_urls
 from django.contrib import admin
 from django.urls import include, path
 
-from django.http import HttpResponseForbidden
-from django.views.static import serve as static_serve
-from django.urls import re_path
-from django.conf import settings
-
 import api.views.auth_views.auth_view as auth_views
-import api.views.user_views.user_detail_view as user_views
+import api.views.auth_views.user_views.user_detail_view as user_views
 
 #add in robots.txt dissalow media scanning
 
