@@ -17,7 +17,7 @@ class ChromaDatabaseController:
         name: str,
         collection: Optional[Any] = None,
         collection_name: str = "chunk_collection",
-        db_path: str = "../chroma/chroma_vectorstore",
+        db_path: str = "chroma_vectorstore",
         embedding_model_name: str = "sentence-transformers/all-mpnet-base-v2",
         embedding_model_kwargs: dict = {"device": "cpu"},
         embedding_encode_kwargs: dict = {"normalize_embeddings": False},
@@ -35,6 +35,9 @@ class ChromaDatabaseController:
             embedding_model_name (str): The name of the embedding model to use for document embeddings.
             embedding_model_kwargs (dict): Additional keyword arguments for the embedding model.
             embedding_encode_kwargs (dict): Additional keyword arguments for the embedding function.
+            chunk_size (int): The size of each text chunk.
+            chunk_overlap (int): The number of characters to overlap between chunks.
+            documents (list[Document]): A list of Document objects to be added to the retriever.
 
         Returns:
             The newly created ChromaDatabase instance.

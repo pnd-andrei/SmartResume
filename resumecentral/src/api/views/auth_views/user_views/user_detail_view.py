@@ -18,6 +18,6 @@ class IndividualUserApiView(APIView):
         requestData = serializer.data
 
         # Remove the password field from the serialized data
-        requestData.pop('password', None)
+        requestData.pop("password", None)
 
         return Response(requestData, status=status.HTTP_200_OK)

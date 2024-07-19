@@ -23,14 +23,14 @@ import api.views.auth_views.user_views.temp_valid_view as temp_validation_views
 import api.views.auth_views.user_views.user_detail_view as user_views
 from api import urls as resume_urls
 
-#add in robots.txt dissalow media scanning
+# add in robots.txt dissalow media scanning
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("resumes/", include(resume_urls)),
-    path('register/', auth_views.register, name='register'),
-    path('login/', auth_views.user_login, name='login'),
-    path('logout/', auth_views.user_logout, name='logout'),
-    path('validate/<str:temp>', temp_validation_views.TempValidationUserView.as_view()),
-    path('user/', user_views.IndividualUserApiView.as_view()),
+    path("register/", auth_views.register, name="register"),
+    path("login/", auth_views.user_login, name="login"),
+    path("logout/", auth_views.user_logout, name="logout"),
+    path("validate/<str:temp>", temp_validation_views.TempValidationUserView.as_view()),
+    path("user/", user_views.IndividualUserApiView.as_view()),
 ]
