@@ -25,6 +25,9 @@ def register(request):
 
             hash_url = compute_hash(user_object)
 
+
+            print(hash_url)
+
             try:
                 if user_object.get("email").split("@")[1] != "computacenter.com":
                     raise ValueError("Invalid email domain")

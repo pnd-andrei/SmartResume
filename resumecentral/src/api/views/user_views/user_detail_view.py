@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,7 +7,7 @@ from api.serializers.user_serializer import UserSerializer
 from django.shortcuts import get_object_or_404
 
 class IndividualUserApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         """
