@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Resume</title>
+    <!-- Link to Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Search Resumes</h1>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+
+            <div class="box">
+                <p class="title is-4">Query:</p>
+                <br>
+                <p class="subtitle is-5">{{ description }}</p>
+                <p class="subtitle is-5">Sample Size: {{ sample_size }}</p>
+            </div>
+
+            <nav class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <a class="button is-primary" href="/resumes/search">Back to Dashboard</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <p class="title is-4">Loaded Resumes:</p>
+                <div class="content">
+                    <ul>
+                        {% for content, id in entries %}
+                            <a href="/resumes/id={{id}}">{{ content }}</a>
+                            <br>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
