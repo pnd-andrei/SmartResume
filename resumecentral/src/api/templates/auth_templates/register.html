@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <!-- Include Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-one-third register-container">
+                        <h2 class="title has-text-centered">Register</h2>
+                        <form method="post" class="box login-vertical-form">
+                            <div class="login-vertical-form">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                            </div>
+                            <div class="field">
+                                <button type="submit" class="button is-primary is-fullwidth">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<style>
+    .login-vertical-form{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .login-vertical-form input{
+        margin: 10px 0px; /* top and bottom spacing */
+        border-radius: 5px;
+        padding: 5px;
+        width: 90%;
+
+        border: 1px solid #dbdbdb; /* Default Bulma border color */
+        box-shadow: none; 
+        align-self: center;
+    }
+
+    .login-vertical-form p{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+</html>
