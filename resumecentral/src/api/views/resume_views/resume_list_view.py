@@ -5,7 +5,7 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
