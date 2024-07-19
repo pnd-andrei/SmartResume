@@ -13,17 +13,6 @@
     </section>
 
     <section class="section">
-        <div class="container">
-            <p class="title is-size-4">Loaded Resumes:</p>
-            <ul>
-                {% for content, id in entries %}
-                    <a href="id={{id}}">{{ content }}</a> <br>
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
-
-    <section class="section">
         <div class="container block">
             <p class="title is-size-4 ">Upload Resume:</p>
             <form action="/resumes/" enctype="multipart/form-data" method="post">
@@ -45,6 +34,17 @@
                 </div>
             </form>
         </div>
+
+        <section class="section">
+            <div class="container">
+                <p class="title is-size-4">Loaded Resumes:</p>
+                <ul>
+                    {% for content, id in entries %}
+                        <a href="id={{id}}">{{ content }}</a> <br>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
     </section>
 </body>
 </html>
