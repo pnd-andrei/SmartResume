@@ -21,8 +21,8 @@ class ChromaDatabaseController:
         embedding_model_name: str = "sentence-transformers/all-mpnet-base-v2",
         embedding_model_kwargs: dict = {"device": "cpu"},
         embedding_encode_kwargs: dict = {"normalize_embeddings": False},
-        chunk_size: int = 1000,
-        chunk_overlap: int = 200,
+        chunk_size: int = 500,
+        chunk_overlap: int = 100,
         documents: list[Document] = [],
     ) -> ChromaDatabase:
         """

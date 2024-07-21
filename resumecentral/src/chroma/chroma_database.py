@@ -311,7 +311,7 @@ class ChromaDatabase:
         print(f"Embedding model updated to {new_embedding_model_name}")
 
     @staticmethod
-    def get_resumes_from_sqlite3_database(self) -> list | None:
+    def get_resumes_from_sqlite3_database() -> list | None:
         """
         Retrieves resumes from a predefined local server. This function makes a call to the server,
         attempting to fetch PDF files representing resumes.
@@ -347,19 +347,22 @@ class ChromaDatabase:
             ValueError: If the loading fails.
         """
         pdf_documents = []
-        for resume_path in resumes:
-            try:
-                pdf_loader = PyMuPDFLoader(file_path=resume_path)
-                loaded_pages = pdf_loader.load()
+        if resumes:
+            for resume_path in resumes:
+                try:
+                    pdf_loader = PyMuPDFLoader(file_path=resume_path)
+                    loaded_pages = pdf_loader.load()
 
-                # Combine all pages of a resume into a single PDF Document object
-                combined_content = "\n".join(page.page_content for page in loaded_pages)
-                combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
-                pdf_document = Document(page_content=combined_content, metadata=combined_metadata)
-                pdf_documents.append(pdf_document)
+                    # Combine all pages of a resume into a single PDF Document object
+                    combined_content = "\n".join(page.page_content for page in loaded_pages)
+                    combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
+                    pdf_document = Document(page_content=combined_content, metadata=combined_metadata)
+                    pdf_documents.append(pdf_document)
 
-            except Exception as e:
-                raise ValueError(f"Error loading resume from file {resume_path}: {e}")
+                except Exception as e:
+                    raise ValueError(f"Error loading resume from file {resume_path}: {e}")
+        else:
+            raise ValueError("API database is empty")
         return pdf_documents
 
     @staticmethod

@@ -18,7 +18,7 @@ def fetch_resumes():
     resumes = Resume.objects.all()
     serializer = ResumeSerializer(resumes, many=True)
 
-    return serializer.data
+    return ["media" + x.get("file_upload") for x in serializer.data]
 
 
 if __name__ == "__main__":
