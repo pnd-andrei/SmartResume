@@ -5,8 +5,8 @@ from django.shortcuts import redirect, render
 from api.modules.template_paths import template_paths
 import api.modules.mailer as mail_client
 from api.forms.register import RegisterForm
-from api.modules.hasher import secret_key
 
+from uuid import uuid4
 
 def user_register(request):
     if request.method == "POST":
@@ -20,14 +20,14 @@ def user_register(request):
                     raise ValueError("Invalid email domain")
                 
                 #generate and send verification url
-                hash_url = secret_key()
-                mail_client.send_verification_mail(email, hash_url)
+                verification_url = uuid4()  
+                mail_client.send_verification_mail(email, verification_url)
                 
                 # Create the user instance but don"t save it to the database yet
                 user = form.save(commit=False)
                 
-                # Update the temporary_field attribute with the hash_url
-                user.temporary_field = hash_url
+                # Update the temporary_field attribute with the verification_url
+                user.temporary_field = verification_url
                 
                 # Now save the user instance
                 user.save()
