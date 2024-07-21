@@ -24,11 +24,10 @@ class Mailer:
 
     def send_email(self, recipient, subject, body):
         try:
-            # Composing the email
             email_message = MIMEText(body)
             email_message["Subject"] = subject
             email_message["From"] = self.__mail_adress
-            email_message["To"] = recipient  # Replace with recipient's email address
+            email_message["To"] = recipient 
 
             self.__server.sendmail(self.__mail_adress, recipient, email_message.as_string())
             print("Email sent successfully!\n")
