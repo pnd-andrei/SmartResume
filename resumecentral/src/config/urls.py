@@ -18,9 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-import api.views.auth_views.auth_view as auth_views
-import api.views.auth_views.user_views.temp_valid_view as temp_validation_views
-import api.views.auth_views.user_views.user_detail_view as user_views
+import api.views.authentication.auth as auth_views
+import api.views.authentication.user.validation as temp_validation_views
+import api.views.authentication.user.detail as user_views
 from api import urls as resume_urls
 
 #add in robots.txt dissalow media scanning
@@ -29,8 +29,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("resumes/", include(resume_urls)),
     path('register/', auth_views.register, name='register'),
-    path('login/', auth_views.user_login, name='login'),
-    path('logout/', auth_views.user_logout, name='logout'),
+    path('login/', auth_views.login, name='login'),
+    path('logout/', auth_views.logout, name='logout'),
     path('validate/<str:temp>', temp_validation_views.TempValidationUserView.as_view()),
     path('user/', user_views.IndividualUserApiView.as_view()),
 ]

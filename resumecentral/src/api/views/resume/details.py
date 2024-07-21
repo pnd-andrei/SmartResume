@@ -2,8 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
-from api.models.resume_model import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.models.resume import Resume
+from api.modules.template_paths import template_paths
+from api.serializers.resume import ResumeSerializer
 
 
 class IndividualResumeApiView(APIView):
@@ -28,4 +29,4 @@ class IndividualResumeApiView(APIView):
             "id": resume_id,
         }
 
-        return render(request, "resume_templates/resume_detail.html", context)
+        return render(request, template_paths.get("resume_detail"), context)

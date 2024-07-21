@@ -3,13 +3,14 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
-from api.models.resume_model import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.models.resume import Resume
+from api.serializers.resume import ResumeSerializer
 
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
+from api.modules.template_paths import template_paths
 
 class SearchResumesApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -18,8 +19,6 @@ class SearchResumesApiView(APIView):
         """
         List all the resume items: by a description
         """
-        print(request.GET)
-
         description = request.GET.get("description")
         sample_size = request.GET.get("sample_size")
 
@@ -45,24 +44,9 @@ class SearchResumesApiView(APIView):
 
             return render(
                 request,
-                "search_templates/search_list.html",
+                template_paths.get("search_list"),
                 {"entries": entries, "description": description, "sample_size": sample_size},
             )
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
-class SearchDashboardApiView(APIView):
-    permission_classes = [IsAdminUser]
-
-    def get(self, request, *args, **kwargs):
-        """
-        List all the resume items: by a description
-        """
-
-        return render(
-            request,
-            "search_templates/search_dashboard.html",
-        )
 

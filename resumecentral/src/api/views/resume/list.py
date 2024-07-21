@@ -10,9 +10,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
-from api.models.resume_model import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.models.resume import Resume
+from api.serializers.resume import ResumeSerializer
 
+from api.modules.template_paths import template_paths
 
 class ResumeApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -35,7 +36,7 @@ class ResumeApiView(APIView):
 
         return render(
             request,
-            "resume_templates/resume_list.html",
+            template_paths.get("resume_list"),
             {"form": form, "entries": entries},
         )
 
