@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models.resume_model import Resume
+from api.models.resume import Resume
 
 
 class ResumeSerializer(serializers.ModelSerializer):
