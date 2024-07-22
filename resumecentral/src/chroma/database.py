@@ -12,8 +12,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # import pymupdf4llm
-import controllers.resume.controller as controller
-
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
 
 
@@ -350,7 +348,7 @@ class ChromaDatabase:
         if resumes:
             for resume_path in resumes:
                 try:
-                    pdf_loader = PyMuPDFLoader(file_path=resume_path)
+                    pdf_loader = PyMuPDFLoader(file_path="http://localhost:8000/" + resume_path)
                     loaded_pages = pdf_loader.load()
 
                     # Combine all pages of a resume into a single PDF Document object

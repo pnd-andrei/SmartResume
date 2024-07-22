@@ -20,6 +20,7 @@ langchain-community = "^0.2.7"
 langchain-chroma = "^0.1.2"
 langchain-huggingface = "^0.0.3"
 pymupdf4llm = "^0.0.9"
+langchain = "^0.2.10"
 
 
 [tool.poetry.group.dev.dependencies]
