@@ -14,11 +14,11 @@ from api.models.resume import Resume
 from api.serializers.resume import ResumeSerializer
 
 
-def fetch_resumes():
+def fetch_resumes(url):
     resumes = Resume.objects.all()
     serializer = ResumeSerializer(resumes, many=True)
 
-    return ["media" + x.get("file_upload") for x in serializer.data]
+    return [url + "/media" + x.get("file_upload") for x in serializer.data]
 
 
 if __name__ == "__main__":

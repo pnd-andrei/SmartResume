@@ -1,5 +1,4 @@
 from resumecentral.src.controllers.chromadb import ChromaDatabaseController
-from resumecentral.src.controllers import fetch
 from langchain_core.documents import Document
 
 
@@ -11,7 +10,7 @@ if __name__ == "__main__":
 
     # Aici incepe requestul de la interfata
 
-    # resumes = chromadb.get_resumes_from_sqlite3_database()
+    resumes = chromadb.get_resumes_from_sqlite3_database()
     """
     resumes = [
         "C:\\Users\\Computacenter\\Desktop\\CV.pdf",
@@ -22,7 +21,6 @@ if __name__ == "__main__":
     ]
     """
 
-    resumes = fetch.fetch_resumes()
     pdf_documents = chromadb.load_resumes(resumes=resumes)
 
     for document in pdf_documents:

@@ -11,6 +11,8 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+from controllers.fetch import fetch_resumes
+
 # import pymupdf4llm
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
 
@@ -161,10 +163,9 @@ class ChromaDatabase:
         self, child_splitter: RecursiveCharacterTextSplitter
     ) -> ParentDocumentRetriever:
         """
-        Initializes a ParentDocumentRetriever for the given documents, using the specified child splitter for text splitting.
+        Initializes a ParentDocumentRetriever, using the specified child splitter for text splitting.
 
         Parameters:
-            documents (list[Document]): A list of Document objects to be added to the retriever.
             child_splitter (RecursiveCharacterTextSplitter): The text splitter to be used for splitting the documents into smaller chunks.
 
         Returns:
@@ -273,7 +274,6 @@ class ChromaDatabase:
         self._initialize_collection()
         self._initialize_vectorstore()
         self.parent_retriever = self._initialize_parent_document_retriever(
-            documents=self.documents,
             child_splitter=self.splitter,
         )
 
@@ -302,8 +302,7 @@ class ChromaDatabase:
         self._initialize_vectorstore()
 
         self.parent_retriever = self._initialize_parent_document_retriever(
-            documents=self.documents,
-            child_splitter=self.splitter,
+            child_splitter=self.splitter
         )
 
         print(f"Embedding model updated to {new_embedding_model_name}")
@@ -321,10 +320,9 @@ class ChromaDatabase:
             ValueError: If the resumes retrieval fails.
         """
         url = "http://127.0.0.1:8000"
-        local_resume_controller = controller.LocalResumeController(url)
         resumes = [][:]
         try:
-            resumes = local_resume_controller.get_pdfs()
+            resumes = fetch_resumes(url)
             return resumes
         except Exception as e:
             raise ValueError(f"Error retrieving resumes: {e}")
@@ -348,7 +346,7 @@ class ChromaDatabase:
         if resumes:
             for resume_path in resumes:
                 try:
-                    pdf_loader = PyMuPDFLoader(file_path="http://localhost:8000/" + resume_path)
+                    pdf_loader = PyMuPDFLoader(file_path=resume_path)
                     loaded_pages = pdf_loader.load()
 
                     # Combine all pages of a resume into a single PDF Document object
