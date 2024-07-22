@@ -12,7 +12,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # import pymupdf4llm
-import resumecentral.src.controllers.resume_controller as resume_controller
+import controllers.resume.controller as controller
 
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
 
@@ -325,7 +325,7 @@ class ChromaDatabase:
             ValueError: If the resumes retrieval fails.
         """
         url = "http://127.0.0.1:8000"
-        local_resume_controller = resume_controller.LocalResumeController(url)
+        local_resume_controller = controller.LocalResumeController(url)
         resumes = [][:]
         try:
             resumes = local_resume_controller.get_pdfs()
