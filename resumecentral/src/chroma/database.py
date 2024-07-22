@@ -350,13 +350,19 @@ class ChromaDatabase:
                     loaded_pages = pdf_loader.load()
 
                     # Combine all pages of a resume into a single PDF Document object
-                    combined_content = "\n".join(page.page_content for page in loaded_pages)
+                    combined_content = "\n".join(
+                        page.page_content for page in loaded_pages
+                    )
                     combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
-                    pdf_document = Document(page_content=combined_content, metadata=combined_metadata)
+                    pdf_document = Document(
+                        page_content=combined_content, metadata=combined_metadata
+                    )
                     pdf_documents.append(pdf_document)
 
                 except Exception as e:
-                    raise ValueError(f"Error loading resume from file {resume_path}: {e}")
+                    raise ValueError(
+                        f"Error loading resume from file {resume_path}: {e}"
+                    )
         else:
             raise ValueError("API database is empty")
         return pdf_documents

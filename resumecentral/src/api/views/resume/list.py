@@ -11,9 +11,9 @@ from rest_framework.views import APIView
 
 from api.forms.resume import ResumeForm
 from api.models.resume import Resume
+from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
 
-from api.modules.template_paths import template_paths
 
 class ResumeApiView(APIView):
     permission_classes = [IsAdminUser]
