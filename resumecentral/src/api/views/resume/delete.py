@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.forms.resume import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.serializers.resume import ResumeSerializer
 
 
 class DeleteResumeApiView(APIView):

@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models.api_user import ApiUser
+from api.models.user import ApiUser
 
 
 class TempValidationUserView(APIView):

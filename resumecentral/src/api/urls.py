@@ -2,13 +2,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from api.views.resume_views.resume_delete_view import DeleteResumeApiView
-from api.views.resume_views.resume_detail_view import IndividualResumeApiView
-from api.views.resume_views.resume_list_view import ResumeApiView
-from api.views.search_views.search_resumes_view import (
-    SearchResumesApiView,
-    SearchDashboardApiView,
-)
+from api.views.resume.delete import DeleteResumeApiView
+from api.views.resume.details import IndividualResumeApiView
+from api.views.resume.list import ResumeApiView
+from api.views.search.list import SearchResumesApiView
+from api.views.search.dashboard import  SearchDashboardApiView
+
 
 
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
