@@ -10,8 +10,8 @@ sys.path.append(src_dir)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from api.models.resume_model import Resume
-from api.serializers.resume_serializer import ResumeSerializer
+from api.models.resume import Resume 
+from api.serializers.resume import ResumeSerializer
 
 
 def fetch_resumes():
