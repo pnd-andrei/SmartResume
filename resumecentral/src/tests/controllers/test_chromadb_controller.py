@@ -2,8 +2,8 @@ import unittest
 
 from langchain_core.documents import Document
 
-from resumecentral.src.chroma.chroma_database import ChromaDatabase
-from resumecentral.src.controllers.chromadb_controller import ChromaDatabaseController
+from chroma.database import ChromaDatabase
+from controllers.chromadb import ChromaDatabaseController
 
 
 class TestChromaDatabaseController(unittest.TestCase):

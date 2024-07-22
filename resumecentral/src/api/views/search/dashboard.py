@@ -2,8 +2,6 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
-from rest_framework.permissions import IsAdminUser
-
 from api.modules.template_paths import template_paths
 
 
@@ -15,8 +13,4 @@ class SearchDashboardApiView(APIView):
         List all the resume items: by a description
         """
 
-        return render(
-            request,
-            template_paths.get("search_dashboard")
-        )
-
+        return render(request, template_paths.get("search_dashboard"))

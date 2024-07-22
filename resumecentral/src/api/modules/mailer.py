@@ -28,7 +28,7 @@ class Mailer:
             email_message = MIMEText(body)
             email_message["Subject"] = subject
             email_message["From"] = self.__mail_adress
-            email_message["To"] = recipient 
+            email_message["To"] = recipient
 
             self.__server.sendmail(
                 self.__mail_adress, recipient, email_message.as_string()

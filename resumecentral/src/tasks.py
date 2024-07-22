@@ -7,7 +7,6 @@ run(from terminal) with "invoke <command>"
 import platform
 
 from invoke.tasks import task
-from invoke import task
 
 # Main Automatic Functions
 
