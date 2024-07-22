@@ -11,9 +11,9 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# import pymupdf4llm
-import resumecentral.src.controllers.resume_controller as resume_controller
+from controllers.fetch import fetch_resumes
 
+# import pymupdf4llm
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
 
 
@@ -163,10 +163,9 @@ class ChromaDatabase:
         self, child_splitter: RecursiveCharacterTextSplitter
     ) -> ParentDocumentRetriever:
         """
-        Initializes a ParentDocumentRetriever for the given documents, using the specified child splitter for text splitting.
+        Initializes a ParentDocumentRetriever, using the specified child splitter for text splitting.
 
         Parameters:
-            documents (list[Document]): A list of Document objects to be added to the retriever.
             child_splitter (RecursiveCharacterTextSplitter): The text splitter to be used for splitting the documents into smaller chunks.
 
         Returns:
@@ -275,7 +274,6 @@ class ChromaDatabase:
         self._initialize_collection()
         self._initialize_vectorstore()
         self.parent_retriever = self._initialize_parent_document_retriever(
-            documents=self.documents,
             child_splitter=self.splitter,
         )
 
@@ -304,8 +302,7 @@ class ChromaDatabase:
         self._initialize_vectorstore()
 
         self.parent_retriever = self._initialize_parent_document_retriever(
-            documents=self.documents,
-            child_splitter=self.splitter,
+            child_splitter=self.splitter
         )
 
         print(f"Embedding model updated to {new_embedding_model_name}")
@@ -323,10 +320,9 @@ class ChromaDatabase:
             ValueError: If the resumes retrieval fails.
         """
         url = "http://127.0.0.1:8000"
-        local_resume_controller = resume_controller.LocalResumeController(url)
         resumes = [][:]
         try:
-            resumes = local_resume_controller.get_pdfs()
+            resumes = fetch_resumes(url)
             return resumes
         except Exception as e:
             raise ValueError(f"Error retrieving resumes: {e}")
@@ -354,13 +350,19 @@ class ChromaDatabase:
                     loaded_pages = pdf_loader.load()
 
                     # Combine all pages of a resume into a single PDF Document object
-                    combined_content = "\n".join(page.page_content for page in loaded_pages)
+                    combined_content = "\n".join(
+                        page.page_content for page in loaded_pages
+                    )
                     combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
-                    pdf_document = Document(page_content=combined_content, metadata=combined_metadata)
+                    pdf_document = Document(
+                        page_content=combined_content, metadata=combined_metadata
+                    )
                     pdf_documents.append(pdf_document)
 
                 except Exception as e:
-                    raise ValueError(f"Error loading resume from file {resume_path}: {e}")
+                    raise ValueError(
+                        f"Error loading resume from file {resume_path}: {e}"
+                    )
         else:
             raise ValueError("API database is empty")
         return pdf_documents
