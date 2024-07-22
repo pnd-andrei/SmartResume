@@ -7,4 +7,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApiUser
         fields = "__all__"
-

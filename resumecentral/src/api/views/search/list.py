@@ -31,15 +31,14 @@ class SearchResumesApiView(APIView):
 
             serializer = ResumeSerializer(resumes, many=True)
 
-            entries = [(
-                {
-                    "id": resume.get("id"), 
-                    "file_upload": resume.get("file_upload")
-                }, 
-            
-                resume.get("id")) for resume in serializer.data
-            ]   
-            
+            entries = [
+                (
+                    {"id": resume.get("id"), "file_upload": resume.get("file_upload")},
+                    resume.get("id"),
+                )
+                for resume in serializer.data
+            ]
+
             print(entries)
 
             return render(

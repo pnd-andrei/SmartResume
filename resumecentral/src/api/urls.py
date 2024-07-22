@@ -18,5 +18,5 @@ urlpatterns = [
     path("id=<int:id>", IndividualResumeApiView.as_view(), name="resume_detail"),
     path("delete/id=<int:id>", DeleteResumeApiView.as_view()),
     path("search/query/", SearchResumesApiView.as_view()),
-    path("search/", SearchDashboardApiView.as_view())
+    path("search/", SearchDashboardApiView.as_view()),
 ]
