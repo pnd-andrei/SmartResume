@@ -12,6 +12,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from controllers.fetch import fetch_resumes
+from langchain.retrievers.multi_vector import SearchType
+from resumecentral.src.chroma.extended.custom_parent_retriever import CustomParentDocumentRetriever
 
 # import pymupdf4llm
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
@@ -176,11 +178,13 @@ class ChromaDatabase:
         """
         try:
             self.store = InMemoryStore()
-            self.retriever = ParentDocumentRetriever(
+
+            self.retriever = CustomParentDocumentRetriever(
                 vectorstore=self.vectorstore,
                 docstore=self.store,
                 child_splitter=child_splitter,
             )
+
             return self.retriever
         except Exception as e:
             raise ValueError(f"Failed to initialize retriever: {e}")
@@ -346,14 +350,22 @@ class ChromaDatabase:
         if resumes:
             for resume_path in resumes:
                 try:
-                    pdf_loader = PyMuPDFLoader(file_path=resume_path)
+                    pdf_loader = PyMuPDFLoader(file_path=resume_path[1])
                     loaded_pages = pdf_loader.load()
 
                     # Combine all pages of a resume into a single PDF Document object
                     combined_content = "\n".join(
                         page.page_content for page in loaded_pages
                     )
-                    combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
+
+                    meta = {"id": resume_path[0]}
+                    
+                    combined_metadata = {}
+
+                    if loaded_pages:
+                        combined_metadata = loaded_pages[0].metadata 
+                        combined_metadata.update(meta)
+
                     pdf_document = Document(
                         page_content=combined_content, metadata=combined_metadata
                     )
@@ -361,7 +373,7 @@ class ChromaDatabase:
 
                 except Exception as e:
                     raise ValueError(
-                        f"Error loading resume from file {resume_path}: {e}"
+                        f"Error loading resume from file {resume_path[1]}: {e}"
                     )
         else:
             raise ValueError("API database is empty")
