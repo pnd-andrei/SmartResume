@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-from controllers.chromadb import ChromaDatabaseController
-=======
-from resumecentral.src.controllers.chromadb_controller import ChromaDatabaseController
+from resumecentral.src.controllers.chromadb import ChromaDatabaseController
 from resumecentral.src.controllers import fetch
 from langchain_core.documents import Document
 
->>>>>>> 567d76dafbbc69b1a54e656a3d02aa4387c83eb5
 
 if __name__ == "__main__":
     chromadb_controller = ChromaDatabaseController()
