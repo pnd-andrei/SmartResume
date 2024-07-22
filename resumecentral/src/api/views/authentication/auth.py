@@ -1,12 +1,13 @@
-from django.contrib.auth import authenticate, login, logout 
+from uuid import uuid4
+
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 
-from api.modules.template_paths import template_paths
 import api.modules.mailer as mail_client
 from api.forms.register import RegisterForm
+from api.modules.template_paths import template_paths
 
-from uuid import uuid4
 
 def user_register(request):
     if request.method == "POST":
@@ -18,20 +19,20 @@ def user_register(request):
 
                 if email.split("@")[1] != "computacenter.com":
                     raise ValueError("Invalid email domain")
-                
-                #generate and send verification url
-                verification_url = uuid4()  
+
+                # generate and send verification url
+                verification_url = uuid4()
                 mail_client.send_verification_mail(email, verification_url)
-                
+
                 # Create the user instance but don"t save it to the database yet
                 user = form.save(commit=False)
-                
+
                 # Update the temporary_field attribute with the verification_url
                 user.temporary_field = verification_url
-                
+
                 # Now save the user instance
                 user.save()
-                
+
                 login(request, user)
                 return redirect("/user/")
             except ValueError as ve:
@@ -59,11 +60,12 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 return redirect("/resumes")
-            
+
         return redirect("/register")
     else:
         form = AuthenticationForm()
     return render(request, template_paths.get("auth_login"), {"form": form})
+
 
 def user_logout(request):
     logout(request)

@@ -1,16 +1,14 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework.permissions import IsAdminUser
-from rest_framework.views import APIView
-
-from api.models.resume import Resume
-from api.serializers.resume import ResumeSerializer
-
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from api.models.resume import Resume
 from api.modules.template_paths import template_paths
+from api.serializers.resume import ResumeSerializer
+
 
 class SearchResumesApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -44,8 +42,11 @@ class SearchResumesApiView(APIView):
             return render(
                 request,
                 template_paths.get("search_list"),
-                {"entries": entries, "description": description, "sample_size": sample_size},
+                {
+                    "entries": entries,
+                    "description": description,
+                    "sample_size": sample_size,
+                },
             )
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
-

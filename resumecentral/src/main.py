@@ -1,6 +1,5 @@
-from resumecentral.src.controllers.chromadb import ChromaDatabaseController
 from langchain_core.documents import Document
-
+from resumecentral.src.controllers.chromadb import ChromaDatabaseController
 
 if __name__ == "__main__":
     chromadb_controller = ChromaDatabaseController()
@@ -31,14 +30,13 @@ if __name__ == "__main__":
     print(f"\nLength of pdf_documents: {len(pdf_documents)}\n")
 
     # for idx, document in enumerate(pdf_documents):
-        # print(f"Document {idx + 1}: {document.page_content}\n")
+    # print(f"Document {idx + 1}: {document.page_content}\n")
 
     # Clear the database before adding documents
     chromadb.clear_stores()
     # This will populate both the vectorstore and the docstore
     chromadb.parent_retriever.add_documents(documents=pdf_documents)
 
-    
     print(f"\nCollection name: {chromadb.collection.name}\n")
     # print(f"\n{chromadb.collection.get()}")
     # print(f"\n{chromadb.collection.get()['ids']}\n")
@@ -67,4 +65,3 @@ if __name__ == "__main__":
             print(f"\nDocument content: {doc.page_content}")
         else:
             print("\nRetrieved document with empty content.")
-    
