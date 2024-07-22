@@ -17,7 +17,7 @@ class TempValidationUserView(APIView):
             user.is_staff = True
             user.temporary_field = ""
             user.save()
-            
+
             response_data = {
                 "username": user.username,
                 "email": user.email,
@@ -26,5 +26,5 @@ class TempValidationUserView(APIView):
             }
 
             return Response(response_data, status=status.HTTP_200_OK)
-        
+
         return Response(status=status.HTTP_400_BAD_REQUEST)

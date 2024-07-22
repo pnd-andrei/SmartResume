@@ -23,7 +23,7 @@ import api.views.authentication.user.validation as temp_validation_views
 import api.views.authentication.user.detail as user_views
 from api import urls as resume_urls
 
-#add in robots.txt dissalow media scanning
+# add in robots.txt dissalow media scanning
 
 urlpatterns = [
     path("admin/", admin.site.urls),
