@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models.resume import Resume
 from api.modules.template_paths import template_paths
-from api.serializers.resume import ResumeSerializer
+
+from resumecentral.src.controllers.ai import AIController
 
 
 class SearchResumesApiView(APIView):
@@ -18,26 +18,22 @@ class SearchResumesApiView(APIView):
         List all the resume items: by a description
         """
         description = request.GET.get("description")
-        sample_size = request.GET.get("sample_size")
+        sample_size = int(request.GET.get("sample_size"))
+
+        results = AIController.similarity_search(description,sample_size)
 
         if description and sample_size:
-            resumes = Resume.objects.all()
-
-            if request.GET.get("json") is not None:
-                data = list(resumes.values())
-                return JsonResponse({"data": data})
-
-            serializer = ResumeSerializer(resumes, many=True)
-
             entries = [
                 (
-                    {"id": resume.get("id"), "file_upload": resume.get("file_upload")},
-                    resume.get("id"),
+                    {
+                        "id": resume.metadata.get("id"),
+                        "file_upload": resume.metadata.get("source"), 
+                        "precision": resume.metadata.get("score")
+                    },
+                    resume.metadata.get("id"),
                 )
-                for resume in serializer.data
+                for resume in results[:sample_size]
             ]
-
-            print(entries)
 
             return render(
                 request,

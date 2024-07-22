@@ -17,12 +17,12 @@ class ChromaDatabaseController:
         name: str,
         collection: Optional[Any] = None,
         collection_name: str = "chunk_collection",
-        db_path: str = "chroma_vectorstore",
+        db_path: str = "vectorstore",
         embedding_model_name: str = "sentence-transformers/all-mpnet-base-v2",
         embedding_model_kwargs: dict = {"device": "cpu"},
         embedding_encode_kwargs: dict = {"normalize_embeddings": False},
-        chunk_size: int = 500,
-        chunk_overlap: int = 100,
+        chunk_size: int = 128,
+        chunk_overlap: int = 32,
         documents: list[Document] = [],
     ) -> ChromaDatabase:
         """
