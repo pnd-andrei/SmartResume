@@ -1,4 +1,4 @@
-from resumecentral.src.controllers.chromadb_controller import ChromaDatabaseController
+from controllers.chromadb import ChromaDatabaseController
 
 if __name__ == "__main__":
     chromadb_controller = ChromaDatabaseController()

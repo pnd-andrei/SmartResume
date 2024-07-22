@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from langchain_core.documents import Document
 
-from resumecentral.src.chroma.chroma_database import ChromaDatabase
+from chroma.database import ChromaDatabase
 
 
 class ChromaDatabaseController:
