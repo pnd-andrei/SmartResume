@@ -11,6 +11,7 @@ from invoke import task
 
 # Main Automatic Functions
 
+
 @task
 def run(c):
     c.run("python manage.py runserver")
@@ -21,6 +22,7 @@ def runfirst(c):
     flush(c)
     syncdb(c)
     run(c)
+
 
 @task
 def flush(c):
@@ -33,6 +35,7 @@ def flush(c):
     deletecache(c)
     migrate(c)
 
+
 @task
 def deletecache(c):
     system = platform.system()
@@ -44,6 +47,7 @@ def deletecache(c):
 
 
 # Auxiliary functions
+
 
 @task
 def migrate(c):

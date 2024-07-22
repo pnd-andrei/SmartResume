@@ -40,6 +40,9 @@ class ChromaDatabase:
             embedding_model_name (str): The name of the embedding model. Defaults to "sentence-transformers/all-mpnet-base-v2".
             embedding_model_kwargs (dict): Model configuration options. Defaults to {'device': 'cpu'}.
             embedding_encode_kwargs (dict): Encoding configuration options. Defaults to {'normalize_embeddings': False}.
+            chunk_size (int): The size of each text chunk.
+            chunk_overlap (int): The number of characters to overlap between chunks.
+            documents (list[Document]): A list of Document objects to be added to the retriever.
         """
 
         self.collection = collection
@@ -60,7 +63,6 @@ class ChromaDatabase:
             chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
         )
         self.parent_retriever = self._initialize_parent_document_retriever(
-            documents=self.documents,
             child_splitter=self.splitter,
         )
 
@@ -150,15 +152,15 @@ class ChromaDatabase:
         """
         try:
             recursive_splitter = RecursiveCharacterTextSplitter(
-                chunk_size=self.chunk_size,
-                chunk_overlap=self.chunk_overlap,
+                chunk_size=chunk_size,
+                chunk_overlap=chunk_overlap,
             )
             return recursive_splitter
         except Exception as e:
             raise ValueError(f"Failed to initialize splitter: {e}")
 
     def _initialize_parent_document_retriever(
-        self, documents: list[Document], child_splitter: RecursiveCharacterTextSplitter
+        self, child_splitter: RecursiveCharacterTextSplitter
     ) -> ParentDocumentRetriever:
         """
         Initializes a ParentDocumentRetriever for the given documents, using the specified child splitter for text splitting.
@@ -171,12 +173,8 @@ class ChromaDatabase:
             ParentDocumentRetriever: An instance of ParentDocumentRetriever initialized with the documents and child splitter.
 
         Raises:
-            ValueError: If the documents list is empty.
             ValueErorr: If the retriever initialization fails.
         """
-        if not documents:
-            raise ValueError("Document list is empty")
-
         try:
             self.store = InMemoryStore()
             self.retriever = ParentDocumentRetriever(
@@ -313,7 +311,7 @@ class ChromaDatabase:
         print(f"Embedding model updated to {new_embedding_model_name}")
 
     @staticmethod
-    def get_resumes_from_sqlite3_database(self) -> list | None:
+    def get_resumes_from_sqlite3_database() -> list | None:
         """
         Retrieves resumes from a predefined local server. This function makes a call to the server,
         attempting to fetch PDF files representing resumes.
@@ -349,12 +347,22 @@ class ChromaDatabase:
             ValueError: If the loading fails.
         """
         pdf_documents = []
-        for resume in resumes:
-            try:
-                pdf_loader = PyMuPDFLoader(resume)
-                pdf_documents.extend(pdf_loader.load())
-            except Exception as e:
-                raise ValueError(f"Error loading resume with id {resume.id}: {e}")
+        if resumes:
+            for resume_path in resumes:
+                try:
+                    pdf_loader = PyMuPDFLoader(file_path=resume_path)
+                    loaded_pages = pdf_loader.load()
+
+                    # Combine all pages of a resume into a single PDF Document object
+                    combined_content = "\n".join(page.page_content for page in loaded_pages)
+                    combined_metadata = loaded_pages[0].metadata if loaded_pages else {}
+                    pdf_document = Document(page_content=combined_content, metadata=combined_metadata)
+                    pdf_documents.append(pdf_document)
+
+                except Exception as e:
+                    raise ValueError(f"Error loading resume from file {resume_path}: {e}")
+        else:
+            raise ValueError("API database is empty")
         return pdf_documents
 
     @staticmethod
@@ -373,7 +381,7 @@ class ChromaDatabase:
             ValueError: If the cleaning fails.
         """
         try:
-            text = text.replace(old="\n", new=" ")
+            text = text.replace("\n", " ")
             text = re.sub(
                 pattern=r"\s{2,}",
                 repl=" ",
