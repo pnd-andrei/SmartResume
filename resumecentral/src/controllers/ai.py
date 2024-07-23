@@ -9,7 +9,7 @@ class AIController:
     def similarity_search(query: str, sample_size: int):
         chromadb_controller = ChromaDatabaseController()
         chromadb_name = "similarity_chromadb"
-        chromadb_controller.create_database(name=chromadb_name, chunk_size=250, chunk_overlap=100)
+        chromadb_controller.create_database(name=chromadb_name, chunk_size=500, chunk_overlap=100)
         chromadb = chromadb_controller.get_database(name=chromadb_name)
 
         # Aici incepe requestul de la interfata

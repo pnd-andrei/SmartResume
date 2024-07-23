@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <strong>ResumeCentral vPro</strong>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/resumes/" name="resume_list">
+                    Resumes
+                </a>
+                <a class="navbar-item" href="/resumes/search/">
+                    Search
+                </a>
+                <a class="navbar-item" href="/login/" name="login">
+                    Login
+                </a>
+                <a class="navbar-item" href="/logout/" name="logout">
+                    Logout
+                </a>
+                <a class="navbar-item" href="/user/">
+                    User
+                </a>
+            </div>
+        </div>
+    </nav>
+
+   </body>
+</html>
