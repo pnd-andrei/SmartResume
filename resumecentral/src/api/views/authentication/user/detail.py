@@ -1,9 +1,11 @@
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
-from rest_framework.response import Response
+from django.template.response import TemplateResponse
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from api.serializers.user import UserSerializer
+from api.modules.template_paths import template_paths
 
 
 class IndividualUserApiView(APIView):
@@ -20,4 +22,5 @@ class IndividualUserApiView(APIView):
         # Remove the password field from the serialized data
         requestData.pop("password", None)
 
-        return Response(requestData, status=status.HTTP_200_OK)
+        print(template_paths.get("response"))
+        return TemplateResponse(request,template_paths.get("response"), {"entries": requestData}, status=status.HTTP_200_OK)
