@@ -28,28 +28,30 @@
             </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between;" class="optionals">
-
-            <div style="width: 75%;" class="field">
-              <label class="label" for="chunk_size">Chunk Size (Characters)</label>
-              <div class="control">
-                <input required class="input" type="number" id="chunk_size" name="chunk_size" placeholder="Enter chunk size">
+          <div class="finetunning notification">
+            <h1 class="title is-size-5">Optional Fine Tunning</h1>
+            <p>This features could result in unpredictable behaviour, use them with caution.</p>
+            <div style="display: flex; justify-content: space-between;" class="notification">
+              <div style="margin:auto;" class="field">
+                <label class="label" for="chunk_size">Chunk Size</label>
+                <input class="slider is-primary" type="range" min="1" max="4" value="4" name="slider">
               </div>
-            </div>
-  
-            <div style="margin: 0 auto;" class="field">
-              <label  class="label" for="relevance">Sort By</label>
-              <div class="control">
-                <div class="select is-rounded is-primary">
-                  <select id="relevance" name="relevance">
-                    <option value="relevance">Relevance</option>
-                    <option value="experience">Experience</option>
-                  </select>
+    
+              <div style="margin: auto;" class="field">
+                <label  class="label" for="relevance">Sort By</label>
+                <div class="control">
+                  <div class="select is-rounded is-primary">
+                    <select id="relevance" name="relevance">
+                      <option value="relevance">Relevance</option>
+                      <option value="experience">Experience</option>
+                    </select>
+                  </div>
                 </div>
               </div>
+  
             </div>
-
           </div>
+
 
           <br>
 
