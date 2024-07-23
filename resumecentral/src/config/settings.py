@@ -60,7 +60,7 @@ SETTINGS_PATH = os.path.dirname("api")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join("api", "templates")],
+        "DIRS": [os.path.join("api", "templates"),os.path.join("api", "templates", "response")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
