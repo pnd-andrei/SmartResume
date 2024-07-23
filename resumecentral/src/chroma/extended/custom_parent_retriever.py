@@ -13,7 +13,7 @@ from langchain.retrievers import MultiVectorRetriever
 
 class CustomMultiVectorRetriever(MultiVectorRetriever):
     def _get_relevant_documents(
-        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun, k_size:int
     ) -> List[Document]:
         """Get documents relevant to a query.
         Args:
@@ -24,7 +24,7 @@ class CustomMultiVectorRetriever(MultiVectorRetriever):
         """
         results = self.vectorstore.similarity_search_with_relevance_scores(
             query,
-            k=1000
+            k=20
         )
 
         # Map doc_ids to list of sub-documents, adding scores to metadata
