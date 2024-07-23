@@ -1,64 +1,83 @@
-""" Get the right service you want to use
-load_dotenv()
+import logging
+import logging.config
 
-kernel = Kernel()
-service_settings = ServiceSettings()
-
-selectedService = (
-    Service.OpenAI
-    if service_settings.global_llm_service is None
-    else Service(service_settings.global_llm_service.lower())
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.hugging_face import (
+    HuggingFacePromptExecutionSettings,
+    HuggingFaceTextCompletion,
+)
+from semantic_kernel.connectors.ai.ollama import (
+    OllamaChatCompletion,
+    OllamaPromptExecutionSettings,
+)
+from semantic_kernel.connectors.ai.open_ai import (
+    OpenAIChatCompletion,
+    OpenAIChatPromptExecutionSettings,
+)
+from semantic_kernel.prompt_template import (  # noqa: F401
+    InputVariable,
+    PromptTemplateConfig,
 )
 
-print(f"Using service type: {selectedService}")
-"""
+from resumecentral.src.sem_kernel.service_settings import ServiceSettings
+from resumecentral.src.sem_kernel.services import Service
 
-# Remove all services so that this cell can be re-run without restarting the kernel
-# kernel.remove_all_services()
 
-""" Now configure the service chosen
-if selectedService == Service.OpenAI:
-    from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
-    service = OpenAIChatCompletion(
-            service_id="default",
+def setup_logging():
+    # Setup a detailed logging format
+    logging.basicConfig(
+        format="[%(asctime)s - %(name)s:%(lineno)d - %(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
-    execution_settings = OpenAIChatPromptExecutionSettings(
-        service_id="default",
-        ai_model_id=os.environ.get("OPENAI_CHAT_MODEL_ID"),
-        max_tokens=2000,
-        temperature=0.7,
+
+    # Set the logging level for semantic_kernel.kernel to DEBUG
+    logging.getLogger("kernel").setLevel(logging.DEBUG)
+
+
+def initialize_kernel():
+    kernel = Kernel()
+    return kernel
+
+
+def select_ai_service():
+    service_settings = ServiceSettings.create()
+    selectedService = (
+        Service.OpenAI
+        if service_settings.global_llm_service is None
+        else Service(service_settings.global_llm_service.lower())
     )
-elif selectedService == Service.Ollama:
-    from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
-    service = OllamaChatCompletion(
-            service_id="default",
+    return selectedService
+
+
+def configure_service(selectedService):
+    if selectedService == Service.OpenAI:
+        service = OpenAIChatCompletion(
+            ai_model_id="gpt-3.5-turbo",
+            service_id="gpt-3.5-turbo",
+        )
+        execution_settings = OpenAIChatPromptExecutionSettings(
+            service_id="gpt-3.5-turbo",
+            ai_model_id="gpt-3.5-turbo",
+            max_tokens=2000,
+            temperature=0.7,
+        )
+    elif selectedService == Service.Ollama:
+        service = OllamaChatCompletion(
+            service_id="llama3",
+            ai_model_id="llama3",
             base_url="http://localhost:11434",
-    )
-    execution_settings = OllamaPromptExecutionSettings(
-        service_id="default",
-        ai_model_id="llama3",
-    )
+        )
+        execution_settings = OllamaPromptExecutionSettings(
+            service_id="llama3",
+            ai_model_id="llama3",
+        )
+    elif selectedService == Service.HuggingFace:
+        service = HuggingFaceTextCompletion(
+            service_id="meta-llama/Meta-Llama-3-8B",
+            ai_model_id="meta-llama/Meta-Llama-3-8B",
+        )
+        execution_settings = HuggingFacePromptExecutionSettings(
+            service_id="meta-llama/Meta-Llama-3-8B",
+        )
 
-
-# Add that service to the kernel
-# kernel.add_service(service=service)
-
-prompt = 
-You are a helpful assistant. Your task is to find the most relevant CVs based on the given user request.
-
-User Request: {{$user_input}}
-Extracted Keywords: 
-
-
-prompt_template_config = PromptTemplateConfig(
-    name="extract_keywords",
-    template=prompt,
-    template_format="semantic-kernel",
-    input_variables=[
-        InputVariable(name="user_input", description="The user input", isRequired=True),
-    ],
-    execution_settings=execution_settings,
-)
-
-
-"""
+    return service, execution_settings

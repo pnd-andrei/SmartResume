@@ -1,5 +1,6 @@
+
 from resumecentral.src.controllers.chromadb import ChromaDatabaseController
-from langchain_core.documents import Document
+
 
 class AIController:
     def __init__(self) -> None:
@@ -9,7 +10,9 @@ class AIController:
     def similarity_search(query: str, sample_size: int):
         chromadb_controller = ChromaDatabaseController()
         chromadb_name = "similarity_chromadb"
-        chromadb_controller.create_database(name=chromadb_name, chunk_size=250, chunk_overlap=100)
+        chromadb_controller.create_database(
+            name=chromadb_name, chunk_size=250, chunk_overlap=100
+        )
         chromadb = chromadb_controller.get_database(name=chromadb_name)
 
         # Aici incepe requestul de la interfata
@@ -27,15 +30,13 @@ class AIController:
 
         # This will populate both the vectorstore and the docstore
         chromadb.parent_retriever.add_documents(documents=pdf_documents)
-    
+
         retrieved_docs = chromadb.parent_retriever.invoke(input=query)
-        
+
         for doc in retrieved_docs:
-           doc_score = str(doc.metadata.get("score"))
+            doc_score = str(doc.metadata.get("score"))
 
-           doc.metadata["score"] = doc_score
-           print(doc_score)
+            doc.metadata["score"] = doc_score
+            print(doc_score)
 
-        return([doc for doc in retrieved_docs])
-
-
+        return [doc for doc in retrieved_docs]
