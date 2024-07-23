@@ -28,6 +28,31 @@
             </div>
           </div>
 
+          <div style="display: flex; justify-content: space-between;" class="optionals">
+
+            <div style="width: 75%;" class="field">
+              <label class="label" for="chunk_size">Chunk Size (Characters)</label>
+              <div class="control">
+                <input required class="input" type="number" id="chunk_size" name="chunk_size" placeholder="Enter chunk size">
+              </div>
+            </div>
+  
+            <div style="margin: 0 auto;" class="field">
+              <label  class="label" for="relevance">Sort By</label>
+              <div class="control">
+                <div class="select is-rounded is-primary">
+                  <select id="relevance" name="relevance">
+                    <option value="relevance">Relevance</option>
+                    <option value="experience">Experience</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <br>
+
           <div class="field">
             <div class="control">
               <button class="button is-primary is-fullwidth" type="submit">Submit</button>
