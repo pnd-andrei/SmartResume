@@ -24,7 +24,7 @@ class CustomMultiVectorRetriever(MultiVectorRetriever):
         """
         results = self.vectorstore.similarity_search_with_relevance_scores(
             query,
-            k=20
+            k=k_size
         )
 
         # Map doc_ids to list of sub-documents, adding scores to metadata
