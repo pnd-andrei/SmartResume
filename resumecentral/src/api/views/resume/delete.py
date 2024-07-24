@@ -30,7 +30,6 @@ class DeleteResumeApiView(APIView):
                 if os.path.exists(file_path):
                     os.remove(file_path)
         except Exception as ex:
-            print(ex)
             return Response(
                 {"error": "An error occurred while deleting the resume."},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
