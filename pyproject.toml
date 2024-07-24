@@ -21,6 +21,8 @@ langchain-huggingface = "^0.0.3"
 pymupdf4llm = "^0.0.9"
 langchain = "^0.2.10"
 chromadb = "^0.5.5"
+psycopg2-binary = "^2.9.9"
+django-on-heroku = "^1.1.2"
 
 
 [tool.poetry.group.dev.dependencies]
