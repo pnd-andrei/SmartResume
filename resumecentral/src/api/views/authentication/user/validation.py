@@ -24,7 +24,7 @@ class TempValidationUserView(APIView):
                 "is_staff": user.is_staff,
                 "temporary_field": user.temporary_field,
             }
-
+            
             return Response(response_data, status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
