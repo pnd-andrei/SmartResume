@@ -22,5 +22,4 @@ class IndividualUserApiView(APIView):
         # Remove the password field from the serialized data
         requestData.pop("password", None)
 
-        print(template_paths.get("response"))
         return TemplateResponse(request,template_paths.get("response"), {"entries": requestData}, status=status.HTTP_200_OK)
