@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Form</title>
+    <title>Enhance Resume</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 
@@ -27,9 +27,9 @@
                     <div class="field">
                         <label class="label" for="sample_size">Id</label>
                         <div class="control">
-                            <select id="select_entry" onchange="render_content()">
+                            <select id="select_entry" name="resume_id" onchange="render_content()">
                                 {% for id, content in entries %}
-                                <option value="{{content}}">{{ id }}</option>
+                                <option data-content="{{content}}" value="{{id}}">{{ id }}</option>
                                 {% endfor %}
                             </select>
 
@@ -63,7 +63,8 @@
             const dynamic = document.getElementById("dynamic");
 
             const select_entry = document.getElementById("select_entry");
-            const selected_url = select_entry.value;
+            
+            const selected_url = select_entry.options[select_entry.selectedIndex].dataset.content;
             const selected_id = select_entry.options[select_entry.selectedIndex].text;
 
 
