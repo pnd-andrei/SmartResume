@@ -12,8 +12,7 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from controllers.fetch import fetch_resumes
-from langchain.retrievers.multi_vector import SearchType
+from resumecentral.src.controllers.fetch import fetch_resumes
 from resumecentral.src.chroma.extended.custom_parent_retriever import CustomParentDocumentRetriever
 
 # import pymupdf4llm
