@@ -6,7 +6,9 @@
   <title>Sample Form</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
-<body>
+<body>  
+  {% include 'navbar/nav.html' %}
+
   <section class="section">
     <div class="container">
       <h1 class="title has-text-centered">Search Dashboard</h1>
@@ -20,11 +22,38 @@
           </div>
 
           <div class="field">
-            <label class="label" for="sample_size">Sample Size</label>
+            <label class="label" for="sample_size">Maximum Results</label>
             <div class="control">
               <input required class="input" type="number" id="sample_size" name="sample_size" placeholder="Enter sample size">
             </div>
           </div>
+
+          <div class="finetunning notification">
+            <h1 class="title is-size-5">Optional Fine Tunning</h1>
+            <p>This features could result in unpredictable behaviour, use them with caution.</p>
+            <div style="display: flex; justify-content: space-between;" class="notification">
+              <div style="margin:auto;" class="field">
+                <label class="label" for="chunk_size">Chunk Size</label>
+                <input class="slider is-primary" type="range" min="1" max="4" value="4" name="slider">
+              </div>
+    
+              <div style="margin: auto;" class="field">
+                <label  class="label" for="relevance">Sort By</label>
+                <div class="control">
+                  <div class="select is-rounded is-primary">
+                    <select id="relevance" name="relevance">
+                      <option value="relevance">Relevance</option>
+                      <option value="experience">Experience</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+
+
+          <br>
 
           <div class="field">
             <div class="control">

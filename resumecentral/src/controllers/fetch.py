@@ -19,4 +19,4 @@ def fetch_resumes(url):
     resumes = Resume.objects.all()
     serializer = ResumeSerializer(resumes, many=True)
 
-    return [[x.get("id") , url + "/media" + x.get("file_upload")] for x in serializer.data]
+    return [[x.get("id") , url + "/static" + x.get("file_upload")] for x in serializer.data]

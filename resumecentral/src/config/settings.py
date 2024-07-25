@@ -60,7 +60,7 @@ SETTINGS_PATH = os.path.dirname("api")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join("api", "templates")],
+        "DIRS": [os.path.join("api", "templates"),os.path.join("api", "templates", "response")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -123,6 +123,8 @@ USE_TZ = True
 
 STATIC_URL = "media/"
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'media')
+
 STATICFILES_DIRS = [
     BASE_DIR / "media",
 ]
@@ -139,3 +141,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = "api.ApiUser"
+
+import django_on_heroku
+django_on_heroku.settings(locals())
