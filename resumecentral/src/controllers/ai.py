@@ -18,6 +18,7 @@ class AIController:
         src = os.path.dirname(current_dir)
 
         vectorstore_path = os.path.join(src, "chroma/vectorstore/")
+    
         """
         if os.path.exists(cache_path):
             shutil.rmtree(cache_path)
@@ -38,7 +39,9 @@ class AIController:
             chunk_size=chunk_size,
             chunk_overlap=overlap,
         )
+
         chromadb = chromadb_controller.get_database(name=chromadb_name)
+        chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
 
         resumes = chromadb.get_resumes_from_sqlite3_database()
 
@@ -144,7 +147,7 @@ class AIController:
         response = await kernel_instance.invoke(
             function=sorting_function, arguments=arguments
         )
-        chat_history.add_assistant_message(str(response))
+        # chat_history.add_assistant_message(str(response))
 
         if not isinstance(response, str):
             response = str(response)
