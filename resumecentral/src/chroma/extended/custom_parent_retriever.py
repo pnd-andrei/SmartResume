@@ -9,7 +9,6 @@ from typing import Any, List, Optional, Sequence, Tuple
 from langchain_core.documents import Document
 from langchain_text_splitters import TextSplitter
 
-from langchain.retrievers import MultiVectorRetriever
 
 class CustomMultiVectorRetriever(MultiVectorRetriever):
     def _get_relevant_documents(
