@@ -10,5 +10,6 @@ template_paths = {
     "resume_list": "resume/list.html",
     "search_dashboard": "search/dashboard.html",
     "search_list": "search/list.html",
-    "response": "response/response.html"
+    "response": "response/response.html",
+    "enhance_list": "enhance/list.html"
 }
