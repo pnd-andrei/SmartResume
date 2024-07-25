@@ -62,7 +62,7 @@ class AIController:
     
 
     @staticmethod
-    async def prelucrate_retrieved_docs(retrieved_docs):
+    async def sort_retrieved_docs_by_experience(retrieved_docs):
         # Get the variables from the .env file
         load_dotenv()
 
@@ -88,6 +88,8 @@ class AIController:
         Chatbot:
         """
 
+        # Define a prompt template comfig with the PDF documents as input and chat history
+        # Chat history can be removed, but used for testing responses at the moment
         prompt_template_config = kernel.PromptTemplateConfig(
             name="sort documents",
             template=prompt,
@@ -121,23 +123,40 @@ class AIController:
 
         Then you should print: 2, 1, 3
 
-        Consider that you will have different number of CVs, there won't be 3 all the times. You have to look at all, if you get an input of 
-        10 PDF documents, then you should return a list of 10 ids.
+            Consider that you will have different number of CVs, there won't be 3 all the times. You have to look at all, if you get 
+        an input of 10 PDF documents, then you should return a list of 10 ids.
+
+            You will print only one line representing the ids, no other words.
         """
         )
 
         arguments = KernelArguments(user_input=retrieved_docs, history=chat_history)
         response = await kernel_instance.invoke(function=sorting_function, arguments=arguments)
         chat_history.add_assistant_message(str(response))
-        print(response)
 
+        if not isinstance(response, str):
+            response = str(response)
+
+        ids_by_experience_list = list(map(int, response.split(',')))
+
+        # Create a dictionary mapping document IDs to documents
+        doc_dict = {int(doc.metadata["id"]): doc for doc in retrieved_docs}
+        
+        # Sort the documents based on ids_by_experience_list
+        sorted_docs = [doc_dict[doc_id] for doc_id in ids_by_experience_list]
+        return sorted_docs
+
+    @staticmethod
+    def enchance_cv(pdf_documents: list[Document]):
+        pass
 
     @staticmethod
     def main():
         query = "stem innovation olympiad silver award"
         print(f"\nQuerying for: {query}\n")
         retrieved_docs = AIController.similarity_search(query=query)
-        asyncio.run(AIController.prelucrate_retrieved_docs(retrieved_docs=retrieved_docs))
+        docs_by_experience = asyncio.run(AIController.sort_retrieved_docs_by_experience(retrieved_docs=retrieved_docs))
+        print([doc.metadata["id"] for doc in docs_by_experience])
 
 if __name__ == "__main__":
     AIController.main()
