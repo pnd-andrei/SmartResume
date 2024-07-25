@@ -144,6 +144,7 @@ class AIController:
         
         # Sort the documents based on ids_by_experience_list
         sorted_docs = [doc_dict[doc_id] for doc_id in ids_by_experience_list]
+        
         return sorted_docs
 
     @staticmethod
