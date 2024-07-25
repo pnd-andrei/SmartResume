@@ -11,8 +11,7 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from controllers.fetch import fetch_resumes
-from langchain.retrievers.multi_vector import SearchType
+from resumecentral.src.controllers.fetch import fetch_resumes
 from resumecentral.src.chroma.extended.custom_parent_retriever import CustomParentDocumentRetriever
 
 # import pymupdf4llm
@@ -235,34 +234,7 @@ class ChromaDatabase:
         except Exception as e:
             print(f"Error deleting collection {collection_name}: {e}")
 
-    def clear_stores(self) -> None:
-        """
-        Clears all documents from the collection and vectors from the vectorstore.
-        Also clears all documents from the docstore in the ParentDocumentRetriever.
-
-        Raises:
-            ValueError: If clearing the vectorstore, collection, or docstore fails.
-        """
-        try:
-            # Delete all documents in the collection and vectors from vectorstore by their IDs before adding.
-            # We assume that they use the same IDs.
-            all_documents = self.collection.get()
-            document_ids = all_documents["ids"]
-
-            if document_ids:
-                self.vectorstore.delete(ids=document_ids)
-                self.collection.delete(ids=document_ids)
-        except Exception as e:
-            raise ValueError(f"Failed to clear the vectorstore or collection: {e}")
-
-        # Clears all documents from the docstore.
-        try:
-            keys = [key for key in self.parent_retriever.docstore.yield_keys()]
-            if keys:
-                self.parent_retriever.docstore.mdelete(keys=keys)
-        except Exception as e:
-            raise ValueError(f"Failed to clear retriever docstore: {e}")
-
+   
     def update_db_path(self, new_db_path: str) -> None:
         """
         Updates the database path for storing documents.
@@ -272,7 +244,6 @@ class ChromaDatabase:
 
         Note: This will NOT move the current content to the new path, but delete it instead.
         """
-        self.clear_stores()
         self.db_path = new_db_path
         self._initialize_chroma_client()
         self._initialize_collection()
@@ -301,7 +272,6 @@ class ChromaDatabase:
         self.embedding_model_kwargs = new_embedding_model_kwargs
         self.embedding_encode_kwargs = new_embedding_encode_kwargs
 
-        self.clear_stores()
         self._initialize_embedding_function()
         self._initialize_vectorstore()
 

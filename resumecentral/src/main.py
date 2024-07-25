@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from langchain_core.documents import Document
 
-from resumecentral.src.controllers.chromadb import ChromaDatabaseController
+from controllers.chroma_db import ChromaDatabaseController
 from resumecentral.src.sem_kernel import kernel
 
 import asyncio

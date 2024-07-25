@@ -52,12 +52,12 @@ def select_ai_service():
 def configure_service(selectedService):
     if selectedService == Service.OpenAI:
         service = OpenAIChatCompletion(
-            ai_model_id="gpt-3.5-turbo",
-            service_id="gpt-3.5-turbo",
+            ai_model_id="gpt-4o",
+            service_id="gpt-4o",
         )
         execution_settings = OpenAIChatPromptExecutionSettings(
-            service_id="gpt-3.5-turbo",
-            ai_model_id="gpt-3.5-turbo",
+            service_id="gpt-4o",
+            ai_model_id="gpt-4o",
             max_tokens=2000,
             temperature=0.7,
         )
@@ -73,8 +73,9 @@ def configure_service(selectedService):
         )
     elif selectedService == Service.HuggingFace:
         service = HuggingFaceTextCompletion(
-            service_id="meta-llama/Meta-Llama-3-8B",
-            ai_model_id="meta-llama/Meta-Llama-3-8B",
+            service_id="google/flan-t5-large",
+            ai_model_id="google/flan-t5-large",
+            task="text2text-generation",
         )
         execution_settings = HuggingFacePromptExecutionSettings(
             service_id="meta-llama/Meta-Llama-3-8B",
