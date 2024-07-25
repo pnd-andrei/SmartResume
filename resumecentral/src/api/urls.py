@@ -7,6 +7,7 @@ from api.views.resume.details import IndividualResumeApiView
 from api.views.resume.list import ResumeApiView
 from api.views.search.dashboard import SearchDashboardApiView
 from api.views.search.list import SearchResumesApiView
+from api.views.enhance.list import EnhanceListApiView
 
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
@@ -17,4 +18,5 @@ urlpatterns = [
     path("delete/id=<int:id>", DeleteResumeApiView.as_view()),
     path("search/query/", SearchResumesApiView.as_view()),
     path("search/", SearchDashboardApiView.as_view()),
+    path("enhance/", EnhanceListApiView.as_view())
 ]
