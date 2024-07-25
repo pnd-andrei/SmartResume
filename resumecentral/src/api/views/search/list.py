@@ -18,9 +18,19 @@ class SearchResumesApiView(APIView):
         List all the resume items: by a description
         """
         description = request.GET.get("description")
+        relevance = request.GET.get("relevance")
+
         sample_size = int(request.GET.get("sample_size"))
 
-        results = AIController.similarity_search(description,sample_size)
+        chunk_size = len(description) 
+
+        #if request.GET.get("slider"):
+            #slider = int(request.GET.get("slider"))
+            #divider = pow(4,4-slider+1)
+            #chunk_size = int(chunk_size / divider)
+
+
+        results = AIController.similarity_search(description,chunk_size)
 
         if description and sample_size:
             entries = [

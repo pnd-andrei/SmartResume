@@ -15,9 +15,9 @@ class AIController:
     def similarity_search(query: str, chunk_size: int = 128):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         src = os.path.dirname(current_dir)
-        vectorstore_path = os.path.join(src, "chroma/vectorstore/")
 
-        # cache_path = os.path.join(src, "chroma/__pycache__")
+        
+        vectorstore_path = os.path.join(src, "chroma/vectorstore/")
         '''
         if os.path.exists(cache_path):
             shutil.rmtree(cache_path)
@@ -30,18 +30,13 @@ class AIController:
         chromadb_controller = ChromaDatabaseController()
         chromadb_name = "similarity_chromadb"
 
-        chunk_overlap = int(chunk_size / 5.0)
+        overlap = int(chunk_size / 5.0)
 
-        chromadb_controller.create_database(
-            name=chromadb_name,
-            db_path=vectorstore_path,
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
-        )
-
+        chromadb_controller.create_database(name=chromadb_name, db_path=vectorstore_path , chunk_size=chunk_size, chunk_overlap=overlap)
         chromadb = chromadb_controller.get_database(name=chromadb_name)
 
         resumes = chromadb.get_resumes_from_sqlite3_database()
+       
         pdf_documents = chromadb.load_resumes(resumes=resumes)
 
         for document in pdf_documents:
@@ -144,7 +139,7 @@ class AIController:
         
         # Sort the documents based on ids_by_experience_list
         sorted_docs = [doc_dict[doc_id] for doc_id in ids_by_experience_list]
-        
+
         return sorted_docs
 
     @staticmethod

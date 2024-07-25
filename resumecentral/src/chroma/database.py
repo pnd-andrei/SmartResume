@@ -1,6 +1,7 @@
 import os
 import re
 from typing import Any, Optional
+import shutil
 
 import chromadb
 from langchain.retrievers import ParentDocumentRetriever
