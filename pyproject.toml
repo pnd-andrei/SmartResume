@@ -6,12 +6,11 @@ authors = ["Andrei Piscoran <aosxap@gmail.com>", "Andrei Panduru <panduru.andrei
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "<3.13,>=3.10"
 djangorestframework = "^3.15.2"
 invoke = "^2.2.0"
 
 transformers = "^4.42.4"
-sentence-transformers = "^3.0.1"
 requests = "^2.32.3"
 langchain-text-splitters = "^0.2.2"
 langchain-community = "^0.2.7"
