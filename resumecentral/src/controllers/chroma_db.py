@@ -1,8 +1,7 @@
 from typing import Any, Optional
 
 from langchain_core.documents import Document
-
-from chroma.database import ChromaDatabase
+from resumecentral.src.chroma.database import ChromaDatabase
 
 
 class ChromaDatabaseController:
@@ -15,16 +14,16 @@ class ChromaDatabaseController:
     def create_database(
         self,
         name: str,
+        db_path: str,
+        chunk_size: int,
+        chunk_overlap: int,
         collection: Optional[Any] = None,
         collection_name: str = "chunk_collection",
-        db_path: str = "vectorstore",
         embedding_model_name: str = "sentence-transformers/all-mpnet-base-v2",
         embedding_model_kwargs: dict = {"device": "cpu"},
         embedding_encode_kwargs: dict = {"normalize_embeddings": False},
-        chunk_size: int = 128,
-        chunk_overlap: int = 32,
         documents: list[Document] = [],
-    ) -> ChromaDatabase:
+    ):
         """
         Creates a new ChromaDatabase instance with the specified parameters and adds it to the controller's database dictionary.
 
@@ -49,20 +48,21 @@ class ChromaDatabaseController:
             raise ValueError(f"A database with the name '{name}' already exists.")
 
         chroma_db = ChromaDatabase(
+            db_path=db_path,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
             collection=collection,
             collection_name=collection_name,
-            db_path=db_path,
             embedding_model_name=embedding_model_name,
             embedding_model_kwargs=embedding_model_kwargs,
             embedding_encode_kwargs=embedding_encode_kwargs,
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
             documents=documents,
         )
+        
         self.databases[name] = chroma_db
         return chroma_db
 
-    def get_database(self, name: str) -> Optional[ChromaDatabase]:
+    def get_database(self, name: str):
         """
         Retrieves a ChromaDatabase instance by its configuration name.
 

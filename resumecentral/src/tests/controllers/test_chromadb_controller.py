@@ -3,7 +3,7 @@ import unittest
 from langchain_core.documents import Document
 
 from chroma.database import ChromaDatabase
-from controllers.chromadb import ChromaDatabaseController
+from controllers.chroma_db import ChromaDatabaseController
 
 
 class TestChromaDatabaseController(unittest.TestCase):
