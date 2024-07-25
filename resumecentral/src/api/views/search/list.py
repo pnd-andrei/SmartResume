@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser
@@ -18,7 +17,6 @@ class SearchResumesApiView(APIView):
         List all the resume items: by a description
         """
         description = request.GET.get("description")
-        relevance = request.GET.get("relevance")
 
         sample_size = int(request.GET.get("sample_size"))
 

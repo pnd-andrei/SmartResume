@@ -18,8 +18,6 @@ class ResumeController:
         from api.models.resume import Resume
         from api.serializers.resume import ResumeSerializer
 
-        new_path = "new/fake/path"
-
         resumes = Resume.objects.all()
         serializer = ResumeSerializer(resumes, many=True)
 
