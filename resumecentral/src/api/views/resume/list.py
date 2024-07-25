@@ -79,4 +79,4 @@ class ResumeApiView(APIView):
                 status=status.HTTP_201_CREATED,
             )
 
-        return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(form.errors, template_name=template_paths.get("response"), status=status.HTTP_400_BAD_REQUEST)

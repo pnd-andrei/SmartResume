@@ -33,7 +33,6 @@ class Mailer:
             self.__server.sendmail(
                 self.__mail_adress, recipient, email_message.as_string()
             )
-            print("Email sent successfully!\n")
         except Exception as exc:
             print(f"Failed to send email: {exc}")
         finally:
