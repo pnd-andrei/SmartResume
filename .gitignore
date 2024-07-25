@@ -165,3 +165,4 @@ static/
 
 # Chromadb
 chroma_database/
+staticfiles/
