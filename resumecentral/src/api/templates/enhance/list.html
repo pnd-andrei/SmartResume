@@ -1,43 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample Form</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
-<body>  
-  {% include 'navbar/nav.html' %}
 
-  <section class="section">
-    <div class="container">
-      <h1 class="title has-text-centered">Enhance Dashboard</h1>
-      <form action="query/" method="GET">
-        <div class="box">
-          <div class="field">
-            <label class="label" for="description">Description</label>
-            <div class="control">
-              <textarea required class="textarea" id="description" name="description" placeholder="Enter description"></textarea>
-            </div>
-          </div>
+<body>
+    {% include 'navbar/nav.html' %}
 
-          <div class="field">
-            <label class="label" for="sample_size">Id</label>
-            <div class="control">
-              <input required class="input" type="number" id="sample_size" name="sample_size" placeholder="Enter sample size">
-            </div>
-          </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Enhance Dashboard</h1>
+            <form action="query/" method="GET">
+                <div class="box">
+                    <div class="field">
+                        <label class="label" for="description">Query</label>
+                        <div class="control">
+                            <textarea required class="textarea" id="description" name="description"
+                                placeholder="Enter query"></textarea>
+                        </div>
+                    </div>
 
-          <br>
+                    <div class="field">
+                        <label class="label" for="sample_size">Id</label>
+                        <div class="control">
+                            <select id="select_entry" onchange="render_content()">
+                                {% for id, content in entries %}
+                                <option value="{{content}}">{{ id }}</option>
+                                {% endfor %}
+                            </select>
 
-          <div class="field">
-            <div class="control">
-              <button class="button is-primary is-fullwidth" type="submit">Submit</button>
-            </div>
-          </div>
+                            <div id="dynamic">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary is-fullwidth" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </section>
+    </section>
+    <link rel="import" href="http://stackoverflow.com">
+
+    <script>
+        document.body.onload = () => {
+            render_content();
+        };
+
+        function render_content() {
+            const dynamic = document.getElementById("dynamic");
+
+            const select_entry = document.getElementById("select_entry");
+            const selected_url = select_entry.value;
+            const selected_id = select_entry.options[select_entry.selectedIndex].text;
+
+
+            resume_url = "http://localhost:8000/resumes/id=" + selected_id;     
+            pdf_url = "http://localhost:8000/static" + selected_url;     
+
+            document.getElementById("dynamic").innerHTML = 
+                `
+                    <br>
+                    <a href=${resume_url}> Selected Id: ${selected_id}</a>
+                    <br>
+                    <br>
+                    <embed width="600px" height="600px" id="dynamic_embed" src=${pdf_url} type="">
+                `
+
+        }
+    </script>
 </body>
+
 </html>
