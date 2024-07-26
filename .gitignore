@@ -167,3 +167,5 @@ static/
 chroma_database/
 staticfiles/
 vectorstore/
+CVs/
+media/
