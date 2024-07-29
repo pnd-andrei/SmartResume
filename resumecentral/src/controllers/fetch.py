@@ -11,12 +11,12 @@ sys.path.append(src_dir)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from api.models.resume import Resume
-from api.serializers.resume import ResumeSerializer
-from django.core.files import File
-import glob
-import string
-import secrets
+from api.models.resume import Resume  # noqa: E402
+from api.serializers.resume import ResumeSerializer  # noqa: E402
+from django.core.files import File  # noqa: E402
+import glob  # noqa: E402
+import string  # noqa: E402
+import secrets  # noqa: E402
 
 def fetch_resumes(url):
     resumes = Resume.objects.all()

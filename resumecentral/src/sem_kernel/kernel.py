@@ -59,7 +59,7 @@ def configure_service(selectedService):
             service_id="gpt-4o",
             ai_model_id="gpt-4o",
             max_tokens=2000,
-            temperature=0.7,
+            temperature=0,
         )
     elif selectedService == Service.Ollama:
         service = OllamaChatCompletion(
