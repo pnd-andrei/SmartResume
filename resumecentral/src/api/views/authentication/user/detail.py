@@ -2,7 +2,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from django.template.response import TemplateResponse
 from rest_framework.views import APIView
-from rest_framework.response import Response
 
 from api.serializers.user import UserSerializer
 from api.modules.template_paths import template_paths

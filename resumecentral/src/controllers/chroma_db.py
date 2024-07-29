@@ -58,7 +58,7 @@ class ChromaDatabaseController:
             embedding_encode_kwargs=embedding_encode_kwargs,
             documents=documents,
         )
-        
+
         self.databases[name] = chroma_db
         return chroma_db
 

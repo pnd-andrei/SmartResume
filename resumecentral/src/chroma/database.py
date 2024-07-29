@@ -189,6 +189,29 @@ class ChromaDatabase:
         except Exception as e:
             raise ValueError(f"Failed to initialize retriever: {e}")
 
+    def clear_vectorstore_folder(self, folder_path: str) -> None:
+        """
+        Clears the specified vectorstore folder.
+
+        Parameters:
+            folder_path (str): The path to the vectorstore folder to clear.
+        """
+        if os.path.exists(folder_path):
+            for filename in os.listdir(path=folder_path):
+                if filename == "chroma.sqlite3":
+                    continue
+                
+                file_path = os.path.join(folder_path, filename)
+                try:
+                    if os.path.isfile(path=file_path) or os.path.islink(path=file_path):
+                        os.unlink(path=file_path)
+                    elif os.path.isdir(s=file_path):
+                        shutil.rmtree(path=file_path)
+                except Exception as e:
+                    print(f"Failed to delete {file_path}. Reason: {e}")
+        else:
+            print(f"The folder {folder_path} does not exist.")
+    
     def switch_collection(self, switch_to_collection: str) -> None:
         """
         Switches the current working collection to the specified collection. If the specified
