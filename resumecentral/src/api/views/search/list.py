@@ -26,8 +26,8 @@ class SearchResumesApiView(APIView):
 
         if request.GET.get("slider"):
             slider = int(request.GET.get("slider"))
-            divider = pow(2,4-slider+1)
-            chunk_size = int(chunk_size / divider)
+            divider = pow(2,4-slider)
+            chunk_size = int(chunk_size * divider)
 
         results = []
         results = AIController.similarity_search(description,chunk_size)

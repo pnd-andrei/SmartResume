@@ -47,7 +47,7 @@ class AIController:
         # This will populate both the vectorstore and the docstore
         chromadb.parent_retriever.add_documents(documents=pdf_documents)
 
-        retrieved_docs = chromadb.parent_retriever.invoke(input=query, k_size=1000)
+        retrieved_docs = chromadb.parent_retriever.invoke(input=query, k_size=100)
         
         for doc in retrieved_docs:
            doc_score = str(doc.metadata.get("score"))
