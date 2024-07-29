@@ -51,7 +51,7 @@ class SmartResumeData:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, any]) -> 'ResumeData':
+    def from_dict(cls, data: Dict[str, any]):
         return cls(
             employee_name=data.get('employee_name', ''),
             job_profile=data.get('job_profile', ''),
