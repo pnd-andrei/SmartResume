@@ -6,7 +6,9 @@ import asyncio  # noqa: F401
 from resumecentral.src.sem_kernel import kernel
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
+import tempfile
 
+import requests
 
 class AIController:
     def __init__(self) -> None:
@@ -161,6 +163,32 @@ class AIController:
         # Sort the documents based on ids_by_experience_list
         sorted_docs = [doc_dict[doc_id] for doc_id in ids_by_experience_list]
         return sorted_docs
+    
+
+
+    @staticmethod
+    def remove_first_and_last_line(s):
+        # Split the string into lines
+        lines = s.splitlines()
+
+        # Check if there are more than two lines
+        if len(lines) <= 2:
+            raise ValueError("String must have more than two lines to remove the first and last lines.")
+
+        # Remove the first and last lines
+        lines_to_keep = lines[1:-1]
+
+        # Join the remaining lines back into a string
+        return '\n'.join(lines_to_keep)
+    
+
+
+
+
+
+
+
+
 
     @staticmethod
     async def enhance_cv(retrieved_docs: list[Document], id: int, given_query: str):
@@ -187,7 +215,7 @@ class AIController:
         kernel_instance.add_service(service=service)
 
         # Find the document from the list of PDFs with the specified id
-        cv_to_enhance = next((doc for doc in retrieved_docs if doc.metadata.get("id") == id), None)
+        cv_to_enhance = requests.get(retrieved_docs[0]).text
 
         if cv_to_enhance is None:
             raise ValueError(f"No document found with id: {id}")
@@ -302,37 +330,55 @@ class AIController:
         should also shape and adjust the context based on the given query. If you do not have enough information for some fileds like 
         start dates or 
             You have to retrieve the information from the page_content of the PDF document given as input and create an object with the data 
-        inside. Return only the object.
+        inside. Return only the object. Also with the necesary imports.
         """
         )
     
         arguments = KernelArguments(cv_input=cv_to_enhance, query_input=given_query, history=chat_history)
+
         object_created = await kernel_instance.invoke(
             function=enhancing_function, arguments=arguments
         )
 
-        # print("Type: ", type(object_created))
-        return object_created
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".py", mode="w") as temp_file:
+            temp_file_name = temp_file.name
+
+            temp_file.write(AIController.remove_first_and_last_line(str(object_created)))
+
+            return temp_file_name
+
+        return ""
+    
 
 
-    # @staticmethod
-    # def main():
-        # query = "stem innovation olympiad silver award"
-        # print(f"\nQuerying for: {query}\n")
 
-        # retrieved_docs = AIController.similarity_search(query=query)
 
-        """
+
+
+
+
+
+
+
+
+    @staticmethod
+    def main():
+        query = "stem innovation olympiad silver award"
+        print(f"\nQuerying for: {query}\n")
+
+        retrieved_docs = AIController.similarity_search(query=query)
+
+        '''
         docs_by_experience = asyncio.run(     
             AIController.sort_retrieved_docs_by_experience(
                 retrieved_docs=retrieved_docs
             )
         )
         print([doc.metadata["id"] for doc in docs_by_experience])
-        """
+        '''
 
-        # object_created = asyncio.run(AIController.enhance_cv(retrieved_docs=retrieved_docs, id=1, given_query=query))
-        # print(f"Object created: {object_created}")
+        object_created = asyncio.run(AIController.enhance_cv(retrieved_docs=retrieved_docs, id=3, given_query=query))
+        print(f"Object created: {object_created}")
 
 
 if __name__ == "__main__":

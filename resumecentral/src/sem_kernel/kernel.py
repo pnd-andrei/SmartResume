@@ -58,7 +58,6 @@ def configure_service(selectedService):
         execution_settings = OpenAIChatPromptExecutionSettings(
             service_id="gpt-4o",
             ai_model_id="gpt-4o",
-            max_tokens=2000,
             temperature=0,
         )
     elif selectedService == Service.Ollama:

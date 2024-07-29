@@ -6,6 +6,38 @@ from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
 from datetime import date
 
+from resumecentral.src.controllers.ai import AIController
+import asyncio
+from api.models.resume import Resume
+from api.serializers.resume import ResumeSerializer
+import importlib.util
+import os
+
+def import_object_from_file(file_path, object_name):
+    # Check if the file exists
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f"The file at {file_path} does not exist.")
+    
+    # Check if the file is readable
+    if not os.access(file_path, os.R_OK):
+        raise PermissionError(f"Cannot read the file at {file_path}.")
+    
+    # Load the module from the file path
+    spec = importlib.util.spec_from_file_location("temp_module", file_path)
+    
+    if spec is None:
+        raise RuntimeError(f"Failed to create a module spec from the file at {file_path}.")
+    
+    temp_module = importlib.util.module_from_spec(spec)
+    
+    try:
+        spec.loader.exec_module(temp_module)
+        return getattr(temp_module, object_name)
+    except AttributeError:
+        raise AttributeError(f"The object '{object_name}' could not be found in {file_path}.")
+    except Exception as e:
+        raise RuntimeError(f"An error occurred while importing the object: {e}")
+
 
 class IndividualSmartResumeApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -14,64 +46,15 @@ class IndividualSmartResumeApiView(APIView):
         """
         Retrieve and display the resume for the given id.
         """
-        resume_data = {
-            'employee_name': 'John Doe',
-            'job_profile': 'Software Engineer',
-            'seniority_level': {
-                'rank': 'Senior',
-                'percentage': 85
-            },
-            'job_profile_description': 'An experienced software engineer with expertise in web development and data science.',
-            'employee_description': 'John is a dedicated professional with over 10 years of experience in the tech industry.',
-            'job_profile_required_skills': [
-                'Python',
-                'Django',
-                'JavaScript',
-                'React',
-            ],
-            'employee_skills': [
-                {'skill': 'Python', 'seniority_level': {'rank': 'Expert', 'percentage': 90}},
-                {'skill': 'Django', 'seniority_level': {'rank': 'Advanced', 'percentage': 80}},
-                {'skill': 'JavaScript', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}},
-                {'skill': 'React', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}},
-                {'skill': 'React2', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}}
-            ],
-            'employee_work_experiences': [
-                {
-                    'position': 'Lead Developer',
-                    'employer': 'Tech Company',
-                    'start_date': date(2018, 1, 1),
-                    'end_date': date(2020, 12, 31),
-                    'description': 'Led a team of developers in building scalable web applications.'
-                },
-                {
-                    'position': 'Senior Developer',
-                    'employer': 'Another Tech Company',
-                    'start_date': date(2015, 1, 1),
-                    'end_date': date(2017, 12, 31),
-                    'description': 'Worked on several high-profile projects, improving performance and usability.'
-                }
-            ],
-            'employee_educations': [
-                {
-                    'degree': 'Bachelor of Science in Computer Science',
-                    'institution': 'University of Example',
-                    'start_date': date(2010, 9, 1),
-                    'end_date': date(2014, 6, 30),
-                    'description': 'Graduated with honors, specializing in software engineering.'
-                }
-            ],
-            'employee_certifications': [
-                {
-                    'certification': 'Certified Django Developer',
-                    'institution': 'Django Software Foundation',
-                    'attainment_date': date(2019, 5, 1),
-                    'description': 'Certified expertise in Django framework.'
-                }
-            ]
-        }
+        resume = (Resume.objects.get(id="2"))
+        serializer = ResumeSerializer(resume)
 
-        return render(request, template_paths.get("resume_smart_form"), resume_data)
+        file_path = asyncio.run(AIController.enhance_cv(["http://localhost:8000/static/" + serializer.data.get("file_upload")],3,"Python Developer with Javascript"))
+
+        resume_data = import_object_from_file(f"{file_path}", "resume_data")
+        print(resume_data)
+        return render(request, template_paths.get("resume_smart_form"),resume_data)
+        
 
     def post(self, request, *args, **kwargs):
         data = request.POST
