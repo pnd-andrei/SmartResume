@@ -6,7 +6,7 @@ import asyncio  # noqa: F401
 from resumecentral.src.sem_kernel import kernel
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
-import tempfile
+from resumecentral.src.controllers.smart_resume_data import SmartResumeData
 
 import requests
 
@@ -223,139 +223,335 @@ class AIController:
 
         prompt = """
         CV enhancing assistant can look into documents, provide and enhance information of what's inside.
-        It creates a class and return an object.
 
         Chat history: {{$history}}
-        Query: {{$query_input}}
         PDF document: {{$cv_input}}
         """
 
-        # Define a prompt template comfig with the PDF document as input and chat history
+        # Employee name
         prompt_template_config = kernel.PromptTemplateConfig(
-            name="return smart resume object",
+            name="return employee name",
             template=prompt,
             template_format="semantic-kernel",
             input_variables=[
-                kernel.InputVariable(
-                    name="cv_input", 
-                    description="The CV to crate a object from", 
-                    isRequired=True,
-                ),
-                kernel.InputVariable(
-                    name="query_input",
-                    description="The query to be inspired by",
-                    is_required=True,
-                ),
-                kernel.InputVariable(
-                    name="history",
-                    description="The conversation history",
-                    is_required=True,
-                ),
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
             ],
             execution_settings=execution_settings,
         )
 
-        enhancing_function = kernel_instance.add_function(
-            function_name="enhanceFunc",
-            plugin_name="enhancePlugin",
+        employee_name_function = kernel_instance.add_function(
+            function_name="employeeNameFunc",
+            plugin_name="employeeNamePlugin",
             prompt_template_config=prompt_template_config,
         )
 
         chat_history = ChatHistory()
         chat_history.add_system_message(
-            """
-            You are a helpful assistant. Your task is to look inside the metadata of the PDF document given as input (which is a CV) and 
-        create an object having the following format: 
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the empolyee name (string).
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        employee_name = await kernel_instance.invoke(function=employee_name_function, arguments=arguments)
 
-        resume_data = {
-            'employee_name': 'John Doe',
-            'job_profile': 'Software Engineer',
-            'seniority_level': {
-                'rank': 'Senior',
-                'percentage': 85
-            },
-            'job_profile_description': 'An experienced software engineer with expertise in web development and data science.',
-            'employee_description': 'John is a dedicated professional with over 10 years of experience in the tech industry.',
-            'job_profile_required_skills': [
-                'Python',
-                'Django',
-                'JavaScript',
-                'React',
-                'React2'
-            ],
-            'employee_skills': [
-                {'skill': 'Python', 'seniority_level': {'rank': 'Expert', 'percentage': 90}},
-                {'skill': 'Django', 'seniority_level': {'rank': 'Advanced', 'percentage': 80}},
-                {'skill': 'JavaScript', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}},
-                {'skill': 'React', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}},
-                {'skill': 'React2', 'seniority_level': {'rank': 'Intermediate', 'percentage': 70}}
-            ],
-            'employee_work_experiences': [
-                {
-                    'position': 'Lead Developer',
-                    'employer': 'Tech Company',
-                    'start_date': date(2018, 1, 1),
-                    'end_date': date(2020, 12, 31),
-                    'description': 'Led a team of developers in building scalable web applications.'
-                },
-                {
-                    'position': 'Senior Developer',
-                    'employer': 'Another Tech Company',
-                    'start_date': date(2015, 1, 1),
-                    'end_date': date(2017, 12, 31),
-                    'description': 'Worked on several high-profile projects, improving performance and usability.'
-                },
-            ],
-            'employee_educations': [
-                {
-                    'degree': 'Bachelor of Science in Computer Science',
-                    'institution': 'University of Example',
-                    'start_date': date(2010, 9, 1),
-                    'end_date': date(2014, 6, 30),
-                    'description': 'Graduated with honors, specializing in software engineering.'
-                }
-            ],
-            'employee_certifications': [
-                {
-                    'certification': 'Certified Django Developer',
-                    'institution': 'Django Software Foundation',
-                    'attainment_date': date(2019, 5, 1),
-                    'description': 'Certified expertise in Django framework.'
-                }
-            ]
-        }
 
-            The data inside is just an example, it will be different for every object you create. Notice that for some fields like 
-        employee_skills or employee_certifications there can be multiple dictionaries inside. For the employee_description field, you 
-        should also shape and adjust the context based on the given query. If you do not have enough information for some fileds like 
-        start dates or 
-            You have to retrieve the information from the page_content of the PDF document given as input and create an object with the data 
-        inside. Return only the object. Also with the necesary imports.
+        # Job profile
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return job profile",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        job_profile_function = kernel_instance.add_function(
+            function_name="jobProfileFunc",
+            plugin_name="jobProfilePlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the job profile (string).
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        job_profile = await kernel_instance.invoke(function=job_profile_function, arguments=arguments)
+
+
+        # Seniority level
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return seniority level and rank",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        seniority_level_function = kernel_instance.add_function(
+            function_name="seniorityLevelFunc",
+            plugin_name="seniorityLevelPlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
+        percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
+        If the rank is not provided do not return it.
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        seniority_level = await kernel_instance.invoke(function=seniority_level_function, arguments=arguments)
+
+
+        # Job profile description
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return job profile description",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        job_profile_description_function = kernel_instance.add_function(
+            function_name="jobProfileDescriptionFunc",
+            plugin_name="jobProfileDescriptionPlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the job profile description (string) which is a short description of what the candidate does. Keep it simple.
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        job_profile_description = await kernel_instance.invoke(function=job_profile_description_function, arguments=arguments)
+
+
+        # Employee description
+        query_prompt = """
+        CV enhancing assistant can look into documents, provide and enhance information of what's inside.
+
+        Chat history: {{$history}}
+        PDF document: {{$cv_input}}
+        Query: {{$query_input}}
+        """
+
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return employee description",
+            template=query_prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="query_input", description="The given query", is_required=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        employee_description_function = kernel_instance.add_function(
+            function_name="employeeDescriptionFunc",
+            plugin_name="employeeDescriptionPlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the employee description (string) which is a short description of what the candidate does. You have to adapt 
+        that description to be suitable for the given query, so that them both mold together. Keep it simple.
         """
         )
     
         arguments = KernelArguments(cv_input=cv_to_enhance, query_input=given_query, history=chat_history)
+        employee_description = await kernel_instance.invoke(function=employee_description_function, arguments=arguments)
 
-        object_created = await kernel_instance.invoke(
-            function=enhancing_function, arguments=arguments
+
+        # Employee skills
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return employee skills",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
         )
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".py", mode="w") as temp_file:
-            temp_file_name = temp_file.name
+        employee_skills_function = kernel_instance.add_function(
+            function_name="employeeSkillsFunc",
+            plugin_name="employeeSkillsPlugin",
+            prompt_template_config=prompt_template_config,
+        )
 
-            temp_file.write(AIController.remove_first_and_last_line(str(object_created)))
-
-            return temp_file_name
-
-        return ""
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the employee skills which is a list of dictinaries, each dictionary being a skill under this format:
+        {
+            seniority_level': { 
+                'rank': Can be Intern, Junior, Mid, Senior or Principal.
+                'percentage': Can be from 0 to 100.
+            },
+            'skill':
+        }
+        """
+        )
     
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        employee_skills = await kernel_instance.invoke(function=employee_skills_function, arguments=arguments)
 
 
+        # Employee work experiences
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return employee work experience",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        employee_work_experience_function = kernel_instance.add_function(
+            function_name="employeeWorkExperienceFunc",
+            plugin_name="employeeWorkExperiencePlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the employee work experience which is a list of dictinaries, each dictionary being a work experience under this format:
+        {
+            'position':
+            'employer':
+            'start_date': If not provided, you can aproximate or let empty.
+            'end_date': If not provided, you can aproximate or let empty.
+            'description': If not provided, you can generate a short description.
+        }
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        employee_work_experience = await kernel_instance.invoke(function=employee_work_experience_function, arguments=arguments)
 
 
+        # Employee educations
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return employee education",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
+
+        employee_education_function = kernel_instance.add_function(
+            function_name="employeeEducationFunc",
+            plugin_name="employeeEducationPlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the employee education which is a list of dictinaries, each dictionary being an education under this format:
+        {
+            'degree':
+            'institution':
+            'start_date': If not provided, you can aproximate or let empty.
+            'end_date': If not provided, you can aproximate or let empty.
+            'description': If not provided, you can generate a short description.
+        }
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        employee_education = await kernel_instance.invoke(function=employee_education_function, arguments=arguments)
 
 
+        # Employee certifications
+        prompt_template_config = kernel.PromptTemplateConfig(
+            name="return employee certification",
+            template=prompt,
+            template_format="semantic-kernel",
+            input_variables=[
+                kernel.InputVariable(name="cv_input", description="The CV to look into", isRequired=True),
+                kernel.InputVariable(name="history", description="The conversation history", is_required=True),
+            ],
+            execution_settings=execution_settings,
+        )
 
+        employee_certification_function = kernel_instance.add_function(
+            function_name="employeeCertificationFunc",
+            plugin_name="employeeCertificationPlugin",
+            prompt_template_config=prompt_template_config,
+        )
+
+        chat_history.clear()
+        chat_history.add_system_message(
+        """
+            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+        and provide me the employee education which is a list of dictinaries, each dictionary being a certification under this format:
+        {
+            'certification':
+            'institution':
+            'attainment_date': If not provided, you can aproximate or let empty.
+            'description': If not provided, you can generate a short description.
+        }
+        """
+        )
+    
+        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
+        employee_certification = await kernel_instance.invoke(function=employee_certification_function, arguments=arguments)
+
+        resume_data = SmartResumeData(
+            employee_name=employee_name,
+            job_profile=job_profile,
+            seniority_level=seniority_level,
+            job_profile_description=job_profile_description,
+            employee_description=employee_description,
+            job_profile_required_skills=[],
+            employee_skills=employee_skills,
+            employee_work_experiences=employee_work_experience,
+            employee_educations=employee_education,
+            employee_certifications=employee_certification
+        )
+
+        resume_data_dict = resume_data.to_dict()
+
+        print(resume_data_dict)
 
 
 

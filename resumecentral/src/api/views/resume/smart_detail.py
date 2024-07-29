@@ -1,15 +1,12 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 from api.models.resume import Resume
 from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
-from datetime import date
 
 from resumecentral.src.controllers.ai import AIController
 import asyncio
-from api.models.resume import Resume
-from api.serializers.resume import ResumeSerializer
 import importlib.util
 import os
 
@@ -81,9 +78,9 @@ class IndividualSmartResumeApiView(APIView):
 
 
         # parse employee skills
-        employee_skills = data.getlist(f'employee_skills[][skill]')
-        employee_level_ranks = data.getlist(f'employee_skills[][seniority_level][rank]')
-        employee_level_percentages = data.getlist(f'employee_skills[][seniority_level][percentage]')
+        employee_skills = data.getlist('employee_skills[][skill]')
+        employee_level_ranks = data.getlist('employee_skills[][seniority_level][rank]')
+        employee_level_percentages = data.getlist('employee_skills[][seniority_level][percentage]')
 
         for i in range(len(employee_skills)):
             resume_data["employee_skills"].append({
@@ -95,11 +92,11 @@ class IndividualSmartResumeApiView(APIView):
             })
 
         # parse employee work experiences
-        work_positions = data.getlist(f'employee_work_experiences[][position]')
-        work_employers = data.getlist(f'employee_work_experiences[][employer]')
-        work_start_dates = data.getlist(f'employee_work_experiences[][start_date]')
-        work_end_dates = data.getlist(f'employee_work_experiences[][end_date]')
-        work_descriptions = data.getlist(f'employee_work_experiences[][description]')
+        work_positions = data.getlist('employee_work_experiences[][position]')
+        work_employers = data.getlist('employee_work_experiences[][employer]')
+        work_start_dates = data.getlist('employee_work_experiences[][start_date]')
+        work_end_dates = data.getlist('employee_work_experiences[][end_date]')
+        work_descriptions = data.getlist('employee_work_experiences[][description]')
 
         for i in range(len(work_positions)):
             resume_data["employee_work_experiences"].append({
@@ -111,11 +108,11 @@ class IndividualSmartResumeApiView(APIView):
             })
 
         # parse employee education
-        education_degrees = data.getlist(f'employee_educations[][degree]')
-        education_institutions = data.getlist(f'employee_educations[][institution]')
-        education_start_dates = data.getlist(f'employee_educations[][start_date]')
-        education_end_dates = data.getlist(f'employee_educations[][end_date]')
-        education_descriptions = data.getlist(f'employee_educations[][description]')
+        education_degrees = data.getlist('employee_educations[][degree]')
+        education_institutions = data.getlist('employee_educations[][institution]')
+        education_start_dates = data.getlist('employee_educations[][start_date]')
+        education_end_dates = data.getlist('employee_educations[][end_date]')
+        education_descriptions = data.getlist('employee_educations[][description]')
 
         for i in range(len(education_degrees)):
             resume_data["employee_educations"].append({
@@ -127,10 +124,10 @@ class IndividualSmartResumeApiView(APIView):
             })
 
         # parse employee certifications
-        certifications = data.getlist(f'employee_certifications[][certification]')
-        certification_institutions = data.getlist(f'employee_certifications[][institution]')
-        certification_attainment_dates = data.getlist(f'employee_certifications[][attainment_date]')
-        certification_descriptions = data.getlist(f'employee_certifications[][description]')
+        certifications = data.getlist('employee_certifications[][certification]')
+        certification_institutions = data.getlist('employee_certifications[][institution]')
+        certification_attainment_dates = data.getlist('employee_certifications[][attainment_date]')
+        certification_descriptions = data.getlist('employee_certifications[][description]')
 
         for i in range(len(certifications)):
             resume_data["employee_certifications"].append({

@@ -1,5 +1,4 @@
-from typing import List, Dict, Optional
-from datetime import date
+from typing import List, Dict
 
 class SmartResumeData:
     def __init__(self,
