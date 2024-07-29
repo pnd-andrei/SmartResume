@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume - {{ employee_name }} ({{ job_profile }}, {{ seniority_level }})</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@300;400;500;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'" />
+</head>
+<body class="has-background-light" id="top">
+    <header>
+        <!-- Add any desired header content here -->
+    </header>
+    <div class="container">
+        <div class="box my-5" id="intro">
+            <div class="has-background-info has-text-white">
+                <div class="cover">
+                    <img />
+                    <div class="hero-body" style="background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(2px)">
+                        <div class="has-text-centered">
+                            <figure class="image is-128x128 is-inline-block">
+                                <img id="resume-picture" class="is-rounded" />
+                            </figure>
+                            <div class="mt-3">
+                                <h1 class="title">{{ employee_name }}</h1>
+                                <h2 class="subtitle">{{ job_profile }}</h2>
+                                {% if seniority_level %}<h3 class="subtitle">{{ seniority_level }} Level</h3>{% endif %}
+                            </div>
+                            <div class="buttons is-centered mt-5">
+                                <a class="button is-light" href="javascript:window.print()">Download CV</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if job_profile_description or employee_description %}
+        <div class="box my-5" id="about">
+            <div class="content">
+                <h2 class="title">Executive Summary</h2>
+                <div>
+                    {% if job_profile_description %}
+                    <h4 class="subtitle">About the Job Profile</h4>
+                    <p>{{ job_profile_description }}</p>
+                    {% endif %}
+                    {% if employee_description %}
+                    <h4 class="subtitle">About the Professional</h4>
+                    <p>{{ employee_description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="box my-5" id="skills">
+            <div class="content">
+                <h2 class="title">Professional Skills</h2>
+                <p><em>Relevant skills that {{ employee_first_name }} has, arranged alphabetically. Each skill features a particular level, based on the employee's actual experience.</em></p>
+                <div class="columns">
+                    <div class="column">
+                        {% for skill in job_profile_required_skills %}
+                        <div class="mb-3">
+                            <span class="has-text-weight-bold">{{ skill }}</span>
+                            <progress class="progress is-info" value="{{ seniority_level.percentage }}" max="100">{{ seniority_level.rank }}</progress>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="column">
+                        {% for skill in employee_skills %}
+                        <div class="mb-3">
+                            <span class="has-text-weight-bold">{{ skill.skill }}</span>
+                            <progress class="progress is-secondary" value="{{ skill.seniority_level.percentage }}" max="100">{{ skill.seniority_level.rank }}</progress>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if employee_work_experiences %}
+        <div class="box my-5" id="experience">
+            <div class="content">
+                <h2 class="title">Work Experience</h2>
+                <div class="timeline">
+                    {% for work_experience in employee_work_experiences %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <p class="heading">{{ work_experience.position }} at {{ work_experience.employer }}</p>
+                            <p class="is-size-7 has-text-grey">{{ work_experience.start_date }} - {% firstof work_experience.end_date "Present" %}</p>
+                            <p>{{ work_experience.description }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if employee_educations %}
+        <div class="box my-5" id="education">
+            <div class="content">
+                <h2 class="title">Education</h2>
+                <div class="timeline">
+                    {% for education in employee_educations %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <p class="heading">{{ education.degree }} from {{ education.institution }}</p>
+                            <p class="is-size-7 has-text-grey">{{ education.start_date }} - {% firstof education.end_date "Present" %}</p>
+                            <p>{{ education.description }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if employee_certifications %}
+        <div class="box my-5" id="certification">
+            <div class="content">
+                <h2 class="title">Certifications</h2>
+                <div class="timeline">
+                    {% for certification in employee_certifications %}
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <p class="heading">{{ certification.certification }} from {{ certification.institution }}</p>
+                            <p class="is-size-7 has-text-grey">{{ certification.attainment_date }}</p>
+                            <p>{{ certification.description }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <footer class="footer has-text-centered">
+        <div class="content has-text-grey">
+            <div class="my-3">
+                <h4 class="title is-4">{{ employee_name }}</h4>
+                <h5 class="subtitle is-5">{{ job_profile }}</h5>
+                {% if seniority_level %}
+                <h6 class="subtitle is-6">{{ seniority_level.rank }} Level</h6>
+                {% endif %}
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

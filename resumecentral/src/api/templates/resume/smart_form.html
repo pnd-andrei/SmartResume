@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        .hr-style {
+            border: 1px solid #00d1b2;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Resume Form</h1>
+            <form style="display: flex; flex-direction: column; gap: 20px;" action="" method="POST">
+                {% csrf_token %}
+                
+                <!-- Employee Name -->
+                <div class="field">
+                    <label class="label">Employee Name</label>
+                    <div class="control">
+                        <input class="input" type="text" name="employee_name" value="{{ employee_name }}" required>
+                    </div>
+                </div>
+
+                <!-- Job Profile -->
+                <div class="field">
+                    <label class="label">Job Profile</label>
+                    <div class="control">
+                        <input class="input" type="text" name="job_profile" value="{{ job_profile }}" required>
+                    </div>
+                </div>
+
+                <!-- Seniority Level Rank -->
+                <div class="field">
+                    <label class="label">Seniority Level Rank</label>
+                    <div class="control">
+                        <input class="input" type="text" name="seniority_level[rank]" value="{{ seniority_level.rank }}" required>
+                    </div>
+                </div>
+
+                <!-- Seniority Level Percentage -->
+                <div class="field">
+                    <label class="label">Seniority Level Percentage</label>
+                    <div class="control">
+                        <input class="input" type="number" name="seniority_level[percentage]" value="{{ seniority_level.percentage }}" required>
+                    </div>
+                </div>
+
+                <!-- Job Profile Description -->
+                <div class="field">
+                    <label class="label">Job Profile Description</label>
+                    <div class="control">
+                        <textarea class="textarea" name="job_profile_description" required>{{ job_profile_description }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Employee Description -->
+                <div class="field">
+                    <label class="label">Employee Description</label>
+                    <div class="control">
+                        <textarea class="textarea" name="employee_description" required>{{ employee_description }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Job Profile Required Skills -->
+                <div class="field">
+                    <label class="label">Job Profile Required Skills</label>
+                    <div class="control" id="job-profile-required-skills">
+                        {% for skill in job_profile_required_skills %}
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; width: 100%;" class="skill-field">
+                                <input style="width: 75%;" class="input" type="text" name="job_profile_required_skills[]" value="{{ skill }}" required>
+                                <button style="width: 15%;" type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="button is-primary is-light" onclick="addSkill()">Add Skill</button>
+                </div>
+
+                <!-- Employee Skills -->
+                <div class="field">
+                    <label class="label">Employee Skills</label>
+                    <div class="control" id="employee-skills">
+                        {% for skill in employee_skills %}
+                            <div style="display: flex; gap: 30px; margin-bottom: 20px;" class="skill-field">
+                                <input class="input" type="text" name="employee_skills[][skill]" value="{{ skill.skill }}" required>
+                                <input class="input" type="text" name="employee_skills[][seniority_level][rank]" value="{{ skill.seniority_level.rank }}" required>
+                                <input class="input" type="number" name="employee_skills[][seniority_level][percentage]" value="{{ skill.seniority_level.percentage }}" required>
+                                <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                                <hr class="hr-style">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="button is-primary is-light" onclick="addEmployeeSkill()">Add Employee Skill</button>
+                </div>
+
+                <!-- Employee Work Experiences -->
+                <div class="field">
+                    <label class="label">Employee Work Experiences</label>
+                    <div class="control" id="employee-work-experiences">
+                        {% for experience in employee_work_experiences %}
+                            <div  style="display: flex; flex-direction: column; gap: 20px;" class="experience-field">
+                                <input class="input" type="text" name="employee_work_experiences[][position]" value="{{ experience.position }}" required>
+                                <input class="input" type="text" name="employee_work_experiences[][employer]" value="{{ experience.employer }}" required>
+                                <input class="input" type="date" name="employee_work_experiences[][start_date]" value="{{ experience.start_date|date:'Y-m-d' }}" required>
+                                <input class="input" type="date" name="employee_work_experiences[][end_date]" value="{{ experience.end_date|date:'Y-m-d' }}" required>
+                                <textarea class="textarea" name="employee_work_experiences[][description]" required>{{ experience.description }}</textarea>
+                                <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                                <hr class="hr-style">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="button is-primary is-light" onclick="addWorkExperience()">Add Work Experience</button>
+                </div>
+
+                <!-- Employee Educations -->
+                <div class="field">
+                    <label class="label">Employee Educations</label>
+                    <div class="control" id="employee-educations">
+                        {% for education in employee_educations %}
+                            <div style="display: flex; flex-direction: column; gap: 20px;" class="education-field">
+                                <input class="input" type="text" name="employee_educations[][degree]" value="{{ education.degree }}" required>
+                                <input class="input" type="text" name="employee_educations[][institution]" value="{{ education.institution }}" required>
+                                <input class="input" type="date" name="employee_educations[][start_date]" value="{{ education.start_date|date:'Y-m-d' }}" required>
+                                <input class="input" type="date" name="employee_educations[][end_date]" value="{{ education.end_date|date:'Y-m-d' }}" required>
+                                <textarea class="textarea" name="employee_educations[][description]" required>{{ education.description }}</textarea>
+                                <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                                <hr class="hr-style">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="button is-primary is-light" onclick="addEducation()">Add Education</button>
+                </div>
+
+                <!-- Employee Certifications -->
+                <div class="field">
+                    <label class="label">Employee Certifications</label>
+                    <div class="control" id="employee-certifications">
+                        {% for certification in employee_certifications %}
+                            <div style="display: flex;flex-direction: column; gap: 20px;" class="certification-field">
+                                <input class="input" type="text" name="employee_certifications[][certification]" value="{{ certification.certification }}" required>
+                                <input class="input" type="text" name="employee_certifications[][institution]" value="{{ certification.institution }}" required>
+                                <input class="input" type="date" name="employee_certifications[][attainment_date]" value="{{ certification.attainment_date|date:'Y-m-d' }}" required>
+                                <textarea class="textarea" name="employee_certifications[][description]" required>{{ certification.description }}</textarea>
+                                <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                                <hr class="hr-style">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="button is-primary is-light" onclick="addCertification()">Add Certification</button>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        function removeElement(button) {
+            button.parentElement.remove();
+        }
+
+        function addSkill(){
+            document.getElementById("job-profile-required-skills").innerHTML += 
+            `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; width: 100%;" class="skill-field">
+                <input style="width: 75%;" class="input" type="text" name="job_profile_required_skills[]" required>
+                <button style="width: 15%;" type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+            </div>
+            `
+        }
+
+        function addEmployeeSkill(){
+            document.getElementById("employee-skills").innerHTML += 
+            `
+            <div style="display: flex; gap: 30px; margin-bottom: 20px;" class="skill-field">
+                <input class="input" type="text" name="employee_skills[][skill]" required>
+                <input class="input" type="text" name="employee_skills[][seniority_level][rank]" required>
+                <input class="input" type="number" name="employee_skills[][seniority_level][percentage]" required>
+                <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                <hr class="hr-style">
+            </div>
+            `
+        }
+
+        function addWorkExperience(){
+            document.getElementById("employee-work-experiences").innerHTML += `
+                <div  style="display: flex; flex-direction: column; gap: 20px;" class="experience-field">
+                    <input class="input" type="text" name="employee_work_experiences[][position]" required>
+                    <input class="input" type="text" name="employee_work_experiences[][employer]" required>
+                    <input class="input" type="date" name="employee_work_experiences[][start_date]" required>
+                    <input class="input" type="date" name="employee_work_experiences[][end_date]" required>
+                    <textarea class="textarea" name="employee_work_experiences[][description]" required></textarea>
+                    <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                    <hr class="hr-style">
+                </div>
+            `
+        }
+
+        function addEducation(){
+            document.getElementById("employee-educations").innerHTML += `
+                <div style="display: flex; flex-direction: column; gap: 20px;" class="education-field">
+                    <input class="input" type="text" name="employee_educations[][degree]" required>
+                    <input class="input" type="text" name="employee_educations[][institution]" required>
+                    <input class="input" type="date" name="employee_educations[][start_date]" required>
+                    <input class="input" type="date" name="employee_educations[][end_date]" required>
+                    <textarea class="textarea" name="employee_educations[][description]" required></textarea>
+                    <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                    <hr class="hr-style">
+                </div>
+            `
+        }
+
+        function addCertification(){
+            document.getElementById("employee-certifications").innerHTML += `
+                <div style="display: flex;flex-direction: column; gap: 20px;" class="certification-field">
+                    <input class="input" type="text" name="employee_certifications[][certification]" required>
+                    <input class="input" type="text" name="employee_certifications[][institution]" required>
+                    <input class="input" type="date" name="employee_certifications[][attainment_date]" required>
+                    <textarea class="textarea" name="employee_certifications[][description]" required></textarea>
+                    <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
+                    <hr class="hr-style">
+                </div>
+            `
+        }
+    </script>
+</body>
+</html>
