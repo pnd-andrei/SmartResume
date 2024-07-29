@@ -19,6 +19,8 @@ class SearchResumesApiView(APIView):
         description = request.GET.get("description")
 
         sample_size = int(request.GET.get("sample_size"))
+        
+        relevance = request.GET.get("relevance")
 
         chunk_size = len(description)
 
