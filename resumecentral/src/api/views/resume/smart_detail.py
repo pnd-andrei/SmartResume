@@ -38,11 +38,14 @@ def import_object_from_file(file_path, object_name):
 class IndividualSmartResumeApiView(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(self, request,id, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         """
-        Retrieve and display the resume for the given id.
+        Retrieve and display the smart resume for the given id.
         """
         resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
+        query = request.GET.get("description")
+        id = request.GET.get("id")
+        
         res = []
 
         for resume in resumes:
@@ -51,7 +54,7 @@ class IndividualSmartResumeApiView(APIView):
 
         retrieved_docs = ChromaDatabase.load_resumes(resumes=res)
 
-        dictx = asyncio.run(AIController.enhance_cv(retrieved_docs, int(id), "Python intermediate level English"))
+        dictx = asyncio.run(AIController.enhance_cv(retrieved_docs, int(id), query))
 
         return render(request, template_paths.get("resume_smart_form"),dictx)
         
