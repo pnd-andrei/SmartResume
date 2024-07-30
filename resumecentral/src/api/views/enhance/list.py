@@ -18,6 +18,6 @@ class EnhanceListApiView(APIView):
         resumes = Resume.objects.all()
         serializer = ResumeSerializer(resumes, many=True)
 
-        entries = [(resume.get("id"), resume.get("file_upload")) for resume in serializer.data]
+        entries = [(resume.get("id"), resume.get("file_upload"),resume.get("description")) for resume in serializer.data]
 
         return render(request, template_paths.get("enhance_list"), {"entries": entries})
