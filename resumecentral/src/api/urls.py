@@ -16,7 +16,7 @@ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # these url patterns are mapped to "resumes/<url_pattern>"
 urlpatterns = [
     path("", ResumeApiView.as_view(), name="resume_list"),
-    path("smart/", IndividualSmartResumeApiView.as_view()),
+    path("smart/id=<int:id>", IndividualSmartResumeApiView.as_view()),
     path("id=<int:id>", IndividualResumeApiView.as_view(), name="resume_detail"),
     path("delete/id=<int:id>", DeleteResumeApiView.as_view()),
     path("search/query/", SearchResumesApiView.as_view()),

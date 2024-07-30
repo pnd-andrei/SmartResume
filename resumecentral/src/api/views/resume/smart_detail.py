@@ -5,6 +5,7 @@ from api.models.resume import Resume
 from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
 
+from resumecentral.src.chroma.database import ChromaDatabase
 from resumecentral.src.controllers.ai import AIController
 import asyncio
 import importlib.util
@@ -39,17 +40,21 @@ def import_object_from_file(file_path, object_name):
 class IndividualSmartResumeApiView(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request,id, *args, **kwargs):
         """
         Retrieve and display the resume for the given id.
         """
-        resume = (Resume.objects.get(id="23"))
-        serializer = ResumeSerializer(resume)
+        resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
+        res = []
 
-        dictx = asyncio.run(AIController.enhance_cv(AIController.similarity_search(query="Python intermediate level English"), 23, "Python intermediate level English"))
+        for resume in resumes:
+            if str(resume[0]) == str(id):
+                res.append(resume)
 
-        #resume_data = import_object_from_file(f"{file_path}", "resume_data")
-        #print(resume_data)
+        retrieved_docs = ChromaDatabase.load_resumes(resumes=res)
+
+        dictx = asyncio.run(AIController.enhance_cv(retrieved_docs, int(id), "Python intermediate level English"))
+
         return render(request, template_paths.get("resume_smart_form"),dictx)
         
 

@@ -1,4 +1,5 @@
 from resumecentral.src.controllers.chroma_db import ChromaDatabaseController
+from resumecentral.src.chroma.database import chromadb as chroma_db
 import os
 from dotenv import load_dotenv
 from langchain_core.documents import Document
@@ -217,6 +218,7 @@ class AIController:
 
         # Find the document from the list of PDFs with the specified id
         # cv_to_enhance = ChromaDatabase.load_resumes([[0,retrieved_docs[0]]])
+
         cv_to_enhance = next((doc for doc in retrieved_docs if doc.metadata.get("id") == id), None)
 
         if cv_to_enhance is None:
@@ -576,7 +578,8 @@ class AIController:
         query = "Python intermediate level English"
         print(f"\nQuerying for: {query}\n")
 
-        retrieved_docs = AIController.similarity_search(query=query)
+        resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
+        retrieved_docs = ChromaDatabase.load_resumes(resumes=resumes)
 
         '''
         docs_by_experience = asyncio.run(     
