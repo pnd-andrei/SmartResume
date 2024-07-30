@@ -38,8 +38,6 @@ def extract_name_from_path(path):
     # Find the position of the last '/'
     last_slash_index = path.rfind('/')
     
-    print(f"Path: {path}")
-
     # Extract the substring between the last '/' and '.pdf'
     start_index = last_slash_index + 1
     

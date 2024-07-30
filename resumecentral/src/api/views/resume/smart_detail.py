@@ -43,10 +43,10 @@ class IndividualSmartResumeApiView(APIView):
         """
         Retrieve and display the resume for the given id.
         """
-        resume = (Resume.objects.get(id="2"))
+        resume = (Resume.objects.get(id="23"))
         serializer = ResumeSerializer(resume)
 
-        dictx = asyncio.run(AIController.enhance_cv(["http://localhost:8000/static/" + serializer.data.get("file_upload")],3,"Python Developer with Javascript"))
+        dictx = asyncio.run(AIController.enhance_cv(AIController.similarity_search(query="Python intermediate level English"), 23, "Python intermediate level English"))
 
         #resume_data = import_object_from_file(f"{file_path}", "resume_data")
         #print(resume_data)
