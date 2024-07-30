@@ -1,5 +1,4 @@
 from resumecentral.src.controllers.chroma_db import ChromaDatabaseController
-from resumecentral.src.chroma.database import chromadb as chroma_db
 import os
 from dotenv import load_dotenv
 from langchain_core.documents import Document
@@ -254,7 +253,8 @@ class AIController:
         chat_history.add_system_message(
         """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the empolyee name (string). Only the name, nothing more.
+        and provide me the empolyee name (string). Only the name, nothing more. Do not provide a introduction of what you return. 
+        Refactor name if needed (if for example it is written only in uppercase letters, correct it).
         """
         )
     
@@ -284,7 +284,7 @@ class AIController:
         chat_history.add_system_message(
         """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the job profile (string). Only the job profile, nothing more.
+        and provide me the job profile (string). Only the job profile, nothing more. Do not provide a introduction of what you return. 
         """
         )
     
@@ -316,7 +316,7 @@ class AIController:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
         percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
-        If the rank is not provided let it empty.
+        If the rank is not provided let it empty. Do not provide a introduction of what you return. 
         """
         )
     
@@ -347,7 +347,7 @@ class AIController:
         """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the job profile description (string) which is a short description of what the candidate does and nothing more. 
-        First person, without pronouns. Keep it simple.
+        First person, without pronouns. Keep it simple. Do not provide a introduction of what you return. 
         """
         )
     
@@ -388,7 +388,7 @@ class AIController:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the employee description (string) which is a short description of what the candidate does and nothing more. 
         You have to adapt that description to be suitable for the given query, so that them both mold together. First person, 
-        without pronouns. Keep it simple.
+        without pronouns. Keep it simple. Do not provide a introduction of what you return. 
         """
         )
     
@@ -426,6 +426,7 @@ class AIController:
             },
             'skill':
         }
+        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
         """
         )
     
@@ -463,6 +464,7 @@ class AIController:
             'end_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
+        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
         """
         )
     
@@ -500,6 +502,7 @@ class AIController:
             'end_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
+        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
         """
         )
     
@@ -536,12 +539,14 @@ class AIController:
             'attainment_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
+        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
         """
         )
     
         arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
         employee_certification = await kernel_instance.invoke(function=employee_certification_function, arguments=arguments)
 
+        """
         print(f"Employee name: {employee_name}\n")
         print(f"Job profile: {job_profile}\n")
         print(f"Seniority level: {seniority_level}\n")
@@ -551,6 +556,7 @@ class AIController:
         print(f"Employee work experiences: {employee_work_experience}\n")
         print(f"Employee educations: {employee_education}\n")
         print(f"Employee certifications: {employee_certification}\n")
+        """
 
         resume_data = SmartResumeData(
             employee_name=employee_name,
@@ -576,7 +582,7 @@ class AIController:
     @staticmethod
     def main():
         query = "Python intermediate level English"
-        print(f"\nQuerying for: {query}\n")
+        # print(f"\nQuerying for: {query}\n")
 
         resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
         retrieved_docs = ChromaDatabase.load_resumes(resumes=resumes)
@@ -591,7 +597,6 @@ class AIController:
         '''
 
         dict_created = asyncio.run(AIController.enhance_cv(retrieved_docs=retrieved_docs, id=23, given_query=query))
-        print(f"Object created: {dict_created}")
 
 
 if __name__ == "__main__":

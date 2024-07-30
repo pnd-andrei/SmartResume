@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
-from api.models.resume import Resume
 from api.modules.template_paths import template_paths
-from api.serializers.resume import ResumeSerializer
 
 from resumecentral.src.chroma.database import ChromaDatabase
 from resumecentral.src.controllers.ai import AIController
