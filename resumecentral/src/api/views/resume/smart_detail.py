@@ -46,11 +46,11 @@ class IndividualSmartResumeApiView(APIView):
         resume = (Resume.objects.get(id="2"))
         serializer = ResumeSerializer(resume)
 
-        file_path = asyncio.run(AIController.enhance_cv(["http://localhost:8000/static/" + serializer.data.get("file_upload")],3,"Python Developer with Javascript"))
+        dictx = asyncio.run(AIController.enhance_cv(["http://localhost:8000/static/" + serializer.data.get("file_upload")],3,"Python Developer with Javascript"))
 
-        resume_data = import_object_from_file(f"{file_path}", "resume_data")
-        print(resume_data)
-        return render(request, template_paths.get("resume_smart_form"),resume_data)
+        #resume_data = import_object_from_file(f"{file_path}", "resume_data")
+        #print(resume_data)
+        return render(request, template_paths.get("resume_smart_form"),dictx)
         
 
     def post(self, request, *args, **kwargs):

@@ -6,8 +6,9 @@ import asyncio  # noqa: F401
 from resumecentral.src.sem_kernel import kernel
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
+from resumecentral.src.chroma.database import ChromaDatabase
 from resumecentral.src.controllers.smart_resume_data import SmartResumeData
-
+import pymupdf
 import requests
 
 class AIController:
@@ -215,7 +216,7 @@ class AIController:
         kernel_instance.add_service(service=service)
 
         # Find the document from the list of PDFs with the specified id
-        cv_to_enhance = requests.get(retrieved_docs[0]).text
+        cv_to_enhance = ChromaDatabase.load_resumes([[0,retrieved_docs[0]]])
 
         if cv_to_enhance is None:
             raise ValueError(f"No document found with id: {id}")
@@ -249,7 +250,7 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the empolyee name (string).
         """
         )
@@ -276,10 +277,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the job profile (string).
         """
         )
@@ -306,10 +307,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
         percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
         If the rank is not provided do not return it.
@@ -338,10 +339,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the job profile description (string) which is a short description of what the candidate does. Keep it simple.
         """
         )
@@ -355,7 +356,7 @@ class AIController:
         CV enhancing assistant can look into documents, provide and enhance information of what's inside.
 
         Chat history: {{$history}}
-        PDF document: {{$cv_input}}
+        document: {{$cv_input}}
         Query: {{$query_input}}
         """
 
@@ -377,10 +378,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the employee description (string) which is a short description of what the candidate does. You have to adapt 
         that description to be suitable for the given query, so that them both mold together. Keep it simple.
         """
@@ -408,10 +409,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the employee skills which is a list of dictinaries, each dictionary being a skill under this format:
         {
             seniority_level': { 
@@ -445,10 +446,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the employee work experience which is a list of dictinaries, each dictionary being a work experience under this format:
         {
             'position':
@@ -482,10 +483,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the employee education which is a list of dictinaries, each dictionary being an education under this format:
         {
             'degree':
@@ -519,10 +520,10 @@ class AIController:
             prompt_template_config=prompt_template_config,
         )
 
-        chat_history.clear()
+        chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the page_content of the PDF document given as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
         and provide me the employee education which is a list of dictinaries, each dictionary being a certification under this format:
         {
             'certification':
@@ -551,7 +552,7 @@ class AIController:
 
         resume_data_dict = resume_data.to_dict()
 
-        print(resume_data_dict)
+        return resume_data_dict
 
 
 
