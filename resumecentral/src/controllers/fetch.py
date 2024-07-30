@@ -18,50 +18,46 @@ import glob  # noqa: E402
 import string  # noqa: E402
 import secrets  # noqa: E402
 
+
 def fetch_resumes(url):
     resumes = Resume.objects.all()
     serializer = ResumeSerializer(resumes, many=True)
 
-    return [[x.get("id") , url + "/static" + x.get("file_upload")] for x in serializer.data]
-
-def fetch_resume(id):
-    resumes = fetch_resumes("http://localhost:8000/")
-
-    for resume in resumes:
-        if resume[0] == id:
-            return resume
-        
-    return ["",""]
+    return [
+        [x.get("id"), url + "/static" + x.get("file_upload")] for x in serializer.data
+    ]
 
 
 def extract_name_from_path(path):
     # Find the position of the last '/'
-    last_slash_index = path.rfind('/')
-    
+    last_slash_index = path.rfind("/")
+
     # Extract the substring between the last '/' and '.pdf'
     start_index = last_slash_index + 1
-    
+
     return path[start_index:]
+
 
 def get_pdfs():
     # Get the directory of the current script
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    
+
     # Construct the pattern to match PDF files in the directory
-    pdf_pattern = os.path.join(script_dir, "CVs", '*.pdf')
-    
+    pdf_pattern = os.path.join(script_dir, "CVs", "*.pdf")
+
     # Use glob to get all PDF files matching the pattern
     pdf_files = glob.glob(pdf_pattern)
-    
+
     return pdf_files
+
 
 def add_resume(file_path):
     # Ensure the file exists at the given path
     if not os.path.isfile(file_path):
         raise FileNotFoundError(f"The file at {file_path} does not exist.")
-    
+
     # Open the file and create a File object for Django
-    with open(file_path, 'rb') as f:
+    with open(file_path, "rb") as f:
         characters = string.ascii_letters + string.digits
 
         random_filename = (
@@ -71,16 +67,17 @@ def add_resume(file_path):
 
         # Create and save the Resume object
         resume = Resume(
-            description=f"{extract_name_from_path(file_path)}",
-            file_upload=django_file
+            description=f"{extract_name_from_path(file_path)}", file_upload=django_file
         )
         resume.save()
 
     print(f"Resume {file_path} has been added to the database.")
 
+
 def add_all_resumes():
     for pdf_path in get_pdfs():
         add_resume(pdf_path)
+
 
 def delete_all_resumes():
     # Delete all Resume objects from the database
@@ -89,5 +86,6 @@ def delete_all_resumes():
 
 
 if __name__ == "__main__":
-    delete_all_resumes()
-    add_all_resumes()
+    # delete_all_resumes()
+    # add_all_resumes()
+    pass

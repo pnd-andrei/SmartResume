@@ -22,5 +22,5 @@ urlpatterns = [
     path("search/query/", SearchResumesApiView.as_view()),
     path("search/", SearchDashboardApiView.as_view()),
     path("enhance/", EnhanceListApiView.as_view()),
-    path("enhance/query/", EnhanceResumeApiView.as_view())
+    path("enhance/query/", EnhanceResumeApiView.as_view()),
 ]

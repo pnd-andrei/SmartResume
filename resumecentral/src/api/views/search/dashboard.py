@@ -16,4 +16,6 @@ class SearchDashboardApiView(APIView):
 
         resume_count = Resume.objects.count()
 
-        return render(request, template_paths.get("search_dashboard"), {"count":resume_count})
+        return render(
+            request, template_paths.get("search_dashboard"), {"count": resume_count}
+        )

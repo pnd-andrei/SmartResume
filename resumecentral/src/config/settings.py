@@ -61,7 +61,10 @@ SETTINGS_PATH = os.path.dirname("api")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join("api", "templates"),os.path.join("api", "templates", "response")],
+        "DIRS": [
+            os.path.join("api", "templates"),
+            os.path.join("api", "templates", "response"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -124,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = "media/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, "media")
 
 STATICFILES_DIRS = [
     BASE_DIR / "media",

@@ -13,7 +13,9 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from resumecentral.src.controllers.fetch import fetch_resumes
-from resumecentral.src.chroma.extended.custom_parent_retriever import CustomParentDocumentRetriever
+from resumecentral.src.chroma.extended.custom_parent_retriever import (
+    CustomParentDocumentRetriever,
+)
 
 # import pymupdf4llm
 # from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
@@ -200,7 +202,7 @@ class ChromaDatabase:
             for filename in os.listdir(path=folder_path):
                 if filename == "chroma.sqlite3":
                     continue
-                
+
                 file_path = os.path.join(folder_path, filename)
                 try:
                     if os.path.isfile(path=file_path) or os.path.islink(path=file_path):
@@ -211,99 +213,6 @@ class ChromaDatabase:
                     print(f"Failed to delete {file_path}. Reason: {e}")
         else:
             print(f"The folder {folder_path} does not exist.")
-    
-    def switch_collection(self, switch_to_collection: str) -> None:
-        """
-        Switches the current working collection to the specified collection. If the specified
-        collection does not exist, it is created and then set as the current working collection.
-
-        This method updates the instance's current collection, collection name, and vectorstore to
-        reflect the newly created or switched-to collection. It relies on the underlying database
-        client's `get_or_create_collection` method to handle the creation or retrieval of the collection,
-        abstracting away the details of collection management.
-
-        Parameters:
-            switch_to_collection (str): The name of the collection to switch to or create.
-
-        Note: Consider deleting the old collection before creating a new one.
-
-        Raises:
-            ValueError: If the switch fails.
-        """
-        try:
-            self.collection_name = switch_to_collection
-            self.collection = self.chroma_client.get_or_create_collection(
-                name=self.collection_name
-            )
-            self._initialize_vectorstore()
-        except Exception as e:
-            raise ValueError(f"Failed to switch collection: {e}")
-
-    def delete_collection(self, collection_name: str = "chunk_collection") -> None:
-        """
-        Deletes a collection from the Chroma database.
-
-        Parameters:
-            collection_name (str): The name of the collection to delete.
-
-        Note: You might not want to do that.
-            - this will lead to removing the default chunk collection and you'll have to recreate one;
-
-        Raises:
-            ValueError: If the deletion fails.
-        """
-        try:
-            self.chroma_client.delete_collection(name=collection_name)
-            print(f"Collection {collection_name} deleted successfully.")
-        except Exception as e:
-            print(f"Error deleting collection {collection_name}: {e}")
-
-   
-    def update_db_path(self, new_db_path: str) -> None:
-        """
-        Updates the database path for storing documents.
-
-        Parameters:
-            new_db_path (str): The new path to the Chroma database directory.
-
-        Note: This will NOT move the current content to the new path, but delete it instead.
-        """
-        self.db_path = new_db_path
-        self._initialize_chroma_client()
-        self._initialize_collection()
-        self._initialize_vectorstore()
-        self.parent_retriever = self._initialize_parent_document_retriever(
-            child_splitter=self.splitter,
-        )
-
-        print(f"Database path updated to {new_db_path}")
-
-    def update_embedding_model(
-        self,
-        new_embedding_model_name: str,
-        new_embedding_model_kwargs: Optional[dict[str, Any]] = None,
-        new_embedding_encode_kwargs: Optional[dict[str, Any]] = None,
-    ) -> None:
-        """
-        Updates the embedding model for generating embeddings.
-
-        Parameters:
-            new_embedding_model_name (str): The new embedding model to use.
-            new_embedding_model_kwargs (dict[str, Any], optional): Model configuration options.
-            new_embedding_encode_kwargs (dict[str, Any], optional): Model configuration options.
-        """
-        self.embedding_model_name = new_embedding_model_name
-        self.embedding_model_kwargs = new_embedding_model_kwargs
-        self.embedding_encode_kwargs = new_embedding_encode_kwargs
-
-        self._initialize_embedding_function()
-        self._initialize_vectorstore()
-
-        self.parent_retriever = self._initialize_parent_document_retriever(
-            child_splitter=self.splitter
-        )
-
-        print(f"Embedding model updated to {new_embedding_model_name}")
 
     @staticmethod
     def get_resumes_from_sqlite3_database() -> list | None:
@@ -354,11 +263,11 @@ class ChromaDatabase:
                     )
 
                     meta = {"id": resume_path[0]}
-                    
+
                     combined_metadata = {}
 
                     if loaded_pages:
-                        combined_metadata = loaded_pages[0].metadata 
+                        combined_metadata = loaded_pages[0].metadata
                         combined_metadata.update(meta)
 
                     pdf_document = Document(

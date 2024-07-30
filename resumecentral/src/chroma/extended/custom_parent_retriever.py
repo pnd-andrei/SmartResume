@@ -12,7 +12,7 @@ from langchain_text_splitters import TextSplitter
 
 class CustomMultiVectorRetriever(MultiVectorRetriever):
     def _get_relevant_documents(
-        self, query: str, *, run_manager: CallbackManagerForRetrieverRun, k_size:int
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun, k_size: int
     ) -> List[Document]:
         """Get documents relevant to a query.
         Args:
@@ -22,8 +22,7 @@ class CustomMultiVectorRetriever(MultiVectorRetriever):
             List of relevant documents
         """
         results = self.vectorstore.similarity_search_with_relevance_scores(
-            query,
-            k=k_size
+            query, k=k_size
         )
 
         # Map doc_ids to list of sub-documents, adding scores to metadata
@@ -42,12 +41,13 @@ class CustomMultiVectorRetriever(MultiVectorRetriever):
             docstore_docs = self.docstore.mget([_id])
             if docstore_docs:
                 if doc := docstore_docs[0]:
-                    doc.metadata["score"] = int(10000 * sub_docs[0].metadata.get("score")) / 100.0
+                    doc.metadata["score"] = (
+                        int(10000 * sub_docs[0].metadata.get("score")) / 100.0
+                    )
                     doc.metadata["score"] = str(doc.metadata["score"])
                     docs.append(doc)
 
         return docs
-    
 
 
 class CustomParentDocumentRetriever(CustomMultiVectorRetriever):

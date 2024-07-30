@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 
 from api.modules.template_paths import template_paths
 import asyncio
-from resumecentral.src.controllers.ai import AIController
+from resumecentral.src.controllers.ai_search import AISearch
 
 
 class SearchResumesApiView(APIView):
@@ -19,29 +19,29 @@ class SearchResumesApiView(APIView):
         description = request.GET.get("description")
 
         sample_size = int(request.GET.get("sample_size"))
-        
+
         relevance = request.GET.get("relevance")
 
         chunk_size = len(description)
 
         if request.GET.get("slider"):
             slider = int(request.GET.get("slider"))
-            divider = pow(2,4-slider)
+            divider = pow(2, 4 - slider)
             chunk_size = int(chunk_size * divider)
 
         results = []
-        results = AIController.similarity_search(description,chunk_size)
+        results = AISearch.similarity_search(description, chunk_size)
 
         if relevance == "experience":
-            results = asyncio.run(AIController.sort_retrieved_docs_by_experience(results))
+            results = asyncio.run(AISearch.sort_retrieved_docs_by_experience(results))
 
         if description and sample_size:
             entries = [
                 (
                     {
                         "id": resume.metadata.get("id"),
-                        "file_upload": resume.metadata.get("source"), 
-                        "precision": resume.metadata.get("score")
+                        "file_upload": resume.metadata.get("source"),
+                        "precision": resume.metadata.get("score"),
                     },
                     resume.metadata.get("id"),
                 )
