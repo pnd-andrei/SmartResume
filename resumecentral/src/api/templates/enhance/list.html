@@ -14,7 +14,7 @@
     <section class="section">
         <div class="container">
             <h1 class="title has-text-centered">Enhance Dashboard</h1>
-            <form action="query/" method="GET">
+            <form action="/resumes/smart" method="GET">
                 <div class="box">
                     <div class="field">
                         <label class="label" for="description">Query</label>
@@ -27,7 +27,7 @@
                     <div class="field">
                         <label class="label" for="sample_size">Id</label>
                         <div class="control">
-                            <select id="select_entry" name="resume_id" onchange="render_content()">
+                            <select id="select_entry" name="id" onchange="render_content()">
                                 {% for id, content, description in entries %}
                                 <option data-content="{{content}}" value="{{id}}">{{description}}</option>
                                 {% endfor %}
