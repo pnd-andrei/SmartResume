@@ -29,18 +29,12 @@ def extract_name_from_path(path):
     # Find the position of the last '/'
     last_slash_index = path.rfind('/')
     
-    # Find the position of '.pdf' after the last '/'
-    pdf_index = path.find('.pdf', last_slash_index)
-    
-    # Check if '.pdf' is found
-    if pdf_index == -1:
-        raise ValueError("'.pdf' not found in the path.")
-    
+    print(f"Path: {path}")
+
     # Extract the substring between the last '/' and '.pdf'
     start_index = last_slash_index + 1
-    end_index = pdf_index
     
-    return path[start_index:end_index]
+    return path[start_index:]
 
 def get_pdfs():
     # Get the directory of the current script

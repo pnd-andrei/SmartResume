@@ -8,8 +8,6 @@ from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
 from resumecentral.src.chroma.database import ChromaDatabase
 from resumecentral.src.controllers.smart_resume_data import SmartResumeData
-import pymupdf
-import requests
 
 class AIController:
     def __init__(self) -> None:
@@ -250,8 +248,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the empolyee name (string).
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and provide me the empolyee name (string). Only the name, nothing more.
         """
         )
     
@@ -280,8 +278,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the job profile (string).
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and provide me the job profile (string). Only the job profile, nothing more.
         """
         )
     
@@ -310,10 +308,10 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
         percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
-        If the rank is not provided do not return it.
+        If the rank is not provided let it empty.
         """
         )
     
@@ -342,8 +340,9 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the job profile description (string) which is a short description of what the candidate does. Keep it simple.
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and provide me the job profile description (string) which is a short description of what the candidate does and nothing more. 
+        First person, without pronouns. Keep it simple.
         """
         )
     
@@ -356,7 +355,7 @@ class AIController:
         CV enhancing assistant can look into documents, provide and enhance information of what's inside.
 
         Chat history: {{$history}}
-        document: {{$cv_input}}
+        PDF document: {{$cv_input}}
         Query: {{$query_input}}
         """
 
@@ -381,9 +380,10 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the employee description (string) which is a short description of what the candidate does. You have to adapt 
-        that description to be suitable for the given query, so that them both mold together. Keep it simple.
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and provide me the employee description (string) which is a short description of what the candidate does and nothing more. 
+        You have to adapt that description to be suitable for the given query, so that them both mold together. First person, 
+        without pronouns. Keep it simple.
         """
         )
     
@@ -412,8 +412,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the employee skills which is a list of dictinaries, each dictionary being a skill under this format:
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and return the employee skills which is a list of dictinaries, each dictionary being a skill under this format:
         {
             seniority_level': { 
                 'rank': Can be Intern, Junior, Mid, Senior or Principal.
@@ -449,8 +449,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the employee work experience which is a list of dictinaries, each dictionary being a work experience under this format:
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and return the employee work experience which is a list of dictionaries, each dictionary being a work experience under this format:
         {
             'position':
             'employer':
@@ -486,8 +486,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the employee education which is a list of dictinaries, each dictionary being an education under this format:
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and return the employee education which is a list of dictinaries, each dictionary being an education under this format:
         {
             'degree':
             'institution':
@@ -523,8 +523,8 @@ class AIController:
         chat_history = ChatHistory()
         chat_history.add_system_message(
         """
-            You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and provide me the employee education which is a list of dictinaries, each dictionary being a certification under this format:
+            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
+        and return the employee education which is a list of dictinaries, each dictionary being a certification under this format:
         {
             'certification':
             'institution':
@@ -536,6 +536,16 @@ class AIController:
     
         arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
         employee_certification = await kernel_instance.invoke(function=employee_certification_function, arguments=arguments)
+
+        print(f"Employee name: {employee_name}\n")
+        print(f"Job profile: {job_profile}\n")
+        print(f"Seniority level: {seniority_level}\n")
+        print(f"Job profile description: {job_profile_description}\n")
+        print(f"Employee description: {employee_description}\n")
+        print(f"Employee skills: {employee_skills}\n")
+        print(f"Employee work experiences: {employee_work_experience}\n")
+        print(f"Employee educations: {employee_education}\n")
+        print(f"Employee certifications: {employee_certification}\n")
 
         resume_data = SmartResumeData(
             employee_name=employee_name,
@@ -560,7 +570,7 @@ class AIController:
 
     @staticmethod
     def main():
-        query = "stem innovation olympiad silver award"
+        query = "Python intermediate level English"
         print(f"\nQuerying for: {query}\n")
 
         retrieved_docs = AIController.similarity_search(query=query)
@@ -574,8 +584,8 @@ class AIController:
         print([doc.metadata["id"] for doc in docs_by_experience])
         '''
 
-        object_created = asyncio.run(AIController.enhance_cv(retrieved_docs=retrieved_docs, id=3, given_query=query))
-        print(f"Object created: {object_created}")
+        dict_created = asyncio.run(AIController.enhance_cv(retrieved_docs=retrieved_docs, id=23, given_query=query))
+        print(f"Dict created: {dict_created}\n")
 
 
 if __name__ == "__main__":
