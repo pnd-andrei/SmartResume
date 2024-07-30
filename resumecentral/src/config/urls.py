@@ -26,7 +26,8 @@ from api import urls as resume_urls
 # add in robots.txt dissalow media scanning
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("", auth_views.user_login),
+    #path("admin/", admin.site.urls),
     path("resumes/", include(resume_urls)),
     path("register/", auth_views.user_register, name="register"),
     path("login/", auth_views.user_login, name="login"),
