@@ -27,8 +27,7 @@ SECRET_KEY = "django-insecure-mu4*%s-booi$m-sn=$xtqbx(hgyi#445d$&7h*p&nx&ir&=1q9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','.ngrok-free.app']
 
 # Application definition
 
@@ -144,3 +143,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 AUTH_USER_MODEL = "api.ApiUser"
 
 django_on_heroku.settings(locals())
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok.io',
+    'https://*.ngrok-free.app'
+]
