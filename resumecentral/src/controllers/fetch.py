@@ -24,6 +24,15 @@ def fetch_resumes(url):
 
     return [[x.get("id") , url + "/static" + x.get("file_upload")] for x in serializer.data]
 
+def fetch_resume(id):
+    resumes = fetch_resumes("http://localhost:8000/")
+
+    for resume in resumes:
+        if resume[0] == id:
+            return resume
+        
+    return ["",""]
+
 
 def extract_name_from_path(path):
     # Find the position of the last '/'
