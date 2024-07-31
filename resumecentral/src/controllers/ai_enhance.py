@@ -162,7 +162,9 @@ class AIEnhance:
         seniority_level_json_string = str(seniority_level)
 
         try:
-            seniority_level_json = AIEnhance.delete_first_and_last_line(seniority_level_json_string)
+            seniority_level_json = AIEnhance.delete_first_and_last_line(
+                seniority_level_json_string
+            )
             seniority_level_python = json.loads(seniority_level_json)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
@@ -316,7 +318,9 @@ class AIEnhance:
         employee_skills_json_string = str(employee_skills)
 
         try:
-            employee_skills_json = AIEnhance.delete_first_and_last_line(employee_skills_json_string)
+            employee_skills_json = AIEnhance.delete_first_and_last_line(
+                employee_skills_json_string
+            )
             employee_skills_python = json.loads(employee_skills_json)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
@@ -376,7 +380,9 @@ class AIEnhance:
         employee_work_experience_json_string = str(employee_work_experience)
 
         try:
-            employee_work_experience_json = AIEnhance.delete_first_and_last_line(employee_work_experience_json_string)
+            employee_work_experience_json = AIEnhance.delete_first_and_last_line(
+                employee_work_experience_json_string
+            )
             employee_work_experience_python = json.loads(employee_work_experience_json)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
@@ -436,7 +442,9 @@ class AIEnhance:
         employee_education_json_string = str(employee_education)
 
         try:
-            employee_education_json = AIEnhance.delete_first_and_last_line(employee_education_json_string)
+            employee_education_json = AIEnhance.delete_first_and_last_line(
+                employee_education_json_string
+            )
             employee_education_python = json.loads(employee_education_json)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
@@ -495,7 +503,9 @@ class AIEnhance:
         employee_certification_json_string = str(employee_certification)
 
         try:
-            employee_certification_json = AIEnhance.delete_first_and_last_line(employee_certification_json_string)
+            employee_certification_json = AIEnhance.delete_first_and_last_line(
+                employee_certification_json_string
+            )
             employee_certification_python = json.loads(employee_certification_json)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
@@ -553,7 +563,7 @@ class AIEnhance:
         PDF document: {{$cv_input}}
         Query: {{$query_input}}
         """
-        
+
         resume_data = SmartResumeData(
             employee_name=await AIEnhance.get_employee_name(
                 prompt=prompt,
@@ -612,7 +622,7 @@ class AIEnhance:
                 cv_to_enhance=cv_to_enhance,
             ),
         )
-        
+
         """
         print(f"Employee name: {resume_data.employee_name}\n")
         print(f"Job profile: {resume_data.job_profile}\n")

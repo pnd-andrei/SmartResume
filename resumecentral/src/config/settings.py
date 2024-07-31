@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-mu4*%s-booi$m-sn=$xtqbx(hgyi#445d$&7h*p&nx&ir&=1q9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','.ngrok-free.app']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".ngrok.io", ".ngrok-free.app"]
 
 # Application definition
 
@@ -126,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
     BASE_DIR / "media",
@@ -147,7 +147,4 @@ AUTH_USER_MODEL = "api.ApiUser"
 
 django_on_heroku.settings(locals())
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.ngrok.io',
-    'https://*.ngrok-free.app'
-]
+CSRF_TRUSTED_ORIGINS = ["https://*.ngrok.io", "https://*.ngrok-free.app"]
