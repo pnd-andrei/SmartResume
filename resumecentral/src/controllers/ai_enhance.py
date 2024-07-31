@@ -5,11 +5,29 @@ from semantic_kernel.contents import ChatHistory
 from semantic_kernel.functions import KernelArguments
 from resumecentral.src.controllers.smart_resume_data import SmartResumeData
 from langchain_core.documents import Document
-import asyncio
-from resumecentral.src.chroma.database import ChromaDatabase
+import asyncio  # noqa: F401
+from resumecentral.src.chroma.database import ChromaDatabase  # noqa: F401
+import json
 
 
 class AIEnhance:
+    @staticmethod
+    def delete_first_and_last_line(input_string):
+        # Split the input string into a list of lines
+        lines = input_string.splitlines()
+
+        # Check if the string has more than two lines
+        if len(lines) > 2:
+            # Remove the first and last lines
+            lines = lines[1:-1]
+        else:
+            # If there are not enough lines, return an empty string
+            return ""
+
+        # Join the remaining lines back into a single string
+        result_string = "\n".join(lines)
+        return result_string
+
     @staticmethod
     async def get_employee_name(
         prompt, execution_settings, kernel_instance, cv_to_enhance
@@ -131,7 +149,8 @@ class AIEnhance:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
         percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
-        If the rank is not provided let it empty. Do not provide a introduction of what you return. 
+        If the rank is not provided you can aproximate by the candidate experience. Do not provide a introduction of what you return. 
+        Give me a JSON.
         """
         )
 
@@ -140,7 +159,16 @@ class AIEnhance:
             function=seniority_level_function, arguments=arguments
         )
 
-        return seniority_level
+        seniority_level_json_string = str(seniority_level)
+
+        try:
+            seniority_level_json = AIEnhance.delete_first_and_last_line(seniority_level_json_string)
+            seniority_level_python = json.loads(seniority_level_json)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+
+        # print(f"Seniority level python: {seniority_level_python}")
+        return seniority_level_python
 
     @staticmethod
     async def get_job_profile_description(
@@ -223,7 +251,7 @@ class AIEnhance:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the employee description (string) which is a short description of what the candidate does and nothing more. 
         You have to adapt that description to be suitable for the given query, so that them both mold together. First person, 
-        without pronouns. Keep it simple. Do not provide a introduction of what you return. 
+        without pronouns. Keep it simple. Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -276,7 +304,7 @@ class AIEnhance:
             },
             'skill':
         }
-        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
+        Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -285,7 +313,16 @@ class AIEnhance:
             function=employee_skills_function, arguments=arguments
         )
 
-        return employee_skills
+        employee_skills_json_string = str(employee_skills)
+
+        try:
+            employee_skills_json = AIEnhance.delete_first_and_last_line(employee_skills_json_string)
+            employee_skills_python = json.loads(employee_skills_json)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+
+        # print(f"Employee skills python: {employee_skills_python}")
+        return employee_skills_python
 
     @staticmethod
     async def get_employee_work_experience(
@@ -327,7 +364,7 @@ class AIEnhance:
             'end_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
-        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
+        Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -336,7 +373,16 @@ class AIEnhance:
             function=employee_work_experience_function, arguments=arguments
         )
 
-        return employee_work_experience
+        employee_work_experience_json_string = str(employee_work_experience)
+
+        try:
+            employee_work_experience_json = AIEnhance.delete_first_and_last_line(employee_work_experience_json_string)
+            employee_work_experience_python = json.loads(employee_work_experience_json)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+
+        # print(f"Employee work experience python: {employee_work_experience_python}")
+        return employee_work_experience_python
 
     @staticmethod
     async def get_employee_education(
@@ -378,7 +424,7 @@ class AIEnhance:
             'end_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
-        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
+        Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -387,7 +433,16 @@ class AIEnhance:
             function=employee_education_function, arguments=arguments
         )
 
-        return employee_education
+        employee_education_json_string = str(employee_education)
+
+        try:
+            employee_education_json = AIEnhance.delete_first_and_last_line(employee_education_json_string)
+            employee_education_python = json.loads(employee_education_json)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+
+        # print(f"Employee education python: {employee_education_python}")
+        return employee_education_python
 
     @staticmethod
     async def get_employee_certification(
@@ -428,7 +483,7 @@ class AIEnhance:
             'attainment_date': If not provided, you can aproximate or let empty.
             'description': If not provided, you can generate a short description.
         }
-        Do not provide a introduction of what you return. Return a list of dictionaries in Python.
+        Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -437,7 +492,16 @@ class AIEnhance:
             function=employee_certification_function, arguments=arguments
         )
 
-        return employee_certification
+        employee_certification_json_string = str(employee_certification)
+
+        try:
+            employee_certification_json = AIEnhance.delete_first_and_last_line(employee_certification_json_string)
+            employee_certification_python = json.loads(employee_certification_json)
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+
+        # print(f"Employee certification python: {employee_certification_python}")
+        return employee_certification_python
 
     @staticmethod
     async def enhance_cv(retrieved_docs: list[Document], id: int, given_query: str):
@@ -548,7 +612,8 @@ class AIEnhance:
                 cv_to_enhance=cv_to_enhance,
             ),
         )
-
+        
+        """
         print(f"Employee name: {resume_data.employee_name}\n")
         print(f"Job profile: {resume_data.job_profile}\n")
         print(f"Seniority level: {resume_data.seniority_level}\n")
@@ -558,11 +623,13 @@ class AIEnhance:
         print(f"Employee work experiences: {resume_data.employee_work_experiences}\n")
         print(f"Employee educations: {resume_data.employee_educations}\n")
         print(f"Employee certifications: {resume_data.employee_certifications}\n")
+        """
 
         resume_data_dict = resume_data.to_dict()
 
         return resume_data_dict
 
+    """
     @staticmethod
     def main():
         resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
@@ -576,8 +643,9 @@ class AIEnhance:
                 retrieved_docs=retrieved_docs, id=23, given_query=query
             )
         )
-        # print(f"Result {result}\n")
+        print(f"Result:\n {result} \n")
 
 
 if __name__ == "__main__":
     AIEnhance.main()
+"""
