@@ -106,11 +106,11 @@
                     <div class="control" id="employee-work-experiences">
                         {% for experience in employee_work_experiences %}
                             <div  style="display: flex; flex-direction: column; gap: 20px;" class="experience-field">
-                                <input class="input" type="text" name="employee_work_experiences[][position]" value="{{ experience.position }}" required>
-                                <input class="input" type="text" name="employee_work_experiences[][employer]" value="{{ experience.employer }}" required>
-                                <input class="input" type="date" name="employee_work_experiences[][start_date]" value="{{ experience.start_date|date:'Y-m-d' }}" required>
-                                <input class="input" type="date" name="employee_work_experiences[][end_date]" value="{{ experience.end_date|date:'Y-m-d' }}" required>
-                                <textarea class="textarea" name="employee_work_experiences[][description]" required>{{ experience.description }}</textarea>
+                                <input class="input" type="text" name="employee_work_experiences[][position]" value="{{ experience.position }}" >
+                                <input class="input" type="text" name="employee_work_experiences[][employer]" value="{{ experience.employer }}" >
+                                <input class="input" type="date" name="employee_work_experiences[][start_date]" value="{{ experience.start_date|date:'Y-m-d' }}" >
+                                <input class="input" type="date" name="employee_work_experiences[][end_date]" value="{{ experience.end_date|date:'Y-m-d' }}" >
+                                <textarea class="textarea" name="employee_work_experiences[][description]" >{{ experience.description }}</textarea>
                                 <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                                 <hr class="hr-style">
                             </div>
@@ -125,11 +125,11 @@
                     <div class="control" id="employee-educations">
                         {% for education in employee_educations %}
                             <div style="display: flex; flex-direction: column; gap: 20px;" class="education-field">
-                                <input class="input" type="text" name="employee_educations[][degree]" value="{{ education.degree }}" required>
-                                <input class="input" type="text" name="employee_educations[][institution]" value="{{ education.institution }}" required>
-                                <input class="input" type="date" name="employee_educations[][start_date]" value="{{ education.start_date|date:'Y-m-d' }}" required>
-                                <input class="input" type="date" name="employee_educations[][end_date]" value="{{ education.end_date|date:'Y-m-d' }}" required>
-                                <textarea class="textarea" name="employee_educations[][description]" required>{{ education.description }}</textarea>
+                                <input class="input" type="text" name="employee_educations[][degree]" value="{{ education.degree }}" >
+                                <input class="input" type="text" name="employee_educations[][institution]" value="{{ education.institution }}" >
+                                <input class="input" type="date" name="employee_educations[][start_date]" value="{{ education.start_date|date:'Y-m-d' }}" >
+                                <input class="input" type="date" name="employee_educations[][end_date]" value="{{ education.end_date|date:'Y-m-d' }}" >
+                                <textarea class="textarea" name="employee_educations[][description]" >{{ education.description }}</textarea>
                                 <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                                 <hr class="hr-style">
                             </div>
@@ -144,10 +144,10 @@
                     <div class="control" id="employee-certifications">
                         {% for certification in employee_certifications %}
                             <div style="display: flex;flex-direction: column; gap: 20px;" class="certification-field">
-                                <input class="input" type="text" name="employee_certifications[][certification]" value="{{ certification.certification }}" required>
-                                <input class="input" type="text" name="employee_certifications[][institution]" value="{{ certification.institution }}" required>
-                                <input class="input" type="date" name="employee_certifications[][attainment_date]" value="{{ certification.attainment_date|date:'Y-m-d' }}" required>
-                                <textarea class="textarea" name="employee_certifications[][description]" required>{{ certification.description }}</textarea>
+                                <input class="input" type="text" name="employee_certifications[][certification]" value="{{ certification.certification }}" >
+                                <input class="input" type="text" name="employee_certifications[][institution]" value="{{ certification.institution }}" >
+                                <input class="input" type="date" name="employee_certifications[][attainment_date]" value="{{ certification.attainment_date|date:'Y-m-d' }}" >
+                                <textarea class="textarea" name="employee_certifications[][description]" >{{ certification.description }}</textarea>
                                 <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                                 <hr class="hr-style">
                             </div>
@@ -197,11 +197,11 @@
         function addWorkExperience(){
             document.getElementById("employee-work-experiences").innerHTML += `
                 <div  style="display: flex; flex-direction: column; gap: 20px;" class="experience-field">
-                    <input class="input" type="text" name="employee_work_experiences[][position]" required>
-                    <input class="input" type="text" name="employee_work_experiences[][employer]" required>
-                    <input class="input" type="date" name="employee_work_experiences[][start_date]" required>
-                    <input class="input" type="date" name="employee_work_experiences[][end_date]" required>
-                    <textarea class="textarea" name="employee_work_experiences[][description]" required></textarea>
+                    <input class="input" type="text" name="employee_work_experiences[][position]" >
+                    <input class="input" type="text" name="employee_work_experiences[][employer]" >
+                    <input class="input" type="date" name="employee_work_experiences[][start_date]" >
+                    <input class="input" type="date" name="employee_work_experiences[][end_date]" >
+                    <textarea class="textarea" name="employee_work_experiences[][description]" ></textarea>
                     <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                     <hr class="hr-style">
                 </div>
@@ -211,11 +211,11 @@
         function addEducation(){
             document.getElementById("employee-educations").innerHTML += `
                 <div style="display: flex; flex-direction: column; gap: 20px;" class="education-field">
-                    <input class="input" type="text" name="employee_educations[][degree]" required>
-                    <input class="input" type="text" name="employee_educations[][institution]" required>
-                    <input class="input" type="date" name="employee_educations[][start_date]" required>
-                    <input class="input" type="date" name="employee_educations[][end_date]" required>
-                    <textarea class="textarea" name="employee_educations[][description]" required></textarea>
+                    <input class="input" type="text" name="employee_educations[][degree]" >
+                    <input class="input" type="text" name="employee_educations[][institution]" >
+                    <input class="input" type="date" name="employee_educations[][start_date]" >
+                    <input class="input" type="date" name="employee_educations[][end_date]" >
+                    <textarea class="textarea" name="employee_educations[][description]" ></textarea>
                     <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                     <hr class="hr-style">
                 </div>
@@ -225,10 +225,10 @@
         function addCertification(){
             document.getElementById("employee-certifications").innerHTML += `
                 <div style="display: flex;flex-direction: column; gap: 20px;" class="certification-field">
-                    <input class="input" type="text" name="employee_certifications[][certification]" required>
-                    <input class="input" type="text" name="employee_certifications[][institution]" required>
-                    <input class="input" type="date" name="employee_certifications[][attainment_date]" required>
-                    <textarea class="textarea" name="employee_certifications[][description]" required></textarea>
+                    <input class="input" type="text" name="employee_certifications[][certification]" >
+                    <input class="input" type="text" name="employee_certifications[][institution]" >
+                    <input class="input" type="date" name="employee_certifications[][attainment_date]" >
+                    <textarea class="textarea" name="employee_certifications[][description]" ></textarea>
                     <button type="button" class="button is-danger is-light" onclick="removeElement(this)">Remove</button>
                     <hr class="hr-style">
                 </div>
