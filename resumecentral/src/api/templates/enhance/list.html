@@ -65,8 +65,8 @@
             const select_entry = document.getElementById("select_entry");
             
             const selected_url = select_entry.options[select_entry.selectedIndex].dataset.content;
-            const selected_id = select_entry.options[select_entry.selectedIndex].text;
-
+            const selected_id = select_entry.options[select_entry.selectedIndex].value;
+            const text_desc = select_entry.options[select_entry.selectedIndex].text;
 
             resume_url = "http://localhost:8000/resumes/id=" + selected_id;     
             pdf_url = "http://localhost:8000/static" + selected_url;     
@@ -74,7 +74,7 @@
             document.getElementById("dynamic").innerHTML = 
                 `
                     <br>
-                    <a href=${resume_url}> Selected Id: ${selected_id}</a>
+                    <a href=${resume_url}> Selected: ${text_desc}</a>
                     <br>
                     <br>
                     <embed width="600px" height="600px" id="dynamic_embed" src=${pdf_url} type="">

@@ -43,7 +43,8 @@ class AIController:
         )
 
         chromadb = chromadb_controller.get_database(name=chromadb_name)
-        chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
+        #use only for cpu; do not use on mps
+        #chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
 
         resumes = chromadb.get_resumes_from_sqlite3_database()
 

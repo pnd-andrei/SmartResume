@@ -22,7 +22,7 @@ class SearchResumesApiView(APIView):
         
         relevance = request.GET.get("relevance")
 
-        chunk_size = len(description)
+        chunk_size = 250
 
         if request.GET.get("slider"):
             slider = int(request.GET.get("slider"))

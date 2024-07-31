@@ -20,7 +20,7 @@ class ChromaDatabaseController:
         collection: Optional[Any] = None,
         collection_name: str = "chunk_collection",
         embedding_model_name: str = "sentence-transformers/all-mpnet-base-v2",
-        embedding_model_kwargs: dict = {"device": "cpu"},
+        embedding_model_kwargs: dict = {"device": "mps"},
         embedding_encode_kwargs: dict = {"normalize_embeddings": False},
         documents: list[Document] = [],
     ):
