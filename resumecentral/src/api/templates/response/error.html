@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    {% include 'navbar/nav.html' %}
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Error</h1>
+            <div>
+                <div class="notification is-danger">
+                    <h2>You are not authorized to view this page</h2>
+                    <hr>
+                    <div class="login">
+                        <a href="/login">Login</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>

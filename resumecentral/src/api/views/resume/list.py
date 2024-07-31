@@ -13,7 +13,7 @@ from api.forms.resume import ResumeForm
 from api.models.resume import Resume
 from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
-
+from rest_framework.exceptions import AuthenticationFailed
 
 class ResumeApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -79,8 +79,4 @@ class ResumeApiView(APIView):
                 status=status.HTTP_201_CREATED,
             )
 
-        return Response(
-            form.errors,
-            template_name=template_paths.get("response"),
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return Response(form.errors, template_name=template_paths.get("response"), status=status.HTTP_400_BAD_REQUEST)
