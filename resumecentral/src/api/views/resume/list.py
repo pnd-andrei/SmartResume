@@ -13,7 +13,7 @@ from api.forms.resume import ResumeForm
 from api.models.resume import Resume
 from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
-
+from rest_framework.exceptions import AuthenticationFailed
 
 class ResumeApiView(APIView):
     permission_classes = [IsAdminUser]
