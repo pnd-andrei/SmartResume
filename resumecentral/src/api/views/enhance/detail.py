@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from resumecentral.src.sem_kernel.service_settings import ServiceSettings
 
 
 class EnhanceResumeApiView(APIView):
@@ -13,7 +14,6 @@ class EnhanceResumeApiView(APIView):
         """
         description = request.GET.get("description")
         resume_id = request.GET.get("resume_id")
-
         print(description)
         print(resume_id)
 

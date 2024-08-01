@@ -1,7 +1,7 @@
 from semantic_kernel.kernel_pydantic import KernelBaseSettings
 
 
-class ServiceSettings(KernelBaseSettings):
+class ServiceSettings:
     """
     The Learn Resources Service Settings.
 
@@ -16,4 +16,4 @@ class ServiceSettings(KernelBaseSettings):
             If not provided, defaults to "AzureOpenAI".
     """
 
-    global_llm_service: str | None = "ollama"
+    global_llm_service: str | None = "openai"

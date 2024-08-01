@@ -24,8 +24,21 @@
                         </div>
                     </div>
 
+
                     <div class="field">
-                        <label class="label" for="sample_size">Id</label>
+                        <label class="label" for="model">Model</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="model" name="model">
+                                    <option value="ChatGPT">gpt-4o (cloud)</option>
+                                    <option value="LocalOllama">llama3.1 (local)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label" for="id">Id</label>
                         <div class="control">
                             <select id="select_entry" name="id" onchange="render_content()">
                                 {% for id, content, description in entries %}
@@ -42,18 +55,17 @@
                     </div>
 
                     <br>
-
+                    
                     <div class="field">
                         <div class="control">
                             <button class="button is-primary is-fullwidth" type="submit">Submit</button>
                         </div>
                     </div>
+
                 </div>
             </form>
         </div>
     </section>
-    <link rel="import" href="http://stackoverflow.com">
-
     <script>
         document.body.onload = () => {
             render_content();
@@ -68,8 +80,8 @@
             const selected_id = select_entry.options[select_entry.selectedIndex].value;
             const text_desc = select_entry.options[select_entry.selectedIndex].text;
 
-            resume_url = "http://localhost:8000/resumes/id=" + selected_id;     
-            pdf_url = "http://localhost:8000/static" + selected_url;     
+            resume_url = "/resumes/id=" + selected_id;     
+            pdf_url = "/static" + selected_url;     
 
             document.getElementById("dynamic").innerHTML = 
                 `
@@ -79,7 +91,6 @@
                     <br>
                     <embed width="600px" height="600px" id="dynamic_embed" src=${pdf_url} type="">
                 `
-
         }
     </script>
 </body>

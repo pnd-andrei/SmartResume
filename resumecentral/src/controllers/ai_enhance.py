@@ -160,6 +160,7 @@ class AIEnhance:
         )
 
         seniority_level_json_string = str(seniority_level)
+        seniority_level_python = []
 
         try:
             seniority_level_json = AIEnhance.delete_first_and_last_line(
@@ -518,7 +519,7 @@ class AIEnhance:
         return employee_certification_python
 
     @staticmethod
-    async def enhance_cv(retrieved_docs: list[Document], id: int, given_query: str):
+    async def enhance_cv(retrieved_docs: list[Document], id: int, given_query: str, model=None):
         # Get the variables from the .env file
         dotenv_path = os.path.join(
             os.path.dirname(__file__), "..", "sem_kernel", ".env"
@@ -529,7 +530,7 @@ class AIEnhance:
 
         kernel.setup_logging()
         kernel_instance = kernel.initialize_kernel()
-        selected_service = kernel.select_ai_service()
+        selected_service = kernel.select_ai_service(model=model)
         # print(f"Using service type: {selected_service}")
 
         # Remove all services so that this cell can be re-run without restarting the kernel

@@ -39,5 +39,5 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-handler403 = "api.views.error.error_403"
-handler500 = "api.views.error.error_500"
+#handler403 = "api.views.error.error_403"
+#handler500 = "api.views.error.error_500"

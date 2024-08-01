@@ -6,7 +6,7 @@ from semantic_kernel.connectors.ai.hugging_face import (
     HuggingFacePromptExecutionSettings,
     HuggingFaceTextCompletion,
 )
-from semantic_kernel.connectors.ai.ollama import OllamaPromptExecutionSettings
+from semantic_kernel.connectors.ai.ollama import OllamaPromptExecutionSettings, OllamaChatCompletion
 from semantic_kernel.connectors.ai.open_ai import (
     OpenAIChatCompletion,
     OpenAIChatPromptExecutionSettings,
@@ -37,17 +37,21 @@ def initialize_kernel():
     return kernel
 
 
-def select_ai_service():
-    service_settings = ServiceSettings.create()
-
-    # print(f"Service settings: {service_settings}\n")
-    # print(f"Service settings . global llm service: {service_settings.global_llm_service}\n")
+def select_ai_service(model=None):
+    service_settings = ServiceSettings()
 
     selectedService = (
-        Service.OpenAI
+        Service.Ollama
         if service_settings.global_llm_service is None
         else Service(service_settings.global_llm_service.lower())
     )
+
+    if model != None:
+        if model == "ChatGPT":
+            selectedService = Service.OpenAI
+        elif model == "LocalOllama":
+            selectedService = Service.Ollama
+
     return selectedService
 
 
@@ -63,18 +67,27 @@ def configure_service(selectedService):
             temperature=0,
         )
     elif selectedService == Service.Ollama:
+        '''
         openAIClient: AsyncOpenAI = AsyncOpenAI(
             api_key="fake-key", # required but ignored
-            base_url="http://localhost:11434"
+            base_url="http://10.20.3.54:11434"
+
         )
         service = OpenAIChatCompletion(
             service_id="phi:latest", 
             ai_model_id="phi:latest",
             async_client=openAIClient
         )
+        '''
+        model = "llama3.1:latest"
+        service = OllamaChatCompletion(
+            service_id=model,
+            ai_model_id=model,
+            host="http://10.20.3.54:11434",
+        )
         execution_settings = OllamaPromptExecutionSettings(
-            service_id="phi:latest",
-            ai_model_id="phi:latest",
+            service_id=model,
+            ai_model_id=model,
         )
     elif selectedService == Service.HuggingFace:
         service = HuggingFaceTextCompletion(
