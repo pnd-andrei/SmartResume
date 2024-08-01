@@ -147,9 +147,9 @@ class AIEnhance:
         chat_history.add_system_message(
             """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the seniority level (string) which can be Intern, Junior, Mid, Senior or Principal and the rank which is a 
-        percentage from 0 to 100 (int). If the seniority level is not provided, you can aproximate by the candidate experience. 
-        If the rank is not provided you can aproximate by the candidate experience. Do not provide a introduction of what you return. 
+        and provide me the rank (string) which can be Intern, Junior, Mid, Senior or Principal and the percentage which is a 
+        number from 0 to 100 (int). If the rank is not provided, you can aproximate by the candidate experience. 
+        If the percentage is not provided you can aproximate by the candidate experience. Do not provide a introduction of what you return. 
         Give me a JSON.
         """
         )
@@ -253,7 +253,7 @@ class AIEnhance:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the employee description (string) which is a short description of what the candidate does and nothing more. 
         You have to adapt that description to be suitable for the given query, so that them both mold together. First person, 
-        without pronouns. Keep it simple. Do not provide a introduction of what you return. Give me a JSON.
+        without pronouns. Keep it simple. Do not provide a introduction of what you return. Give me a string.
         """
         )
 
@@ -364,8 +364,8 @@ class AIEnhance:
         {
             'position':
             'employer':
-            'start_date': If not provided, you can aproximate or let empty.
-            'end_date': If not provided, you can aproximate or let empty.
+            'start_date': If not provided, you can aproximate .
+            'end_date': If not provided, you can aproximate.
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -421,13 +421,13 @@ class AIEnhance:
         chat_history = ChatHistory()
         chat_history.add_system_message(
             """
-            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and return the employee education which is a list of dictinaries, each dictionary being an education under this format:
-        {
+           You are a helpful assistant. Your task is to look inside the given PDF document (which is a CV) and return the degrees from accredited universities and high
+             schools only. Present the information as a list of dictionaries, with each dictionary representing an educational qualification in the following format:
+           {
             'degree':
             'institution':
-            'start_date': If not provided, you can aproximate or let empty.
-            'end_date': If not provided, you can aproximate or let empty.
+            'start_date': If not provided, you can aproximate.
+            'end_date': If not provided, you can aproximate.
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -484,11 +484,11 @@ class AIEnhance:
         chat_history.add_system_message(
             """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and return the employee education which is a list of dictinaries, each dictionary being a certification under this format:
+        and return the employee certifications which is a list of dictinaries, each dictionary being a certification under this format:
         {
             'certification':
             'institution':
-            'attainment_date': If not provided, you can aproximate or let empty.
+            'attainment_date': If not provided, you can aproximate.
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -636,6 +636,7 @@ class AIEnhance:
         """
 
         resume_data_dict = resume_data.to_dict()
+        print("\n\n\n"+str(resume_data_dict))
 
         return resume_data_dict
 

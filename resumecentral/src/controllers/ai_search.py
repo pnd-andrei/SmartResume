@@ -43,7 +43,7 @@ class AISearch:
         )
 
         chromadb = chromadb_controller.get_database(name=chromadb_name)
-        chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
+        #chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
 
         resumes = chromadb.get_resumes_from_sqlite3_database()
 
@@ -57,7 +57,7 @@ class AISearch:
         # This will populate both the vectorstore and the docstore
         chromadb.parent_retriever.add_documents(documents=pdf_documents)
 
-        retrieved_docs = chromadb.parent_retriever.invoke(input=query, k_size=1001)
+        retrieved_docs = chromadb.parent_retriever.invoke(input=query, k_size=10001)
 
         for doc in retrieved_docs:
             doc_score = str(doc.metadata.get("score"))
