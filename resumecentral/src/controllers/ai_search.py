@@ -43,7 +43,7 @@ class AISearch:
         )
 
         chromadb = chromadb_controller.get_database(name=chromadb_name)
-        #chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
+        # chromadb.clear_vectorstore_folder(folder_path=vectorstore_path)
 
         resumes = chromadb.get_resumes_from_sqlite3_database()
 
