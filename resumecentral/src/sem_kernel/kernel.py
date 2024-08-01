@@ -39,6 +39,10 @@ def initialize_kernel():
 
 def select_ai_service():
     service_settings = ServiceSettings.create()
+
+    # print(f"Service settings: {service_settings}\n")
+    # print(f"Service settings . global llm service: {service_settings.global_llm_service}\n")
+
     selectedService = (
         Service.OpenAI
         if service_settings.global_llm_service is None

@@ -316,6 +316,7 @@ class AIEnhance:
         )
 
         employee_skills_json_string = str(employee_skills)
+        employee_skills_python = []
 
         try:
             employee_skills_json = AIEnhance.delete_first_and_last_line(
@@ -378,6 +379,7 @@ class AIEnhance:
         )
 
         employee_work_experience_json_string = str(employee_work_experience)
+        employee_work_experience_python = []
 
         try:
             employee_work_experience_json = AIEnhance.delete_first_and_last_line(
@@ -440,6 +442,7 @@ class AIEnhance:
         )
 
         employee_education_json_string = str(employee_education)
+        employee_education_python = []
 
         try:
             employee_education_json = AIEnhance.delete_first_and_last_line(
@@ -501,6 +504,7 @@ class AIEnhance:
         )
 
         employee_certification_json_string = str(employee_certification)
+        employee_certification_python = []
 
         try:
             employee_certification_json = AIEnhance.delete_first_and_last_line(
@@ -526,7 +530,7 @@ class AIEnhance:
         kernel.setup_logging()
         kernel_instance = kernel.initialize_kernel()
         selected_service = kernel.select_ai_service()
-        print(f"Using service type: {selected_service}")
+        # print(f"Using service type: {selected_service}")
 
         # Remove all services so that this cell can be re-run without restarting the kernel
         kernel_instance.remove_all_services()
@@ -636,7 +640,7 @@ class AIEnhance:
         """
 
         resume_data_dict = resume_data.to_dict()
-        print("\n\n\n"+str(resume_data_dict))
+        # print("\n\n\n"+str(resume_data_dict))
 
         return resume_data_dict
 
