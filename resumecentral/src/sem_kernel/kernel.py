@@ -6,10 +6,7 @@ from semantic_kernel.connectors.ai.hugging_face import (
     HuggingFacePromptExecutionSettings,
     HuggingFaceTextCompletion,
 )
-from semantic_kernel.connectors.ai.ollama import (
-    OllamaChatCompletion,
-    OllamaPromptExecutionSettings,
-)
+from semantic_kernel.connectors.ai.ollama import OllamaPromptExecutionSettings
 from semantic_kernel.connectors.ai.open_ai import (
     OpenAIChatCompletion,
     OpenAIChatPromptExecutionSettings,
@@ -21,6 +18,7 @@ from semantic_kernel.prompt_template import (  # noqa: F401
 
 from resumecentral.src.sem_kernel.service_settings import ServiceSettings
 from resumecentral.src.sem_kernel.services import Service
+from openai import AsyncOpenAI
 
 
 def setup_logging():
@@ -61,14 +59,18 @@ def configure_service(selectedService):
             temperature=0,
         )
     elif selectedService == Service.Ollama:
-        service = OllamaChatCompletion(
-            service_id="llama3",
-            ai_model_id="llama3",
-            base_url="http://localhost:11434",
+        openAIClient: AsyncOpenAI = AsyncOpenAI(
+            api_key="fake-key", # required but ignored
+            base_url="http://localhost:11434"
+        )
+        service = OpenAIChatCompletion(
+            service_id="phi:latest", 
+            ai_model_id="phi:latest",
+            async_client=openAIClient
         )
         execution_settings = OllamaPromptExecutionSettings(
-            service_id="llama3",
-            ai_model_id="llama3",
+            service_id="phi:latest",
+            ai_model_id="phi:latest",
         )
     elif selectedService == Service.HuggingFace:
         service = HuggingFaceTextCompletion(

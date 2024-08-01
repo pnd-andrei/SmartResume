@@ -16,4 +16,4 @@ class ServiceSettings(KernelBaseSettings):
             If not provided, defaults to "AzureOpenAI".
     """
 
-    global_llm_service: str | None = None
+    global_llm_service: str | None = "ollama"
