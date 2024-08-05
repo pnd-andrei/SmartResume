@@ -6,7 +6,10 @@ from semantic_kernel.connectors.ai.hugging_face import (
     HuggingFacePromptExecutionSettings,
     HuggingFaceTextCompletion,
 )
-from semantic_kernel.connectors.ai.ollama import OllamaPromptExecutionSettings, OllamaChatCompletion
+from semantic_kernel.connectors.ai.ollama import (
+    OllamaPromptExecutionSettings,
+    OllamaChatCompletion,
+)
 from semantic_kernel.connectors.ai.open_ai import (
     OpenAIChatCompletion,
     OpenAIChatPromptExecutionSettings,
@@ -18,7 +21,6 @@ from semantic_kernel.prompt_template import (  # noqa: F401
 
 from resumecentral.src.sem_kernel.service_settings import ServiceSettings
 from resumecentral.src.sem_kernel.services import Service
-from openai import AsyncOpenAI
 
 
 def setup_logging():
@@ -46,7 +48,7 @@ def select_ai_service(model=None):
         else Service(service_settings.global_llm_service.lower())
     )
 
-    if model != None:
+    if model is not None:
         if model == "ChatGPT":
             selectedService = Service.OpenAI
         elif model == "LocalOllama":
@@ -67,18 +69,18 @@ def configure_service(selectedService):
             temperature=0,
         )
     elif selectedService == Service.Ollama:
-        '''
+        """
         openAIClient: AsyncOpenAI = AsyncOpenAI(
             api_key="fake-key", # required but ignored
             base_url="http://10.20.3.54:11434"
 
         )
         service = OpenAIChatCompletion(
-            service_id="phi:latest", 
+            service_id="phi:latest",
             ai_model_id="phi:latest",
             async_client=openAIClient
         )
-        '''
+        """
         model = "llama3.1:latest"
         service = OllamaChatCompletion(
             service_id=model,

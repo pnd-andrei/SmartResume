@@ -1,6 +1,3 @@
-from semantic_kernel.kernel_pydantic import KernelBaseSettings
-
-
 class ServiceSettings:
     """
     The Learn Resources Service Settings.

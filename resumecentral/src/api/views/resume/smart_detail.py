@@ -9,8 +9,6 @@ import asyncio
 import importlib.util
 import os
 
-from sem_kernel.service_settings import ServiceSettings
-
 
 def import_object_from_file(file_path, object_name):
     # Check if the file exists
@@ -65,7 +63,10 @@ class IndividualSmartResumeApiView(APIView):
 
         dictx = asyncio.run(
             AIEnhance.enhance_cv(
-                retrieved_docs=retrieved_docs, id=int(id), given_query=query, model=model
+                retrieved_docs=retrieved_docs,
+                id=int(id),
+                given_query=query,
+                model=model,
             )
         )
 

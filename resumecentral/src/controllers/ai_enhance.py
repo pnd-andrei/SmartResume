@@ -519,7 +519,9 @@ class AIEnhance:
         return employee_certification_python
 
     @staticmethod
-    async def enhance_cv(retrieved_docs: list[Document], id: int, given_query: str, model=None):
+    async def enhance_cv(
+        retrieved_docs: list[Document], id: int, given_query: str, model=None
+    ):
         # Get the variables from the .env file
         dotenv_path = os.path.join(
             os.path.dirname(__file__), "..", "sem_kernel", ".env"
