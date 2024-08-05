@@ -104,7 +104,7 @@ class AIEnhance:
         chat_history.add_system_message(
             """
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the job profile (string). Only the job profile, nothing more. Do not provide a introduction of what you return. 
+        and provide me the job profile (string). Only the job profile, nothing more. Do not provide a introduction of what you return.
         """
         )
 
@@ -149,8 +149,8 @@ class AIEnhance:
             You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
         and provide me the rank (string) which can be Intern, Junior, Mid, Senior or Principal and the percentage which is a 
         number from 0 to 100 (int). If the rank is not provided, you can aproximate by the candidate experience. 
-        If the percentage is not provided you can aproximate by the candidate experience. Do not provide a introduction of what you return. 
-        Give me a JSON.
+        The percentage should be between 0-20 for Intern, 20-40 for Junior, 40-60 for Mid, 60-80 for Senior and 80-100 for Principal.
+        Do not provide a introduction of what you return. Give me a JSON.
         """
         )
 
@@ -172,50 +172,6 @@ class AIEnhance:
 
         # print(f"Seniority level python: {seniority_level_python}")
         return seniority_level_python
-
-    @staticmethod
-    async def get_job_profile_description(
-        prompt, execution_settings, kernel_instance, cv_to_enhance
-    ):
-        # Job profile description
-        prompt_template_config = kernel.PromptTemplateConfig(
-            name="return job profile description",
-            template=prompt,
-            template_format="semantic-kernel",
-            input_variables=[
-                kernel.InputVariable(
-                    name="cv_input", description="The CV to look into", isRequired=True
-                ),
-                kernel.InputVariable(
-                    name="history",
-                    description="The conversation history",
-                    is_required=True,
-                ),
-            ],
-            execution_settings=execution_settings,
-        )
-
-        job_profile_description_function = kernel_instance.add_function(
-            function_name="jobProfileDescriptionFunc",
-            plugin_name="jobProfileDescriptionPlugin",
-            prompt_template_config=prompt_template_config,
-        )
-
-        chat_history = ChatHistory()
-        chat_history.add_system_message(
-            """
-            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the job profile description (string) which is a short description of what the candidate does and nothing more. 
-        First person, without pronouns. Keep it simple. Do not provide a introduction of what you return. 
-        """
-        )
-
-        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
-        job_profile_description = await kernel_instance.invoke(
-            function=job_profile_description_function, arguments=arguments
-        )
-
-        return job_profile_description
 
     @staticmethod
     async def get_employee_description(
@@ -299,22 +255,22 @@ class AIEnhance:
         chat_history.add_system_message(
             """
             You are a helpful assistant. Your task is to look inside the given string as input (which is a CV) 
-        and return the employee skills which is a list of dictinaries, each dictionary being a skill under this format:
+        and return the employee skills which is a list of dictionaries, each dictionary being a skill under this format:
         {
             seniority_level': { 
                 'rank': Can be Intern, Junior, Mid, Senior or Principal.
-                'percentage': Can be from 0 to 100.
+                'percentage': Can be from 0 to 100. Should be between 0-20 for Intern, 20-40 for Junior, 40-60 for Mid, 60-80 for Senior and 80-100 for Principal.
             },
             'skill':
         }
-        Do not provide a introduction of what you return. Give me a JSON.
+        Do not provide an introduction of what you return. Give me a JSON.
         """
         )
 
         arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
         employee_skills = await kernel_instance.invoke(
             function=employee_skills_function, arguments=arguments
-        )
+        )  
 
         employee_skills_json_string = str(employee_skills)
         employee_skills_python = []
@@ -366,8 +322,8 @@ class AIEnhance:
         {
             'position':
             'employer':
-            'start_date': If not provided, you can aproximate .
-            'end_date': If not provided, you can aproximate.
+            'start_date': If not provided, you can aproximate. (yyyy-mm-dd)
+            'end_date': If not provided, you can aproximate. (yyyy-mm-dd)
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -429,8 +385,8 @@ class AIEnhance:
            {
             'degree':
             'institution':
-            'start_date': If not provided, you can aproximate.
-            'end_date': If not provided, you can aproximate.
+            'start_date': If not provided, you can aproximate. (yyyy-mm-dd)
+            'end_date': If not provided, you can aproximate. (yyyy-mm-dd)
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -492,7 +448,7 @@ class AIEnhance:
         {
             'certification':
             'institution':
-            'attainment_date': If not provided, you can aproximate.
+            'attainment_date': If not provided, you can aproximate. (yyyy-mm-dd) 
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -590,12 +546,6 @@ class AIEnhance:
                 kernel_instance=kernel_instance,
                 cv_to_enhance=cv_to_enhance,
             ),
-            job_profile_description=await AIEnhance.get_job_profile_description(
-                prompt=prompt,
-                execution_settings=execution_settings,
-                kernel_instance=kernel_instance,
-                cv_to_enhance=cv_to_enhance,
-            ),
             employee_description=await AIEnhance.get_employee_description(
                 query_prompt=query_prompt,
                 execution_settings=execution_settings,
@@ -634,7 +584,6 @@ class AIEnhance:
         print(f"Employee name: {resume_data.employee_name}\n")
         print(f"Job profile: {resume_data.job_profile}\n")
         print(f"Seniority level: {resume_data.seniority_level}\n")
-        print(f"Job profile description: {resume_data.job_profile_description}\n")
         print(f"Employee description: {resume_data.employee_description}\n")
         print(f"Employee skills: {resume_data.employee_skills}\n")
         print(f"Employee work experiences: {resume_data.employee_work_experiences}\n")
