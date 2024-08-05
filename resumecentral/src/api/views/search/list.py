@@ -40,6 +40,7 @@ class SearchResumesApiView(APIView):
                 (
                     {
                         "id": resume.metadata.get("id"),
+                        "description": resume.metadata.get("description"),
                         "file_upload": resume.metadata.get("source"),
                         "precision": resume.metadata.get("score"),
                     },

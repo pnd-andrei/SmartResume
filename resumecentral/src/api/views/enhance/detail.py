@@ -14,7 +14,6 @@ class EnhanceResumeApiView(APIView):
         """
         description = request.GET.get("description")
         resume_id = request.GET.get("resume_id")
-        print(description)
-        print(resume_id)
+
 
         return Response(status=status.HTTP_400_BAD_REQUEST)

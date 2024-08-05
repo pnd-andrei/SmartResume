@@ -21,19 +21,20 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="sample_size">Maximum Results</label>
-            <p class="subtitle is-size-6">
-                There are {{count}} resumes loaded.
-            </p>
-            <div class="control">
-              <input required class="input" max="{{count}}" value="{{count}}"  type="number" id="sample_size" name="sample_size" placeholder="Enter sample size, Max: {{count}}">
-            </div>
-          </div>
-
           <div class="finetunning notification">
             <h1 class="title is-size-5">Optional Fine Tunning</h1>
             <p>This features could result in unpredictable behaviour, use them with caution.</p>
+            <br>
+            <div class="field">
+              <label class="label" for="sample_size">Maximum Results</label>
+              <p class="subtitle is-size-6">
+                  There are {{count}} resumes loaded.
+              </p>
+              <div class="control">
+                <input required class="input" max="{{count}}" value="{{count}}"  type="number" id="sample_size" name="sample_size" placeholder="Enter sample size, Max: {{count}}">
+              </div>
+            </div>
+            <br>
             <div style="display: flex; justify-content: space-between;" class="notification">
               <div style="margin:auto;" class="field">
                 <label class="label" for="chunk_size">Chunk Size (Permissiveness)</label>

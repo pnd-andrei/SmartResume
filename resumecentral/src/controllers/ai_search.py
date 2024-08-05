@@ -21,15 +21,6 @@ class AISearch:
 
         vectorstore_path = os.path.join(src, "chroma/vectorstore/")
 
-        """
-        if os.path.exists(cache_path):
-            shutil.rmtree(cache_path)
-            
-
-        if os.path.exists(vectorstore_path):
-            shutil.rmtree(vectorstore_path)
-        """
-
         chromadb_controller = ChromaDatabaseController()
         chromadb_name = "similarity_chromadb"
 

@@ -19,7 +19,7 @@
 
             <div class="box">
                 <p class="subtitle is-4">Query: <span class="subtitle is-5">{{ description }}</span></p>
-                <p class="subtitle is-5">Sample Size: {{ sample_size }}</p>
+                <p class="subtitle is-5">Maximum Results: {{ sample_size }}</p>
             </div>
 
             <nav class="level">
@@ -37,11 +37,17 @@
         <div class="container">
             <div class="box">
                 <p class="title is-4">Loaded Resumes:</p>
-                <div class="content">
+                <div style="display: flex; flex-direction: column; gap: 50px;" class="content">
                     <ul>
                         {% for content, id in entries %}
-                            <a href="/resumes/id={{id}}">{{ content }}</a>
-                            <br>
+                            <div class="box" style="display: flex; flex-direction: column; gap: 20px;">
+                                <a href="/resumes/id={{id}}"><embed height="400px" width="400px" src="{{ content.file_upload }}"></a>
+                                <div class="buttons">
+                                    <a target="_blank" href="/resumes/smart?description={{ description }}&model=ChatGPT&id={{id}}" class="button is-primary">Enhance with ChatGPT (Remote)</a>
+                                    <a target="_blank" href="/resumes/smart?description={{ description }}&model=LocalOllama&id={{id}}" class="button is-link">Enhance with Ollama (Local)</a>
+                                </div>
+                                <br>
+                            </div>
                         {% endfor %}
                     </ul>
                 </div>

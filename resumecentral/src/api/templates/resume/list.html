@@ -42,7 +42,7 @@
                 <p class="title is-size-4">Loaded Resumes:</p>
                 <ul>
                     {% for content, id in entries %}
-                        <a href="id={{id}}">{{ content }}</a> <br>
+                        <a href="id={{id}}">{{ content.description }}</a> <br>
                     {% endfor %}
                 </ul>
             </div>

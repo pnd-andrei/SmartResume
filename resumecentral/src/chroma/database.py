@@ -254,7 +254,6 @@ class ChromaDatabase:
         if resumes:
             for resume_path in resumes:
                 try:
-                    print(resume_path)
                     pdf_loader = PyMuPDFLoader(file_path=resume_path[1])
                     loaded_pages = pdf_loader.load()
 
