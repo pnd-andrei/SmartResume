@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from dotenv import load_dotenv
 from resumecentral.src.sem_kernel import kernel
 import os
@@ -448,7 +449,7 @@ class AIEnhance:
         {
             'certification':
             'institution':
-            'attainment_date': If not provided, you can aproximate. (yyyy-mm-dd) 
+            'attainment_date': If not provided, you can aproximate. (yyyy-mm-dd)
             'description': If not provided, you can generate a short description.
         }
         Do not provide a introduction of what you return. Give me a JSON.
@@ -580,7 +581,7 @@ class AIEnhance:
             ),
         )
 
-        """
+        
         print(f"Employee name: {resume_data.employee_name}\n")
         print(f"Job profile: {resume_data.job_profile}\n")
         print(f"Seniority level: {resume_data.seniority_level}\n")
@@ -589,10 +590,38 @@ class AIEnhance:
         print(f"Employee work experiences: {resume_data.employee_work_experiences}\n")
         print(f"Employee educations: {resume_data.employee_educations}\n")
         print(f"Employee certifications: {resume_data.employee_certifications}\n")
-        """
+
+        # Parse dates
+        for i in range(len(resume_data.employee_certifications)):
+            try:
+                attainment_date_str = resume_data.employee_certifications[i].get("attainment_date")
+                if attainment_date_str: 
+                    resume_data.employee_certifications[i]["attainment_date"] = datetime.strptime(attainment_date_str, "%Y-%m-%d").date()
+            except Exception as e:
+                print(e)
+
+
+        for i in range(len(resume_data.employee_work_experiences)):
+            try:
+                start_date_str = resume_data.employee_work_experiences[i].get("start_date")
+                end_date_str = resume_data.employee_work_experiences[i].get("end_date")
+                if attainment_date_str: 
+                    resume_data.employee_work_experiences[i]["start_date"] = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+                    resume_data.employee_work_experiences[i]["end_date"] = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+            except Exception as e:
+                print(e)
+
+        for i in range(len(resume_data.employee_educations)):
+            try:
+                start_date_str = resume_data.employee_educations[i].get("start_date")
+                end_date_str = resume_data.employee_educations[i].get("end_date")
+                if attainment_date_str:
+                    resume_data.employee_educations[i]["start_date"] = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+                    resume_data.employee_educations[i]["end_date"] = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+            except Exception as e:
+                print(e)
 
         resume_data_dict = resume_data.to_dict()
-        # print("\n\n\n"+str(resume_data_dict))
 
         return resume_data_dict
 
