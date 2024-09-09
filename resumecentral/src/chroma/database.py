@@ -226,7 +226,7 @@ class ChromaDatabase:
         Raises:
             ValueError: If the resumes retrieval fails.
         """
-        url = "http://127.0.0.1:8000"
+        url = "http://127.0.0.1:1080"
         resumes = [][:]
         try:
             resumes = fetch_resumes(url)

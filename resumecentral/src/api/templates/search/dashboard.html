@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>  
+  <style>
+    body{
+      background-color: rgb(252, 252, 252);;
+      height: 100vh;
+    }
+  </style>
   {% include 'navbar/nav.html' %}
 
   <section class="section">
@@ -21,8 +27,23 @@
             </div>
           </div>
 
-          <div class="finetunning notification">
-            <h1 class="title is-size-5">Optional Fine Tunning</h1>
+          <div style="margin: auto;" class="field">
+            <label  class="label" for="relevance">Sort By</label>
+            <div class="control">
+              <div class="select is-rounded is-primary">
+                <select id="relevance" name="relevance">
+                  <option value="relevance">Relevance</option>
+                  <option value="experience">Experience</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <button type="button" class="button is-light is-fullwidth" id="toggleFineTuningButton">Show Optional Fine Tuning</button>
+
+          <div id="fineTuning" class="finetunning notification hidden">
+            <h1 class="title is-size-5">Optional Fine Tuning</h1>
             <p>This features could result in unpredictable behaviour, use them with caution.</p>
             <br>
             <div class="field">
@@ -40,19 +61,6 @@
                 <label class="label" for="chunk_size">Chunk Size (Permissiveness)</label>
                 <input class="slider is-primary" type="range" min="1" max="4" value="4" name="slider">
               </div>
-    
-              <div style="margin: auto;" class="field">
-                <label  class="label" for="relevance">Sort By</label>
-                <div class="control">
-                  <div class="select is-rounded is-primary">
-                    <select id="relevance" name="relevance">
-                      <option value="relevance">Relevance</option>
-                      <option value="experience">Experience</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-  
             </div>
           </div>
 
@@ -70,21 +78,31 @@
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-        document.forms['main_form'].addEventListener('submit', function (e) {
-            // Prevent default form submission
-            e.preventDefault();
+    const toggleButton = document.getElementById('toggleFineTuningButton');
+    const fineTuningSection = document.getElementById('fineTuning');
 
-
-            // Delay form submission to allow animation to appear
-            setTimeout(() => {
-                this.submit();
-                document.getElementById("dash").innerHTML = `<div style='position:relative;display:flex;margin:auto;margin-top:25vh' class="lds-ripple"><div></div><div></div></div>`;
-            }, 100); // Adjust delay as needed
-        });
+    toggleButton.addEventListener('click', function () {
+      fineTuningSection.classList.toggle('hidden');
+      toggleButton.textContent = fineTuningSection.classList.contains('hidden') ? 'Show Optional Fine Tuning' : 'Hide Optional Fine Tuning';
     });
+
+    document.forms['main_form'].addEventListener('submit', function (e) {
+      // Prevent default form submission
+      e.preventDefault();
+
+      // Delay form submission to allow animation to appear
+      setTimeout(() => {
+        this.submit();
+        document.getElementById("dash").innerHTML = `<div style='position:relative;display:flex;margin:auto;margin-top:25vh' class="lds-ripple"><div></div><div></div></div>`;
+      }, 100); // Adjust delay as needed
+    });
+  });
 </script>
 
 <style>
+.hidden {
+  display: none !important;
+}
 .lds-ripple,
 .lds-ripple div {
   box-sizing: border-box;

@@ -7,26 +7,86 @@
     <title>Enhance Resume</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
+<style>
+        body{
+            background-color: rgb(252, 252, 252);;
+            min-height: 100vh;
+        }
 
+    .hidden {
+    display: none !important;
+    }
+    .lds-ripple,
+    .lds-ripple div {
+    box-sizing: border-box;
+    }
+    .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    }
+    .lds-ripple div {
+    position: absolute;
+    border: 4px solid currentColor;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+    }
+    @keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 8px;
+        height: 8px;
+        opacity: 0;
+    }
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 8px;
+        height: 8px;
+        opacity: 0;
+    }
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 8px;
+        height: 8px;
+        opacity: 1;
+    }
+    100% {
+        top: 0;
+        left: 0;
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+    }
+
+</style>
 <body>
     {% include 'navbar/nav.html' %}
 
-    <section class="section">
+    <section id="dash" class="section">
         <div class="container">
             <h1 class="title has-text-centered">Enhance Dashboard</h1>
-            <form action="/resumes/smart" method="GET">
+            <form id="main_form" action="/resumes/smart" method="GET">
                 <div class="box">
                     <div class="field">
-                        <label class="label" for="description">Query</label>
+                        <label class="label" for="description">Tell me how to enhance the CV</label>
                         <div class="control">
                             <textarea required class="textarea" id="description" name="description"
-                                placeholder="Enter query"></textarea>
+                                placeholder="Share your thoughts..."></textarea>
                         </div>
                     </div>
 
 
                     <div class="field">
-                        <label class="label" for="model">Model</label>
+                        <label class="label" for="model">Choose your AI</label>
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select id="model" name="model">
@@ -38,7 +98,7 @@
                     </div>
 
                     <div class="field">
-                        <label class="label" for="id">Id</label>
+                        <label class="label" for="id">Select CV</label>
                         <div class="control">
                             <select id="select_entry" name="id" onchange="render_content()">
                                 {% for id, content, description in entries %}
@@ -92,6 +152,17 @@
                     <embed width="600px" height="600px" id="dynamic_embed" src=${pdf_url} type="">
                 `
         }
+
+        document.forms['main_form'].addEventListener('submit', function (e) {
+            // Prevent default form submission
+            e.preventDefault();
+
+            // Delay form submission to allow animation to appear
+            setTimeout(() => {
+                this.submit();
+                document.getElementById("dash").innerHTML = `<div style='position:relative;display:flex;margin:auto;margin-top:25vh' class="lds-ripple"><div></div><div></div></div>`;
+            }, 100); // Adjust delay as needed
+        });
     </script>
 </body>
 

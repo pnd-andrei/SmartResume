@@ -7,13 +7,13 @@ class SmartResumeData:
         employee_name: str,
         job_profile: str,
         seniority_level: Dict[str, any],
-        job_profile_description: str,
         employee_description: str,
         job_profile_required_skills: List[str],
         employee_skills: List[Dict[str, any]],
         employee_work_experiences: List[Dict[str, any]],
         employee_educations: List[Dict[str, any]],
         employee_certifications: List[Dict[str, any]],
+        job_profile_description: str = ""
     ):
         self.employee_name = employee_name
         self.job_profile = job_profile

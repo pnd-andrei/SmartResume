@@ -175,50 +175,6 @@ class AIEnhance:
         return seniority_level_python
 
     @staticmethod
-    async def get_job_profile_description(
-        prompt, execution_settings, kernel_instance, cv_to_enhance
-    ):
-        # Job profile description
-        prompt_template_config = kernel.PromptTemplateConfig(
-            name="return job profile description",
-            template=prompt,
-            template_format="semantic-kernel",
-            input_variables=[
-                kernel.InputVariable(
-                    name="cv_input", description="The CV to look into", isRequired=True
-                ),
-                kernel.InputVariable(
-                    name="history",
-                    description="The conversation history",
-                    is_required=True,
-                ),
-            ],
-            execution_settings=execution_settings,
-        )
-
-        job_profile_description_function = kernel_instance.add_function(
-            function_name="jobProfileDescriptionFunc",
-            plugin_name="jobProfileDescriptionPlugin",
-            prompt_template_config=prompt_template_config,
-        )
-
-        chat_history = ChatHistory()
-        chat_history.add_system_message(
-            """
-            You are a helpful assistant. Your task is to look inside the given PDF document as input (which is a CV) 
-        and provide me the job profile description (string) which is a short description of what the candidate does and nothing more. 
-        First person, without pronouns. Keep it simple. Do not provide a introduction of what you return. 
-        """
-        )
-
-        arguments = KernelArguments(cv_input=cv_to_enhance, history=chat_history)
-        job_profile_description = await kernel_instance.invoke(
-            function=job_profile_description_function, arguments=arguments
-        )
-
-        return job_profile_description
-
-    @staticmethod
     async def get_employee_description(
         query_prompt, execution_settings, kernel_instance, cv_to_enhance, given_query
     ):
@@ -304,7 +260,7 @@ class AIEnhance:
         {
             seniority_level': { 
                 'rank': Can be Intern, Junior, Mid, Senior or Principal.
-                'percentage': Can be from 0 to 100.
+                'percentage': Can be from 0 to 100. Should be between 0-20 for Intern, 20-40 for Junior, 40-60 for Mid, 60-80 for Senior and 80-100 for Principal.
             },
             'skill':
         }
@@ -591,12 +547,7 @@ class AIEnhance:
                 kernel_instance=kernel_instance,
                 cv_to_enhance=cv_to_enhance,
             ),
-            job_profile_description=await AIEnhance.get_job_profile_description(
-                prompt=prompt,
-                execution_settings=execution_settings,
-                kernel_instance=kernel_instance,
-                cv_to_enhance=cv_to_enhance,
-            ),
+            job_profile_description="",
             employee_description=await AIEnhance.get_employee_description(
                 query_prompt=query_prompt,
                 execution_settings=execution_settings,

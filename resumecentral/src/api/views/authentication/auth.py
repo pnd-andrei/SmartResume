@@ -48,7 +48,7 @@ def user_register(request):
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect("/resumes")
+        return redirect("/resumes/search/")
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -59,9 +59,9 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("/resumes")
+                return redirect("/resumes/")
 
-        return redirect("/register")
+        return redirect("/register/")
     else:
         form = AuthenticationForm()
     return render(request, template_paths.get("auth_login"), {"form": form})

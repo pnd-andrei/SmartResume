@@ -13,6 +13,7 @@ from api.forms.resume import ResumeForm
 from api.models.resume import Resume
 from api.modules.template_paths import template_paths
 from api.serializers.resume import ResumeSerializer
+from django.template.response import TemplateResponse
 
 
 class ResumeApiView(APIView):
@@ -74,9 +75,11 @@ class ResumeApiView(APIView):
 
             instance.save()
 
-            return Response(
-                {"message": "Resume created successfully"},
-                status=status.HTTP_201_CREATED,
+            return TemplateResponse(
+                request,
+                template_paths.get("response"),
+                {"entries": {"Response": "Resume added sucessfully"}},
+                status=status.HTTP_200_OK,
             )
 
         return Response(

@@ -4,6 +4,23 @@
     <title>Found Resume</title>
     <!-- Link to Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: rgb(252, 252, 252);
+            min-height: 100vh;
+        }
+        .resume-item {
+            display: none; /* Hide items initially */
+        }
+        .resume-item.visible {
+            display: flex; /* Show items with the 'visible' class */
+            width: 100%;
+            margin: 20px;
+        }
+        .resume-item div {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar/nav.html' %}
@@ -18,41 +35,77 @@
         <div class="container">
 
             <div class="box">
-                <p class="subtitle is-4">Query: <span class="subtitle is-5">{{ description }}</span></p>
-                <p class="subtitle is-5">Maximum Results: {{ sample_size }}</p>
+                <p class="subtitle is-4">Description: <span class="subtitle is-5">{{ ui_description }}</span></p>
+                <p class="subtitle is-5">Number of Results: {{ sample_size }}</p>
             </div>
 
             <nav class="level">
                 <div class="level-left">
                     <div class="level-item">
-                        <a class="button is-primary" href="/resumes/search">Back to Dashboard</a>
+                        <a class="button is-primary" href="/resumes/search/">Back to Dashboard</a>
                     </div>
                 </div>
             </nav>
         </div>
-
     </section>
 
     <section class="section">
         <div class="container">
             <div class="box">
                 <p class="title is-4">Loaded Resumes:</p>
-                <div style="display: flex; flex-direction: column; gap: 50px;" class="content">
+                <div id="resume-container" style="display: flex; flex-direction: column; gap: 50px;" class="content">
                     <ul>
                         {% for content, id in entries %}
-                            <div class="box" style="display: flex; flex-direction: column; gap: 20px;">
-                                <a href="/resumes/id={{id}}"><embed height="400px" width="400px" src="{{ content.file_upload }}"></a>
-                                <div class="buttons">
-                                    <a target="_blank" href="/resumes/smart?description={{ description }}&model=ChatGPT&id={{id}}" class="button is-primary">Enhance with ChatGPT (Remote)</a>
-                                    <a target="_blank" href="/resumes/smart?description={{ description }}&model=LocalOllama&id={{id}}" class="button is-link">Enhance with Ollama (Local)</a>
-                                </div>
-                                <br>
-                            </div>
+                            <li class="resume-item">
+                                <a href="/resumes/id={{id}}">
+                                    <div class="box" style="display: flex; flex-direction: column; gap: 20px;">
+                                        <p style="text-decoration: none;" class="is-size-5 is-title">#{{ forloop.counter }}</p>
+                                        <a href="/resumes/id={{id}}">
+                                            <embed height="400px" width="100%" src="/static/{{ content.file_upload }}">
+                                        </a>
+                                        <p class="notification">Precision: {{ content.precision }}</p>
+                                        <div class="buttons">
+                                            <a target="_blank" href="/resumes/smart?description={{ description }}&model=ChatGPT&id={{id}}" class="button is-primary">Enhance with ChatGPT (Remote)</a>
+                                            <a target="_blank" href="/resumes/smart?description={{ description }}&model=LocalOllama&id={{id}}" class="button is-link">Enhance with Ollama (Local)</a>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
+                </div>
+                <div class="has-text-centered">
+                    <button id="load-more" class="button is-primary">Load More</button>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.resume-item');
+            const loadMoreButton = document.getElementById('load-more');
+            let currentIndex = 0;
+            const itemsPerPage = 3;
+
+            function loadItems() {
+                const nextIndex = Math.min(currentIndex + itemsPerPage, items.length);
+                for (let i = currentIndex; i < nextIndex; i++) {
+                    items[i].classList.add('visible');
+                }
+                currentIndex = nextIndex;
+
+                if (currentIndex >= items.length) {
+                    loadMoreButton.style.display = 'none'; // Hide button when no more items
+                }
+            }
+
+            loadMoreButton.addEventListener('click', loadItems);
+
+            // Initial load
+            loadItems();
+        });
+    </script>
 </body>
 </html>
