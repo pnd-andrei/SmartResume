@@ -2,6 +2,7 @@ import os
 import re
 from typing import Any, Optional
 import shutil
+import pymupdf4llm  # noqa: F401
 
 import chromadb
 from langchain.retrievers import ParentDocumentRetriever
@@ -10,7 +11,7 @@ from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter, MarkdownHeaderTextSplitter, MarkdownTextSplitter  # noqa: F401
 
 from resumecentral.src.controllers.fetch import fetch_resumes
 from resumecentral.src.chroma.extended.custom_parent_retriever import (
@@ -319,18 +320,6 @@ class ChromaDatabase:
         | RecursiveCharacterTextSplitter
     ):
 
-        # Chooses an appropriate text splitter for chunking based on the content of the documents. It tries to split the
-        # documents based on markdown headers first, then falls back to markdown text splitter or a recursive character
-        # splitter based on the structure of the documents.
-
-        # Parameters:
-            # docs (list[Document]): A list of Document objects to be split.
-            # chunk_size (int, optional): The size of each chunk after splitting. Defaults to 1000.
-            # chunk_overlap (int, optional): The overlap size between chunks. Defaults to 200.
-
-        # Returns:
-            # An instance of a text splitter, chosen based on the content of the documents.
-
         if not docs:
             raise ValueError("Document list is empty")
         markdown_content = ""
@@ -352,28 +341,20 @@ class ChromaDatabase:
             ("######", "Header 6"),
         ]
 
-        md_header_splitter = MarkdownHeaderTextSplitter(
-            headers_to_split_on=headers_to_split_on
-        )
-        md_splitter = MarkdownTextSplitter(
-            chunk_size=chunk_size, chunk_overlap=chunk_overlap
-        )
+        md_header_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on)
 
-        # recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        md_splitter = MarkdownTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+
+        recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
         # Firstly, try splitting by headers (Skills, Experience..); every CV have at least 4 headers
         if len(md_header_splitter.split_text(text=markdown_content)) > 4:
-            print("Splitter used: Markdown Header Text Splitter\n")
             return md_header_splitter
 
         # If there are no enough headers, search also for at least 4 separators including horizontal, blank lines and more
         if len(md_splitter.create_documents(texts=[markdown_content])) > 4:
-            print("Splitter used: Markdown Text Splitter\n")
             return md_splitter
 
         # Otherwise, use the standard RecursiveCharacterTextSplitter
-        print("Splitter used: Recursive Text Splitter\n")
         return recursive_splitter
-        # The commented 3-splitter approach cannot be used because the ParentDocumentRetriever can only have one child_retriever
-        # The class does not support the functionality where one can give the splitted data as parameter instead of a splitter
         """

@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime  # noqa: F401
 from dotenv import load_dotenv
 from resumecentral.src.sem_kernel import kernel
 import os
@@ -582,7 +582,7 @@ class AIEnhance:
             ),
         )
 
-        
+        """
         print(f"Employee name: {resume_data.employee_name}\n")
         print(f"Job profile: {resume_data.job_profile}\n")
         print(f"Seniority level: {resume_data.seniority_level}\n")
@@ -591,6 +591,7 @@ class AIEnhance:
         print(f"Employee work experiences: {resume_data.employee_work_experiences}\n")
         print(f"Employee educations: {resume_data.employee_educations}\n")
         print(f"Employee certifications: {resume_data.employee_certifications}\n")
+        """
 
         # Parse dates
         for i in range(len(resume_data.employee_certifications)):
