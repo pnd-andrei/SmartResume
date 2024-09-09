@@ -44,5 +44,5 @@ def send_verification_mail(mail, temporary_url):
     mail_agent.send_email(
         mail,
         "Verification mail - ResumeCentral",
-        f"http://localhost:8000/validate/{temporary_url}",
+        f"http://10.20.3.54:1080/validate/{temporary_url}"
     )

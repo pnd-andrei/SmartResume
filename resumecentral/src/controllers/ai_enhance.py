@@ -547,6 +547,7 @@ class AIEnhance:
                 kernel_instance=kernel_instance,
                 cv_to_enhance=cv_to_enhance,
             ),
+            job_profile_description="",
             employee_description=await AIEnhance.get_employee_description(
                 query_prompt=query_prompt,
                 execution_settings=execution_settings,

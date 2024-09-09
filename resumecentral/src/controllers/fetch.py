@@ -86,6 +86,6 @@ def delete_all_resumes():
 
 
 if __name__ == "__main__":
-    # delete_all_resumes()
-    # add_all_resumes()
+    delete_all_resumes()
+    add_all_resumes()
     pass

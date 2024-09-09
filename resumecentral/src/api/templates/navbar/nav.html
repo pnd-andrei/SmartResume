@@ -6,10 +6,15 @@
     <title>Navbar Example</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
+<style>
+  a{
+    font-weight: 600;
+  }
+</style>
 <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="/resumes">
+          <a class="navbar-item" href="/resumes/search/">
             ResumeCentral
           </a>
       
@@ -22,7 +27,7 @@
         </div>
       
         <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
+          <div class="navbar-start is-size-6">
             <a class="navbar-item" href="/resumes/" name="resume_list">
                 Resumes
             </a>
@@ -32,9 +37,6 @@
             <a class="navbar-item" href="/resumes/enhance/">
                 Enhance
             </a>
-            <a class="navbar-item" href="/user/">
-                User
-            </a>   
             </div>
           </div>
       
@@ -42,15 +44,15 @@
             <div class="navbar-item">
               <div class="buttons">
                 {% if user.is_active %}
-                <a href="/logout" class="button">
+                <a href="/logout/" class="button is-primary">
                   <strong>Logout</strong>
                 </a>
                 {% else %}
-                <a href="/register" class="button">
+                <a href="/register/" class="button">
                   <strong>Register</strong>
                 </a>
 
-                <a href="/login" class="button is-primary">
+                <a href="/login/" class="button is-primary">
                   <strong>Sign in</strong>
                 </a>
                 {% endif %}

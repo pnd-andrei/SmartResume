@@ -39,6 +39,22 @@ def import_object_from_file(file_path, object_name):
     except Exception as e:
         raise RuntimeError(f"An error occurred while importing the object: {e}")
 
+def transform_special_chars_to_codes(input_string):
+    # Initialize an empty list to store transformed characters
+    transformed_string = []
+
+    for char in input_string:
+        # Check if the character is a special character
+        if not char.isalnum() and not char.isspace():
+            # Transform the special character to its Unicode code point
+            transformed_char = f"\\u{ord(char):04x}"
+            transformed_string.append(transformed_char)
+        else:
+            transformed_string.append(char)
+
+    # Join the list into a single string and return it
+    return ''.join(transformed_string)
+
 
 class IndividualSmartResumeApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -48,9 +64,8 @@ class IndividualSmartResumeApiView(APIView):
         Retrieve and display the smart resume for the given id.
         """
         resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
-        query = request.GET.get("description")
+        query = str(f"{transform_special_chars_to_codes(request.GET.get("description"))}")
         id = request.GET.get("id")
-
         model = request.GET.get("model")
 
         res = []
@@ -65,7 +80,7 @@ class IndividualSmartResumeApiView(APIView):
             AIEnhance.enhance_cv(
                 retrieved_docs=retrieved_docs,
                 id=int(id),
-                given_query=query,
+                given_query=f'{transform_special_chars_to_codes(query)}',
                 model=model,
             )
         )

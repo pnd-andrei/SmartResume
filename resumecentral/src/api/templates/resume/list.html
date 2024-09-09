@@ -4,20 +4,35 @@
     <title>Resumes</title>
     <!-- Link to Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .hidden {
+            display: none !important;
+        }
+        .resume-list-item {
+            cursor: pointer;
+        }
+
+        body{
+            background-color: rgb(252, 252, 252);
+            min-height: 100vh;
+        }
+
+    </style>
 </head>
 <body>
     {% include 'navbar/nav.html' %}
 
-    <section class="section">
-        <div class="container">
+    <section style="display: flex; justify-content: center; align-items: center;" class="section">
+        <div class="">
             <h1 class="title">Resumes</h1>
         </div>
     </section>
+    
 
     <section class="section">
         <div class="container block">
             <form class="box" action="/resumes/" enctype="multipart/form-data" method="post">
-                <p class="title is-size-4 ">Upload Resume:</p>
+                <p class="title is-size-4">Upload Resume:</p>
                 {% csrf_token %}
                 {% for field in form %}
                     <div class="field">
@@ -28,25 +43,71 @@
                         <p class="help is-danger">{{ field.errors }}</p>
                     </div>
                 {% endfor %}
+                <hr>
 
                 <div class="field">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Save</button>
+                        <button class="button is-primary is-fullwidth" type="submit">Save</button>
                     </div>
                 </div>
             </form>
         </div>
 
         <section class="section">
-            <div class="container box">
-                <p class="title is-size-4">Loaded Resumes:</p>
-                <ul>
-                    {% for content, id in entries %}
-                        <a href="id={{id}}">{{ content.description }}</a> <br>
-                    {% endfor %}
-                </ul>
+            <div class="container">
+                <button class="button is-primary" id="toggleResumesButton">Show Current Resumes</button>
+                <hr style="background-color: transparent;">
+ 
+                <div class="box hidden" id="loadedResumes">
+                    <div>
+                        <div class="">
+                            <p class="title is-size-4">Loaded Resumes:</p>
+                            <div class="field">
+                                <label class="label">Search Resumes:</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="searchInput" placeholder="Search by description">
+                                </div>
+                            </div>
+                            <ul id="resumeList">
+                                {% for content, id in entries %}
+                                    <li class="resume-list-item" data-description="{{ content.description }}">
+                                        <a href="id={{id}}">{{ content.description }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('toggleResumesButton');
+            const loadedResumes = document.getElementById('loadedResumes');
+            const searchInput = document.getElementById('searchInput');
+            const resumeList = document.getElementById('resumeList');
+
+            toggleButton.addEventListener('click', () => {
+                loadedResumes.classList.toggle('hidden');
+                toggleButton.textContent = loadedResumes.classList.contains('hidden') ? 'Show Current Resumes' : 'Hide Loaded Resumes';
+            });
+
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const items = resumeList.querySelectorAll('.resume-list-item');
+                
+                items.forEach(item => {
+                    const description = item.getAttribute('data-description').toLowerCase();
+                    if (description.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

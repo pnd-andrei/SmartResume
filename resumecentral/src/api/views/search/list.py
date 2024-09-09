@@ -8,6 +8,21 @@ from api.modules.template_paths import template_paths
 import asyncio
 from resumecentral.src.controllers.ai_search import AISearch
 
+def transform_special_chars_to_codes(input_string):
+    # Initialize an empty list to store transformed characters
+    transformed_string = []
+
+    for char in input_string:
+        # Check if the character is a special character
+        if not char.isalnum() and not char.isspace():
+            # Transform the special character to its Unicode code point
+            transformed_char = f"\\u{ord(char):04x}"
+            transformed_string.append(transformed_char)
+        else:
+            transformed_string.append(char)
+
+    # Join the list into a single string and return it
+    return ''.join(transformed_string)
 
 class SearchResumesApiView(APIView):
     permission_classes = [IsAdminUser]
@@ -41,7 +56,7 @@ class SearchResumesApiView(APIView):
                     {
                         "id": resume.metadata.get("id"),
                         "description": resume.metadata.get("description"),
-                        "file_upload": resume.metadata.get("source"),
+                        "file_upload": resume.metadata.get("source").split('/static/')[-1],
                         "precision": resume.metadata.get("score"),
                     },
                     resume.metadata.get("id"),
@@ -54,7 +69,8 @@ class SearchResumesApiView(APIView):
                 template_paths.get("search_list"),
                 {
                     "entries": entries,
-                    "description": description,
+                    "description": transform_special_chars_to_codes(input_string=description),
+                    "ui_description": description,
                     "sample_size": sample_size,
                 },
             )
