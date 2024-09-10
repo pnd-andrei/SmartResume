@@ -73,6 +73,29 @@ Smart Resume is particularly effective for HR teams in companies that specialize
 
 For example, HR teams can query the resume database based on project-specific skills, identify potential candidates, and then enhance their resumes so that they better align with the project’s requirements before presenting them to clients.
 
+## Screenshots
+
+Here are some screenshots of the application:
+
+### Register Page
+<img src="./assets/register.png" alt="Register Page" width="600"/>
+
+### Login Page
+<img src="./assets/Login.png" alt="Login Page" width="600"/>
+
+### Resumes Page
+<img src="./assets/resumes.png" alt="Resumes Page" width="600"/>
+
+### Similarity search Page
+<img src="./assets/search.png" alt="Similarity search Page" width="600"/>
+
+### Fine-tuning Options
+<img src="./assets/tuning.png" alt="Fine-tuning options" width="600"/>
+
+### Enhancing Page
+<img src="./assets/smart_1.png" alt="Enhancing Page" width="600"/>
+<img src="./assets/smart_2.png" alt="Enhancing Page" width="600"/>
+
 ## **Setup Instructions**
 
 To get the application running locally:
