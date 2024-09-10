@@ -45,12 +45,12 @@
 </p>
 
 <p align="left">
-  <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
+  <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="60" style="vertical-align: bottom; margin-right: 40px;"/>
   Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
 </p>
 
 <p align="left">
-  <img src="./assets/langchain.png" alt="LangChain Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
+  <img src="./assets/langchain.png" alt="LangChain Logo" width="70" style="vertical-align: bottom; margin-right: 40px;"/>
   LangChain: Integrates the various AI models into the application.
 </p>
 
