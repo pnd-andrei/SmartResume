@@ -35,22 +35,22 @@
 
 ### **AI Models & Integration**
 <p align="left">
-  <img src="./assets/openai.png" alt="OpenAI Logo" width="30"/>
+  <img src="./assets/openai.png" alt="OpenAI Logo" width="20" style="vertical-align: bottom; margin-right: 40px;"/>
   OpenAI: Utilizes advanced models for enhancing and restructuring resume content.
 </p>
 
 <p align="left">
-  <img src="./assets/ollama.png" alt="Ollama Logo" width="30"/>
+  <img src="./assets/ollama.png" alt="Ollama Logo" width="30" style="vertical-align: bottom; margin-right: 40px;"/>
   Ollama: Supports open-source models for AI-driven resume enhancement.
 </p>
 
 <p align="left">
-  <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="30"/>
+  <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
   Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
 </p>
 
 <p align="left">
-  <img src="./assets/langchain.png" alt="LangChain Logo" width="30"/>
+  <img src="./assets/langchain.png" alt="LangChain Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
   LangChain: Integrates the various AI models into the application.
 </p>
 
