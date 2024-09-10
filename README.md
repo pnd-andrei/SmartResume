@@ -78,23 +78,23 @@ For example, HR teams can query the resume database based on project-specific sk
 Here are some screenshots of the application:
 
 ### Register Page
-<img src="./assets/register.png" alt="Register Page" width="600"/>
+<img src="./assets/register.png" alt="Register Page" width="300"/>
 
 ### Login Page
-<img src="./assets/Login.png" alt="Login Page" width="600"/>
+<img src="./assets/login.png" alt="Login Page" width="300"/>
 
 ### Resumes Page
-<img src="./assets/resumes.png" alt="Resumes Page" width="600"/>
+<img src="./assets/resumes.png" alt="Resumes Page" width="300"/>
 
 ### Similarity search Page
-<img src="./assets/search.png" alt="Similarity search Page" width="600"/>
+<img src="./assets/search.png" alt="Similarity search Page" width="300"/>
 
 ### Fine-tuning Options
-<img src="./assets/tuning.png" alt="Fine-tuning options" width="600"/>
+<img src="./assets/tuning.png" alt="Fine-tuning options" width="300"/>
 
 ### Enhancing Page
-<img src="./assets/smart_1.png" alt="Enhancing Page" width="600"/>
-<img src="./assets/smart_2.png" alt="Enhancing Page" width="600"/>
+<img src="./assets/smart_1.png" alt="Enhancing Page" width="300"/>
+<img src="./assets/smart_2.png" alt="Enhancing Page" width="300"/>
 
 ## **Setup Instructions**
 
