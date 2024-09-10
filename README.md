@@ -37,7 +37,7 @@
 <p align="left">
   &nbsp;&nbsp;
   <img src="./assets/openai.png" alt="OpenAI Logo" width="30" style="vertical-align: bottom; margin-right: 40px;"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenAI: Utilizes advanced models for enhancing and restructuring resume content.
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenAI: Utilizes advanced models for enhancing and restructuring resume content.
 </p>
 
 <p align="left">
