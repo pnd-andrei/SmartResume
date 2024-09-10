@@ -35,7 +35,7 @@
 
 ### **AI Models & Integration**
 <p align="left">
-  <img src="./assets/openai.png" alt="OpenAI Logo" width="20" style="vertical-align: bottom; margin-right: 40px;"/>
+  <img src="./assets/openai.png" alt="OpenAI Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
   OpenAI: Utilizes advanced models for enhancing and restructuring resume content.
 </p>
 
