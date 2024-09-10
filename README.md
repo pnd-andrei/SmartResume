@@ -15,22 +15,22 @@
 ### **Backend**
 <p align="left">
   <img src="./assets/django.png" alt="Django Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
-  Django Rest Framework: Provides a flexible API interface for handling resume uploads, management, and querying.
+  &nbsp;Django Rest Framework: Provides a flexible API interface for handling resume uploads, management, and querying.
 </p>
 
 <p align="left">
   <img src="./assets/sqlite.png" alt="SQLite Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
-     SQLite3: Stores the resumes and user information.
+  &nbsp;&nbsp;SQLite3: Stores the resumes and user information.
 </p>
 
 <p align="left">
   <img src="./assets/chroma.png" alt="ChromaDB Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
-     ChromaDB: A vector database used for similarity searches across resumes.
+  &nbsp;&nbsp;ChromaDB: A vector database used for similarity searches across resumes.
 </p>
 
 <p align="left">
   <img src="./assets/ngrok.png" alt="ngrok Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
-  Ngrok: Used for hosting the application and exposing local servers to the internet.
+  &nbsp;Ngrok: Used for hosting the application and exposing local servers to the internet.
 </p>
 
 ### **AI Models & Integration**
