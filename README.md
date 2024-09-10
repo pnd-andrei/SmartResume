@@ -53,11 +53,6 @@
   <img src="./assets/langchain.png" alt="LangChain Logo" width="30"/>
   LangChain: Integrates the various AI models into the application.
 </p>
-### **AI Models & Integration**
-- **OpenAI**: Utilizes advanced models for enhancing and restructuring resume content.
-- **Ollama**: Supports open-source models for AI-driven resume enhancement.
-- **Hugging Face**: Leverages the powerful transformers from Hugging Face for NLP tasks.
-- **LangChain & Semantic Kernel**: Integrates the various AI models into the application, providing flexibility in how resumes are processed and enhanced.
 
 ## **How it Works**
 
