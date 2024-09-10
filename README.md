@@ -20,12 +20,12 @@
 
 <p align="left">
   <img src="./assets/sqlite.png" alt="SQLite Logo" width="50" style="vertical-align: bottom; margin-right: 40px;"/>
-  &nbsp;&nbsp;SQLite3: Stores the resumes and user information.
+  &nbsp;&nbsp;&nbsp;SQLite3: Stores the resumes and user information.
 </p>
 
 <p align="left">
   <img src="./assets/chroma.png" alt="ChromaDB Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;ChromaDB: A vector database used for similarity searches across resumes.
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChromaDB: A vector database used for similarity searches across resumes.
 </p>
 
 <p align="left">
