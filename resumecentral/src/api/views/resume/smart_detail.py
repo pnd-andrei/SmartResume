@@ -64,7 +64,7 @@ class IndividualSmartResumeApiView(APIView):
         Retrieve and display the smart resume for the given id.
         """
         resumes = ChromaDatabase.get_resumes_from_sqlite3_database()
-        query = str(f"{transform_special_chars_to_codes(request.GET.get("description"))}")
+        query = str(f"{transform_special_chars_to_codes(request.GET.get('description'))}")
         id = request.GET.get("id")
         model = request.GET.get("model")
 

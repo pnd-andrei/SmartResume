@@ -169,3 +169,7 @@ staticfiles/
 vectorstore/
 CVs/
 media/
+chroma.sqlite3
+
+# Ruff
+CACHEDIR.TAG
