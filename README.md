@@ -46,7 +46,7 @@
 
 <p align="left">
   <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="60" style="vertical-align: middle; margin-right: 40px;"/>
-  &nbsp;&nbsp;&nbsp;Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
+  &nbsp;&nbsp;&nbsp;Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.<br>
 </p>
 
 <p align="left">
