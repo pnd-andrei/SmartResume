@@ -41,12 +41,12 @@
 
 <p align="left">
   <img src="./assets/ollama.png" alt="Ollama Logo" width="30" style="vertical-align: bottom; margin-right: 40px;"/>
-  Ollama: Supports open-source models for AI-driven resume enhancement.
+  &nbsp;&nbsp;&nbsp;&nbsp;Ollama: Supports open-source models for AI-driven resume enhancement.
 </p>
 
 <p align="left">
   <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="60" style="vertical-align: middle; margin-right: 40px;"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
+  &nbsp;&nbsp;&nbsp;Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
 </p>
 
 <p align="left">
