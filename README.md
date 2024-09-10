@@ -53,7 +53,7 @@
 
 <p align="left">
   <img src="./assets/langchain.png" alt="LangChain Logo" width="70" style="vertical-align: bottom; margin-right: 40px;"/>
-  &nbsp;LangChain: Integrates the various AI models into the application.
+  &nbsp;LangChain & Semantic Kernel: Integrates the various AI models into the application.
 </p>
 
 ## **How it Works**
