@@ -10,14 +10,49 @@
 - **Secure Authentication**: A robust email-based authentication system ensures that only authorized users can access the application.
 - **Modular AI Integration**: The application supports multiple AI models, allowing users to perform enhancement using OpenAI’s models, as well as other open-source models from Ollama and Hugging Face.
 
-## **Technology Stack**
+## Technology Stack
 
 ### **Backend**
-- **Django Rest Framework**: Provides a flexible API interface for handling resume uploads, management, and querying.
-- **SQLite3**: Stores the resumes and user information.
-- **ChromaDB**: A vector database used for similarity searches across resumes.
-- **Ngrok**: Used for hosting the application and exposing local servers to the internet.
+<p align="left">
+  <img src="./assets/django.png" alt="Django Logo" width="30"/>
+  Django Rest Framework: Provides a flexible API interface for handling resume uploads, management, and querying.
+</p>
 
+<p align="left">
+  <img src="./assets/sqlite.png" alt="SQLite Logo" width="30"/>
+  SQLite3: Stores the resumes and user information.
+</p>
+
+<p align="left">
+  <img src="./assets/chroma.png" alt="ChromaDB Logo" width="30"/>
+  ChromaDB: A vector database used for similarity searches across resumes.
+</p>
+
+<p align="left">
+  <img src="./assets/ngrok.png" alt="ngrok Logo" width="30"/>
+  Ngrok: Used for hosting the application and exposing local servers to the internet.
+</p>
+
+### **AI Models & Integration**
+<p align="left">
+  <img src="./assets/openai.png" alt="OpenAI Logo" width="30"/>
+  OpenAI: Utilizes advanced models for enhancing and restructuring resume content.
+</p>
+
+<p align="left">
+  <img src="./assets/ollama.png" alt="Ollama Logo" width="30"/>
+  Ollama: Supports open-source models for AI-driven resume enhancement.
+</p>
+
+<p align="left">
+  <img src="./assets/huggingface.png" alt="Hugging Face Logo" width="30"/>
+  Hugging Face: Leverages powerful transformers from Hugging Face for NLP tasks.
+</p>
+
+<p align="left">
+  <img src="./assets/langchain.png" alt="LangChain Logo" width="30"/>
+  LangChain: Integrates the various AI models into the application.
+</p>
 ### **AI Models & Integration**
 - **OpenAI**: Utilizes advanced models for enhancing and restructuring resume content.
 - **Ollama**: Supports open-source models for AI-driven resume enhancement.
