@@ -40,8 +40,8 @@
 </p>
 
 <p align="left">
-  <img src="./assets/ollama.png" alt="Ollama Logo" width="30" style="vertical-align: bottom; margin-right: 40px;"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;Ollama: Supports open-source models for AI-driven resume enhancement.
+  <img src="./assets/ollama.png" alt="Ollama Logo" width="40" style="vertical-align: bottom; margin-right: 40px;"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ollama: Supports open-source models for AI-driven resume enhancement.
 </p>
 
 <p align="left">
