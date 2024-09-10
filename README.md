@@ -14,7 +14,7 @@
 
 ### **Backend**
 <p align="left">
-  <img src="./assets/django.png" alt="Django Logo" width="30"/>
+  <img src="./assets/django.png" alt="Django Logo" width="50"/>
   Django Rest Framework: Provides a flexible API interface for handling resume uploads, management, and querying.
 </p>
 
