@@ -19,17 +19,17 @@
 </p>
 
 <p align="left">
-  <img src="./assets/sqlite.png" alt="SQLite Logo" width="40"/>
+  <img src="./assets/sqlite.png" alt="SQLite Logo" width="40" style="vertical-align: text-bottom; margin-right: 10px;"/>
   SQLite3: Stores the resumes and user information.
 </p>
 
 <p align="left">
-  <img src="./assets/chroma.png" alt="ChromaDB Logo" width="30"/>
+  <img src="./assets/chroma.png" alt="ChromaDB Logo" width="30" style="vertical-align: text-bottom; margin-right: 10px;"/>
   ChromaDB: A vector database used for similarity searches across resumes.
 </p>
 
 <p align="left">
-  <img src="./assets/ngrok.png" alt="ngrok Logo" width="30"/>
+  <img src="./assets/ngrok.png" alt="ngrok Logo" width="30" style="vertical-align: text-bottom; margin-right: 10px;"/>
   Ngrok: Used for hosting the application and exposing local servers to the internet.
 </p>
 
