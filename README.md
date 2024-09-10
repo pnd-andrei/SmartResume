@@ -29,7 +29,7 @@
 </p>
 
 <p align="left">
-  <img src="./assets/ngrok.png" alt="ngrok Logo" width="30" style="vertical-align: bottom; margin-right: 100px;"/>
+  <img src="./assets/ngrok.png" alt="ngrok Logo" width="30" style="vertical-align: bottom; margin-right: 40px;"/>
   Ngrok: Used for hosting the application and exposing local servers to the internet.
 </p>
 
